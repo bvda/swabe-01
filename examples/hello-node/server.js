@@ -6,10 +6,21 @@ const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
-  console.debug(req.headers)
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify({'message': 'Hello, world'}));
+  if(req.method === 'GET') {
+    console.debug(req.headers)
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({'message': 'Hello, world'}));
+  }
+  if(req.method == 'POST') {
+    let body = ''
+    req.on('data', chunk => {
+      body += chunk
+    })
+    req.on('end', _ => {
+      res.end(body)
+    })
+  }
 });
 
 server.listen(port, hostname, () => {

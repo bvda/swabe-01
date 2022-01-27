@@ -119,7 +119,7 @@
 					</section>
 					<section>
 						<h2>Hello, Express.js</h2>
-						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|1|3,4|6-13|7,11|8-10|14-16|"><script type="text/template">
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|1-3|5-9|6-8|11-13|"><script type="text/template">
 							const express = require('express');
 							const app = express();
 							const port = 3000;
@@ -134,7 +134,51 @@
 								console.debug(`Server running on port ${port}`);
 							});
 						</script></code></pre>
-						<small><code>./examples/hello-express</code></small>
+						<small>./examples/hello-express</small>
+					</section>
+					<section>	
+						<h2>Routing</h2>
+					</section>
+					<section>
+						<h2>Middleware</h2>
+						<ul>
+							<li>Application-level middleware</li>
+							<li>Router-level middleware</li>
+							<li>Error-handling middleware</li>
+							<li>Built-in middleware</li>
+							<li>Third-party middleware</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="http://expressjs.com/en/guide/using-middleware.html">Using Express middleware</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Application-level middleware</h2>
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|6-11|7-9|10|13-15|"><script type="text/template">
+							const express = require('express');
+
+							const app = express();
+							const port = 3000;
+							
+							app.use((req, res, next) => {
+								if(!req.headers['authorization']) {
+									res.sendStatus(401)
+								}
+								next()
+							});
+							
+							app.get('/', (req, res) => {
+								res.json({'message' : 'Hello, Middleware!'})
+							});
+							
+							app.listen(port, _ => {
+								console.log(`Server running 'middleware' on port ${port}`)
+							})
+						</script></code></pre>
+						<small>examples/middleware/index.js</small>
 					</section>
 				</section>
 				<section>
@@ -142,7 +186,6 @@
 						<h2>Wrap-up</h2>
 						<ul>
 							<li>Building APIs with Node.js and Express.js</li>
-							<li></li>
 						</ul>
 					</section>
 				</section>

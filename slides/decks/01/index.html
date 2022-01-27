@@ -108,7 +108,7 @@
 								console.log(`Server running at http://${hostname}:${port}/`);
 							});
 						</script></code></pre>
-						<small>./examples/hello-node/index.js</small>
+						<small><code>./examples/hello-node/index.js</code></small>
 					</section>
 				</section>
 				<section>
@@ -116,6 +116,25 @@
 						<h2>Building APIs</h2>
 						<h3>with</h3>
 						<h2>Express.js</h2>
+					</section>
+					<section>
+						<h2>Hello, Express.js</h2>
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|1|3,4|6-13|7,11|8-10|14-16|"><script type="text/template">
+							const express = require('express');
+							const app = express();
+							const port = 3000;
+							
+							app.get('/', (req, res) => {
+								res.json({
+									'message': 'Hello, Express.js!'
+								});
+							});
+							
+							app.listen(port, _ => {
+								console.debug(`Server running on port ${port}`);
+							});
+						</script></code></pre>
+						<small><code>./examples/hello-express</code></small>
 					</section>
 				</section>
 				<section>

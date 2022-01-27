@@ -13,5 +13,5 @@ app.get('/', function(req, res) {
 });
 
 app.listen(port, _ => {
-  console.debug(`Server running on port ${port}`);
+  console.debug(`Server running 'multi-router' on port ${port}`);
 });

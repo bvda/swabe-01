@@ -4,7 +4,8 @@
   "description": "Hello, Node.js!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/bvda/swabe-01/issues"
   },
-  "homepage": "https://github.com/bvda/swabe-01#readme"
+  "homepage": "https://github.com/bvda/swabe-01#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }

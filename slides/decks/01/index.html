@@ -108,7 +108,7 @@
 								console.log(`Server running at http://${hostname}:${port}/`);
 							});
 						</script></code></pre>
-						<small><code>./examples/hello-node/index.js</code></small>
+						<small>./examples/hello-node/index.js</small>
 					</section>
 				</section>
 				<section>
@@ -131,13 +131,61 @@
 							});
 							
 							app.listen(port, _ => {
-								console.debug(`Server running on port ${port}`);
+								console.debug(`Server running 'hello-express' on port ${port}`);
 							});
 						</script></code></pre>
 						<small>./examples/hello-express</small>
 					</section>
 					<section>	
 						<h2>Routing</h2>
+						<ul>
+							<li>Routing refers to how an application responds to a client request to a particular endpoint</li>
+							<li>Route definition takes the following structure: <code>app.METHOD(PATH, HANDLER)</code>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="http://expressjs.com/en/starter/basic-routing.html">Express basic routing</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<ul>
+							<li>Route methods</li>
+							<li>Route paths</li>
+							<li>Route handlers</li>
+							<li>Response methods</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Routing</h2>
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|12-14|16-20|"><script type="text/template">
+							const express = require('express');
+							const bodyParser = require('body-parser');
+							
+							const port = 3000;
+							const app = express();
+							
+							app.use(bodyParser.text());
+							
+							app.use('/api/v1', require('./controllers/api_v1'));
+							app.use('/api/v2', require('./controllers/api_v2'));
+							
+							app.get('/', function(req, res) {
+								res.send('Hello from root route.');
+							});
+							
+							app.post('/', function(req, res) {
+								res.json({
+									message: req.body
+								});
+							});
+							
+							app.listen(port, _ => {
+								console.debug(`Server running 'multi-router' on port ${port}`);
+							});
+						</script></code></pre>
+						<small>./examples/multi-router/index.js</small>
 					</section>
 					<section>
 						<h2>Middleware</h2>

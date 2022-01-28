@@ -20,10 +20,14 @@ Since the focus of this course will be to build APIs it is a good idea to have s
 1. Create a new directory for your application
 2. Create a main file for your application (usually, the main file is called `index.js`, but it can be anything)
 3. Run `npm init`<sup>(<a href="https://docs.npmjs.com/cli/v8/commands/npm-init">docs</a>)</sup> in the directory to create a `package.json` file
+4. Open `index.js` and copy/paste the code from `examples/hello-node/server.js`
+5. Run the application with `node index.js`
+6. Add another endpoint at `/ping` which responds with `pong`
+7. Write comments in your own words in the file explaining each statement and/or function(s)
 
 ## Exercise 01-3
 ### Setting up `nodemon`
-Were you getting tired of constantly restarting your application manually when you did Exercise 01-3?
+Were you getting tired of constantly restarting your application manually when you did Exercise 01-2?
 
 Add `nodemon`<sup>(<a href="https://github.com/remy/nodemon">docs</a>)</sup> as a development dependency and see what happens when you change your files.
 
@@ -33,7 +37,11 @@ Add `nodemon`<sup>(<a href="https://github.com/remy/nodemon">docs</a>)</sup> as 
 4. Go change something in `index.js` and see when happens
 
 ## Exercise 01-4
-### Serving static files
+### Building your first Express API
+Now that we have tinkered with the basic building blocks in Node.js, it is time to build something a bit more complex. We will be introducing Express.js<sup>(<a href="http://expressjs.com/">docs</a>)</sup> to help increase our productivity.
+
+1. Follow steps 1-3 from Exercise 01-2 to create a fresh package (You can add `nodemon` as well, if you feel like it)
+2. Add Express.js to the package (run `npm i express` in the package root directory)
 
 ## Exercise 01-5
 ### Express POST

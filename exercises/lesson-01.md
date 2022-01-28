@@ -17,11 +17,15 @@ Since the focus of this course will be to build APIs it is a good idea to have s
 ## Exercise 01-2
 ### Hello, Node.js
 
+1. Create a new directory for your application
+2. Create a main file for your application (usually, the main file is called `index.js`, but it can be anything)
+3. Run `npm init`<sup>(<a href="https://docs.npmjs.com/cli/v8/commands/npm-init">docs</a>)</sup> in the directory to create a `package.json` file
+
 ## Exercise 01-3
 ### Setting up `nodemon`
 Were you getting tired of constantly restarting your application manually when you did Exercise 01-3?
 
-Try add `nodemon` as a development dependency and see what happens when you change your files.
+Add `nodemon`<sup>(<a href="https://github.com/remy/nodemon">docs</a>)</sup> as a development dependency and see what happens when you change your files.
 
 1. Run `npm install --save-dev nodemon`
 2. Setup script in `package.json` where you use `nodemon` to start the application (see `examples/hello-node/package.json` for inspiration)

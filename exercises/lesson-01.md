@@ -1,6 +1,6 @@
 # Lesson 01 exercises
 ## Exercise 01-1 
-### Install Node.js
+### Install Node.js and Postman
 Before we can start building great APIs, we need to make sure everything is up and running.
 
 1. Go to https://nodejs.org/en/ and grap the latest Long Term Support (LTS) version of Node.js for your operating system.
@@ -11,6 +11,8 @@ Fire up your favorite terminal (Bash, Z shell, PowerShell, Command Prompt, etc.)
 - `npm -v` (should print something like `8.3.1`)
 
 If everthing checks out, we are ready to rumble!
+
+Since the focus of this course will be to build APIs it is a good idea to have some sort of tool to test the endpoints we are building. Here we recommend Postman, get it @ https://www.postman.com/.
 
 ## Exercise 01-2
 ### Hello, Node.js

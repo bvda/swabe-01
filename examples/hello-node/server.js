@@ -7,7 +7,6 @@ const port = 3000;
 
 const server = http.createServer((req, res) => {
   if(req.method === 'GET') {
-    console.debug(req.headers)
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({'message': 'Hello, Node.js'}));

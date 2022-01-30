@@ -53,16 +53,49 @@
 					<section>
 						<h2>Architecture</h2>
 						<ul>
+							<li>In Node.js there are two types of threads:
+								<ul>
+									<li>One Event Loop (aka the main loop, main thread, event thread, etc.)</li>
+									<li>A pool of <code>k</code> Workers in a Worker Pool (aka the threadpool)</li>
+								</ul>
+							</li>
+							<li>The Event Loop are responsible for:
+								<ul>
+									<li>Executing JavaScript callbacks registered for events</li>
+									<li>Fulfilling non-blocking asynchronous requests</li>
+								</ul>
+							</li>
+							<li>The Worker Pool handles expensive tasks:
+								<ul>
+									<li>I/O-intensive tasks like DNS and File System</li>
+									<li>CPU-intensive tasks lik crypto and compression</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://nodejs.org/en/docs/guides/dont-block-the-event-loop/">Don't Block the Event Loop (or the Worker Pool) | Node.js</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Architecture</h2>
+						<ul>
 							<li><mark>timers</mark>
 								<ul>
 									<li><code>setTimeout()</code> and <code>setInterval()</code></li>
 								</ul>
 							</li>
-							<li><mark>callback</mark></li>
+							<li><mark>callback</mark>
+								<ul>
+									<li>executes callbacks deferred to next loop iteration</li>
+								</ul>
+							</li>
 							<li><mark>poll</mark>
 								<ul>
 									<li>queue not empty – iterate callbacks (synchronous execution) until empty or system-dependant hard limit is reached</li>
-									<li>queue empty – if <code>setImmediate</code> end and go to <mark>check</mark> else wait for callback and execute immediately</mark></li>
+									<li>queue empty – if <code>setImmediate()</code> end; go to <mark>check</mark> else wait for callback and execute immediately</mark></li>
 								</ul>
 							</li>
 							<li><mark>check</mark><ul>
@@ -70,6 +103,12 @@
 							</ul></li>
 							<li><mark>close callbacks</mark></li>
 						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/">The Node.js Event Loop, Timers, and process.nextTick() | Node.js</a></li>
+							</ul>
+						</aside>
 					</section>
 					<section>
 						<h2>Overview</h2>

@@ -52,6 +52,24 @@
 					</section>
 					<section>
 						<h2>Architecture</h2>
+						<ul>
+							<li><mark>timers</mark>
+								<ul>
+									<li><code>setTimeout()</code> and <code>setInterval()</code></li>
+								</ul>
+							</li>
+							<li><mark>callback</mark></li>
+							<li><mark>poll</mark>
+								<ul>
+									<li>queue not empty – iterate callbacks (synchronous execution) until empty or system-dependant hard limit is reached</li>
+									<li>queue empty – if <code>setImmediate</code> end and go to <mark>check</mark> else wait for callback and execute immediately</mark></li>
+								</ul>
+							</li>
+							<li><mark>check</mark><ul>
+								<li><code>setImmediate()</code></li>
+							</ul></li>
+							<li><mark>close callbacks</mark></li>
+						</ul>
 					</section>
 					<section>
 						<h2>Overview</h2>

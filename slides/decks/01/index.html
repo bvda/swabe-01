@@ -18,7 +18,7 @@
 		<div class="reveal">
 			<div class="slides">
 				<section id="introduction">
-					<h1>Node.js and Express</h1>
+					<h1>Node.js and Express.js</h1>
 					<h3>Lesson 01</h3>
 					<h4>SWABE-01</h4>
 				</section>
@@ -94,6 +94,29 @@
 					</section>
 					<section>
 						<h2>Architecture</h2>
+						<img src="../../assets/architecture.svg" width="60%" alt="architecture" />
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li>https://docs.microsoft.com/en-us/learn/advocates/intro-to-nodejs/media/architecture.svg</li>
+								<li>https://docs.microsoft.com/en-us/learn/modules/intro-to-nodejs/3-how-works</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Event loop</h2>
+						<img src="../../assets/event-loop.svg" alt="event-loop" />
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://nodejs.dev/learn/the-nodejs-event-loop">The Node.js Event Loop</a></li>
+								<li>https://docs.microsoft.com/en-us/learn/advocates/intro-to-nodejs/media/event-loop.svg</li>
+								<li>https://docs.microsoft.com/en-us/learn/modules/intro-to-nodejs/3-how-works</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Event Loop phases</h2>
 						<ul>
 							<li><mark>timers</mark>
 								<ul>
@@ -120,29 +143,6 @@
 							<h4>References</h4>
 							<ul>
 								<li><a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/">The Node.js Event Loop, Timers, and process.nextTick() | Node.js</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section>
-						<h2>Overview</h2>
-						<img src="../../assets/architecture.svg" width="60%" alt="architecture" />
-						<aside class="notes" aria-label="notes">
-							<h4>References</h4>
-							<ul>
-								<li>https://docs.microsoft.com/en-us/learn/advocates/intro-to-nodejs/media/architecture.svg</li>
-								<li>https://docs.microsoft.com/en-us/learn/modules/intro-to-nodejs/3-how-works</li>
-							</ul>
-						</aside>
-					</section>
-					<section>
-						<h2>Event loop</h2>
-						<img src="../../assets/event-loop.svg" alt="event-loop" />
-						<aside class="notes" aria-label="notes">
-							<h4>References</h4>
-							<ul>
-								<li><a href="https://nodejs.dev/learn/the-nodejs-event-loop">The Node.js Event Loop</a></li>
-								<li>https://docs.microsoft.com/en-us/learn/advocates/intro-to-nodejs/media/event-loop.svg</li>
-								<li>https://docs.microsoft.com/en-us/learn/modules/intro-to-nodejs/3-how-works</li>
 							</ul>
 						</aside>
 					</section>
@@ -220,7 +220,7 @@
 					</section>
 					<section>
 						<h2>HTTP methods and routes</h2>
-						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|1|3,4|6-13|7,11|8-10|14-16|"><script type="text/template">
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|7,24,41,44|8,12-13,23|9-11|14-22|25-28|42-43|"><script type="text/template">
 							const http = require('http');
 
 							const hostname = '127.0.0.1';
@@ -333,7 +333,7 @@
 						</ul>
 					</section>
 					<section>
-						<h2>Routing</h2>
+						<h2>Multi-router</h2>
 						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|12-14|16-20|"><script type="text/template">
 							const express = require('express');
 							const bodyParser = require('body-parser');

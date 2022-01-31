@@ -46,9 +46,21 @@
 					<section>
 						<h2>Why use node.js</h2>
 						<ul>
-							<li>JavaScript across all layers (frontend and backend)</li>
-							<li>Scalable (no overhead from OS processes and/or thread handling)</li>
-							<li>Simplified programming model (combines the ease of a scripting language with the power of Unix network programming)</li>
+							<li>JavaScript across all layers
+								<ul>
+									<li>Unified APIs and models for frontend and backend</li>
+								</ul>
+							</li>
+							<li>Scalability 
+								<ul>
+									<li>No overhead from OS processes and/or thread handling</li>
+								</ul>
+							</li>
+							<li>Simplified programming model
+								<ul>
+									<li>Combines the ease of a scripting language with the power of Unix network programming</li>
+								</ul>
+							</li>
 						</ul>
 					</section>
 					<section>
@@ -85,7 +97,7 @@
 						<ul>
 							<li><mark>timers</mark>
 								<ul>
-									<li><code>setTimeout()</code> and <code>setInterval()</code></li>
+									<li>Execute callbacks scheduled with <code>setTimeout()</code> and <code>setInterval()</code></li>
 								</ul>
 							</li>
 							<li><mark>callback</mark>
@@ -95,12 +107,12 @@
 							</li>
 							<li><mark>poll</mark>
 								<ul>
-									<li>queue not empty – iterate callbacks (synchronous execution) until empty or system-dependent hard limit is reached</li>
-									<li>queue empty – if <code>setImmediate()</code> end; go to <mark>check</mark> else wait for callback and execute immediately</mark></li>
+									<li>queue not empty — iterate callbacks (synchronous execution) until empty or system-dependent hard limit is reached</li>
+									<li>queue empty — if <code>setImmediate()</code> end; go to <mark>check</mark> else wait for callback and execute immediately</mark></li>
 								</ul>
 							</li>
 							<li><mark>check</mark><ul>
-								<li><code>setImmediate()</code></li>
+								<li>invoke <code>setImmediate()</code> callback here</li>
 							</ul></li>
 							<li><mark>close callbacks</mark></li>
 						</ul>
@@ -136,12 +148,46 @@
 					</section>
 					<section>
 						<h2>npm</h2>
+						<ul>
+							<li><code>npm</code> is the standard package manager for Node.js</li>
+							<li><code>npm</code> is used to manage dependencies
+								<ul>
+									<li><code>dependencies</code> and <code>devDependencies</code></li>
+									<li>Global vs. local installation</li>
+								</ul>
+							</li>
+							<li>Running command line tasks</li>
+						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
 								<li><a href="https://nodejs.dev/learn/an-introduction-to-the-npm-package-manager">An introduction to the npm package manager</a></li>
 								<li><a href="https://nodejs.dev/learn/where-does-npm-install-the-packages">Where does npm install the packages?</a></li>
 								<li><a href="https://nodejs.dev/learn/how-to-use-or-execute-a-package-installed-using-npm">How to use or execute a package installed using npm</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>The <code>package.json</code> file</h2>
+						<ul>
+							<li>Can be seen as a project manifest
+								<ul>
+									<li>Configuration of tools</li>
+									<li>Scripts</li>
+									<li>Names and versions of packages</li>
+								</ul>
+							</li>
+							<li><code>package-lock.json</code> keep track of exact version of every package
+								<ul>
+									<li>100% reproducible even if dependencies are updated by their maintainers</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://nodejs.dev/learn/the-package-json-guide">The package.json guide</a></li>
+								<li><a href="https://nodejs.dev/learn/the-package-lock-json-file">The package-lock.json file</a></li>
 							</ul>
 						</aside>
 					</section>

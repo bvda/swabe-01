@@ -33,6 +33,8 @@ const server = http.createServer((req, res) => {
         body += chunk
       });
       req.on('end', _ => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({'message': body}));
       });     
     }
@@ -43,5 +45,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, hostname, () => {
-  console.log(`Server running 'hello-node' on port ${port}/`);
+  console.log(`Server running 'http-methods-and-routes' on port ${port}/`);
 });

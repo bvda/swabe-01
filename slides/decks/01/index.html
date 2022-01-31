@@ -207,18 +207,19 @@
 							const port = 3000;
 							
 							const server = http.createServer((req, res) => {
-								if(req.method === 'GET') {
-									res.statusCode = 200;
-									res.setHeader('Content-Type', 'application/json');
-									res.end(JSON.stringify({'message': 'Hello, Node.js'}));
-								}
+								res.statusCode = 200;
+								res.setHeader('Content-Type', 'text/plain');
+								res.end('Hello, Node.js');
 							});
 							
 							server.listen(port, hostname, () => {
 								console.log(`Server running at http://${hostname}:${port}/`);
 							});
 						</script></code></pre>
-						<small>./examples/hello-node/index.js</small>
+						<small>examples/hello-node/hello-node.js</small>
+					</section>
+					<section>
+						<h2>HTTP methods and routes</h2>
 					</section>
 				</section>
 				<section>

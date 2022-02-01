@@ -1,7 +1,7 @@
 # SWABE-01
 
 ## Introduction
-Welcome to the SWAFE-01 repository.
+Welcome to the SWABE-01 repository.
 
 ## Getting started
 Node.js is required to install and run the slides. Go to the [Node.js](https://nodejs.org/) and download the latest LTS (long-term support) version and install it on you machine.

@@ -1,4 +1,3 @@
-const fs = require('fs');
 const express = require('express');
 
 const app = express();
@@ -13,8 +12,9 @@ var errorHandler = (err, req, res, next) => {
 app.use((req, res, next) => {
   if(!req.headers['authorization']) {
     res.sendStatus(401);
+  } else {
+    next();
   }
-  next();
 });
 
 app.get('/', (req, res) => {

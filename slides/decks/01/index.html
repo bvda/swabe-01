@@ -93,7 +93,7 @@
 						</aside>
 					</section>
 					<section>
-						<h2>Architecture</h2>
+						<h2>Stack</h2>
 						<img src="../../assets/architecture.svg" width="60%" alt="architecture" />
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -308,7 +308,7 @@
 								console.debug(`Server running 'hello-express' on port ${port}`);
 							});
 						</script></code></pre>
-						<small>./examples/hello-express</small>
+						<small>examples/hello-express</small>
 					</section>
 					<section>	
 						<h2>Routing</h2>
@@ -333,7 +333,7 @@
 						</ul>
 					</section>
 					<section>
-						<h2>Multi-router</h2>
+						<h2>Multi-router, main</h2>
 						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|12-14|16-20|"><script type="text/template">
 							const express = require('express');
 							const bodyParser = require('body-parser');
@@ -360,10 +360,10 @@
 								console.debug(`Server running 'multi-router' on port ${port}`);
 							});
 						</script></code></pre>
-						<small>./examples/multi-router/index.js</small>
+						<small>examples/multi-router/index.js</small>
 					</section>
 					<section>
-						<h2>Routing</h2>
+						<h2>Multi-router, router</h2>
 						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|3|5-7|9-11|13|"><script type="text/template">
 							const express = require('express');
 							
@@ -379,7 +379,32 @@
 							
 							module.exports = api_v1;							
 						</script></code></pre>
-						<small>./examples/multi-router/controllers/api_v1.js</small>
+						<small>examples/multi-router/controllers/api_v1.js</small>
+					</section>
+					<section>
+						<h2>Route parameters</h2>
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|6-10|7|8|9|6-10|12-15|13|14|"><script type="text/template">
+							const express = require('express');
+
+							const app = express();
+							const port = 3000;
+							
+							app.get('/search', (req, res) => {
+								const { term, limit } = req.query;
+								res.set('Content-Type', 'text/plain');
+								res.send(`${term} ${limit}`);
+							});
+							
+							app.get('/:name', (req, res) => {
+								const { name } = req.params;
+								res.json({ name });
+							});
+							
+							app.listen(port, () => {
+								console.debug(`Server running 'route-parameters' on port ${port}`);
+							});
+						</script></code></pre>
+						<small>examples/route-parameters/index.js</small>	
 					</section>
 					<section>
 						<h2>Middleware</h2>

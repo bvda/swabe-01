@@ -10,7 +10,7 @@ app.get('/search', (req, res) => {
 });
 
 app.get('/:name', (req, res) => {
-  const name = req.params.name;
+  const { name } = req.params;
   res.json({ name });
 });
 

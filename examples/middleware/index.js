@@ -1,3 +1,4 @@
+const fs = require('fs');
 const express = require('express');
 
 const app = express();
@@ -12,6 +13,21 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
   res.json({'message' : 'Hello, Middleware!'})
+});
+
+app.get('/error', (req, res, next) => {
+  setTimeout(() => {
+    try {
+      throw new Error('/error')
+    } catch(err) {
+      next(err)
+    }
+  }, 100);
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  next(err)
 });
 
 app.listen(port, _ => {

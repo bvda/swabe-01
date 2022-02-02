@@ -20,4 +20,4 @@ Run the slides by typing `npm start` and open a browser and go to [http://0.0.0.
 ## Example code
 We will be showing example code for each lesson. The code is split up into various projects. 
 
-When running an example project for the first time, you will need to download the dependencies using the Node package manager (`npm`). Run `npm install` in the terminal in the `./examples/<LESSON_FOLDER>`.
+When running an example project for the first time, you will need to download the dependencies using the Node package manager (`npm`). Run `npm install` in the terminal in the `examples/<LESSON_FOLDER>`.

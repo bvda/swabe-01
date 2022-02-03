@@ -39,8 +39,8 @@
 					<section>
 						<h2>What is node.js?</h2>
 						<ul>
-							<li>Node.js is a JavaScript runtime</li>
-							<li>An event-driven architecture with a non-blocking I/O API</li>
+							<li>Node.js is a JavaScript <mark>runtime</mark></li>
+							<li>An <mark>event-driven</mark> architecture with a <mark>non-blocking I/O</mark> API</li>
 						</ul>
 					</section>
 					<section>
@@ -68,8 +68,8 @@
 						<ul>
 							<li>In Node.js there are two types of threads:
 								<ul>
-									<li>One Event Loop (aka the main loop, main thread, event thread, etc.)</li>
-									<li>A pool of <code>k</code> Workers in a Worker Pool (aka the threadpool)</li>
+									<li>One <mark>Event Loop</mark> (aka the main loop, main thread, event thread, etc.)</li>
+									<li>A pool of <code>k</code> <mark>Workers</mark> in a Worker Pool (aka the thread pool)</li>
 								</ul>
 							</li>
 							<li>The Event Loop are responsible for:
@@ -81,7 +81,7 @@
 							<li>The Worker Pool handles expensive tasks:
 								<ul>
 									<li>I/O-intensive tasks like DNS and File System</li>
-									<li>CPU-intensive tasks lik crypto and compression</li>
+									<li>CPU-intensive tasks like crypto and compression</li>
 								</ul>
 							</li>
 						</ul>
@@ -156,7 +156,7 @@
 						<h2>npm</h2>
 						<ul>
 							<li><code>npm</code> is the standard package manager for Node.js</li>
-							<li><code>npm</code> is used to manage dependencies
+							<li><code>npm</code> is used to manage <mark>dependencies</mark>
 								<ul>
 									<li><code>dependencies</code> and <code>devDependencies</code></li>
 									<li>Global vs. local installation</li>
@@ -183,7 +183,7 @@
 									<li>Names and versions of packages</li>
 								</ul>
 							</li>
-							<li><code>package-lock.json</code> keep track of exact version of every package
+							<li><code>package-lock.json</code> keep track of <mark>exact version</mark> of every package
 								<ul>
 									<li>100% reproducible even if dependencies are updated by their maintainers</li>
 								</ul>
@@ -289,8 +289,17 @@
 					<section>
 						<h2>What is Express.js?</h2>
 						<ul>
-							<li>Express is a minimal and flexible Node.js web application framework</li>
-							<li>Express is unopinionated</li>
+							<li>A <mark>minimal</mark> and <mark>flexible</mark> Node.js web application <mark>framework</mark></li>
+							<li><mark>Unopinionated</mark></li>
+							<li>Features:
+								<ul>
+									<li>Routing</li>
+									<li>Middleware</li>
+									<li>HTTP helpers</li>
+									<li>View system supporting 14+ template engines</li>
+								</ul>
+							</li>
+							<li>Based on Node.js <code>http</code> API</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -537,14 +546,14 @@
 					<section>
 						<h2>Popular third-party middleware</h2>
 						<ul>
-							<li><code>body-parser</code></li>
-							<li><code>cors</code></li>
-							<li><code>passport</code></li>
+							<li><code>multer</code>—handling multipart/form-data</li>
+							<li><code>cors</code>—configure cross-origin resource sharing</li>
+							<li><code>passport</code>—authentication for Node.js</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
-								<li><a href="https://github.com/expressjs/body-parser">expressjs/body-parser: Node.js body parsing middleware</a></li>
+								<li><a href="https://github.com/expressjs/multer">expressjs/multer: Node.js middleware for handling `multipart/form-data`.</a></li>
 								<li><a href="https://github.com/expressjs/cors">expressjs/cors: Node.js CORS middleware</a></li>
 								<li><a href="https://github.com/jaredhanson/passport">jaredhanson/passport: Simple, unobtrusive authentication for Node.js.</a></li>
 							</ul>
@@ -661,10 +670,10 @@
 					<section>
 						<h2>Wrap-up</h2>
 						<ul>
-							<li>Node.js is an event-driven architecture with a non-blocking I/O API</li>
+							<li>Node.js is an <mark>event-driven</mark> architecture with a <mark>non-blocking I/O</mark> API</li>
 							<li>Building APIs with Node.js and Express.js</li>
-							<li>Routing and middleware in Express.js</li>
-							<li>Using <code>npm</code> to manage dependencies</li>
+							<li><mark>Routing</mark> and <mark>middleware</mark> in Express.js</li>
+							<li>Using <code>npm</code> to manage <mark>dependencies</mark></li>
 						</ul>
 					</section>
 				</section>

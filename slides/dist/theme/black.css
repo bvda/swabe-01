@@ -15,7 +15,7 @@
 .reveal li code {
   background-color: #0d1117;
   color: #d2a8ff;
-  padding: 3px 8px;
+  padding: 4px 8px;
   border-radius: 8px;
 }
 
@@ -33,6 +33,13 @@ code {
   color: lightgray;
   border-radius: 10px;
   padding: 5px 10px;
+}
+
+mark {
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: khaki;
 }
 
 section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {

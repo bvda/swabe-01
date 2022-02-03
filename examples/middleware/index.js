@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
@@ -9,7 +10,10 @@ var errorHandler = (err, req, res, next) => {
   res.status(500).json({message});
 }
 
+app.options('*', cors())
+
 app.use((req, res, next) => {
+  console.log(req.headers)
   if(!req.headers['authorization']) {
     res.sendStatus(401);
   } else {
@@ -17,7 +21,7 @@ app.use((req, res, next) => {
   }
 });
 
-app.get('/', (req, res) => {
+app.get('/', cors(), (req, res) => {
   res.json({'message' : 'Hello, Middleware!'});
 });
 

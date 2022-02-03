@@ -1,12 +1,11 @@
 // Adapted from https://github.com/expressjs/express/blob/master/examples/multi-router/index.js
 
 const express = require('express');
-const bodyParser = require('body-parser');
 
 const port = 3000;
 const app = express();
 
-app.use(bodyParser.text());
+app.use(express.text());
 
 app.use('/api/v1', require('./controllers/api_v1'));
 app.use('/api/v2', require('./controllers/api_v2'));

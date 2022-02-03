@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -10,10 +11,14 @@ var errorHandler = (err, req, res, next) => {
   res.status(500).json({message});
 }
 
-app.options('*', cors())
+app.use(express.static('public'))
+
+app.options('*', cors());
+app.get('/www', (req, res) => {
+  res.sendFile(path.join(__dirname, '/index.html'))
+});
 
 app.use((req, res, next) => {
-  console.log(req.headers)
   if(!req.headers['authorization']) {
     res.sendStatus(401);
   } else {

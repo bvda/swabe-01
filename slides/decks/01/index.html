@@ -411,9 +411,9 @@
 						<ul>
 							<li>Application-level middleware</li>
 							<li>Router-level middleware</li>
-							<li>Error-handling middleware</li>
 							<li>Built-in middleware</li>
 							<li>Third-party middleware</li>
+							<li>Error-handling middleware</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -424,22 +424,50 @@
 					</section>
 					<section>
 						<h2>Application-level middleware</h2>
-						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|6-11|7-9|10|13-15|"><script type="text/template">
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|21-27|22,24,26|23|25|"><script type="text/template">
 							const express = require('express');
-
+							const cors = require('cors');
+							const path = require('path');
+							
 							const app = express();
 							const port = 3000;
 							
-							app.use((req, res, next) => {
-								if(!req.headers['authorization']) {
-									res.sendStatus(401)
-								}
-								next()
+							var errorHandler = (err, req, res, next) => {
+								const { message } = err;
+								console.error(message);
+								res.status(500).json({message});
+							}
+							
+							app.use(express.static('public'))
+							
+							app.options('*', cors());
+							app.get('/www', (req, res) => {
+								res.sendFile(path.join(__dirname, '/index.html'))
 							});
 							
-							app.get('/', (req, res) => {
-								res.json({'message' : 'Hello, Middleware!'})
+							app.use((req, res, next) => {
+								if(!req.headers['authorization']) {
+									res.sendStatus(401);
+								} else {
+									next();
+								}
 							});
+							
+							app.get('/', cors(), (req, res) => {
+								res.json({'message' : 'Hello, Middleware!'});
+							});
+							
+							app.get('/error', (req, res, next) => {
+								setTimeout(() => {
+									try {
+										throw new Error('Internal Server Error')
+									} catch(err) {
+										next(err);
+									}
+								}, 100);
+							});
+							
+							app.use(errorHandler);
 							
 							app.listen(port, _ => {
 								console.log(`Server running 'middleware' on port ${port}`)
@@ -448,13 +476,66 @@
 						<small>examples/middleware/index.js</small>
 					</section>
 					<section>
-						<h2>Popular middleware</h2>
+						<h2>Built-in middleware</h2>
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|14|"><script type="text/template">
+							const express = require('express');
+							const cors = require('cors');
+							const path = require('path');
+							
+							const app = express();
+							const port = 3000;
+							
+							var errorHandler = (err, req, res, next) => {
+								const { message } = err;
+								console.error(message);
+								res.status(500).json({message});
+							}
+							
+							app.use(express.static('public'))
+							
+							app.options('*', cors());
+							app.get('/www', (req, res) => {
+								res.sendFile(path.join(__dirname, '/index.html'))
+							});
+							
+							app.use((req, res, next) => {
+								if(!req.headers['authorization']) {
+									res.sendStatus(401);
+								} else {
+									next();
+								}
+							});
+							
+							app.get('/', cors(), (req, res) => {
+								res.json({'message' : 'Hello, Middleware!'});
+							});
+							
+							app.get('/error', (req, res, next) => {
+								setTimeout(() => {
+									try {
+										throw new Error('Internal Server Error')
+									} catch(err) {
+										next(err);
+									}
+								}, 100);
+							});
+							
+							app.use(errorHandler);
+							
+							app.listen(port, _ => {
+								console.log(`Server running 'middleware' on port ${port}`)
+							})
+						</script></code></pre>
+						<small>examples/middleware/index.js</small>
+					</section>
+					<section>
+						<h2>Popular third-party middleware</h2>
 						<ul>
 							<li><code>body-parser</code></li>
 							<li><code>cors</code></li>
 							<li><code>passport</code></li>
 						</ul>
-						<aside class="notes" aria-label="">
+						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
 								<li><a href="https://github.com/expressjs/body-parser">expressjs/body-parser: Node.js body parsing middleware</a></li>
@@ -462,6 +543,112 @@
 								<li><a href="https://github.com/jaredhanson/passport">jaredhanson/passport: Simple, unobtrusive authentication for Node.js.</a></li>
 							</ul>
 						</aside>
+					</section>
+					<section>
+						<h2>Third-party middleware</h2>
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|2|16|29-31|"><script type="text/template">
+							const express = require('express');
+							const cors = require('cors');
+							const path = require('path');
+							
+							const app = express();
+							const port = 3000;
+							
+							var errorHandler = (err, req, res, next) => {
+								const { message } = err;
+								console.error(message);
+								res.status(500).json({message});
+							}
+							
+							app.use(express.static('public'))
+							
+							app.options('*', cors());
+							app.get('/www', (req, res) => {
+								res.sendFile(path.join(__dirname, '/index.html'))
+							});
+							
+							app.use((req, res, next) => {
+								if(!req.headers['authorization']) {
+									res.sendStatus(401);
+								} else {
+									next();
+								}
+							});
+							
+							app.get('/', cors(), (req, res) => {
+								res.json({'message' : 'Hello, Middleware!'});
+							});
+							
+							app.get('/error', (req, res, next) => {
+								setTimeout(() => {
+									try {
+										throw new Error('Internal Server Error')
+									} catch(err) {
+										next(err);
+									}
+								}, 100);
+							});
+							
+							app.use(errorHandler);
+							
+							app.listen(port, _ => {
+								console.log(`Server running 'middleware' on port ${port}`)
+							})
+						</script></code></pre>
+						<small>examples/middleware/index.js</small>
+					</section>
+					<section>
+						<h2>Error-handling middleware</h2>
+						<pre data-id="code-animation"><code class='node' data-trim data-line-numbers="|8-12|33-41|35,37,39|36|38|43|"><script type="text/template">
+							const express = require('express');
+							const cors = require('cors');
+							const path = require('path');
+							
+							const app = express();
+							const port = 3000;
+							
+							var errorHandler = (err, req, res, next) => {
+								const { message } = err;
+								console.error(message);
+								res.status(500).json({message});
+							}
+							
+							app.use(express.static('public'))
+							
+							app.options('*', cors());
+							app.get('/www', (req, res) => {
+								res.sendFile(path.join(__dirname, '/index.html'))
+							});
+							
+							app.use((req, res, next) => {
+								if(!req.headers['authorization']) {
+									res.sendStatus(401);
+								} else {
+									next();
+								}
+							});
+							
+							app.get('/', cors(), (req, res) => {
+								res.json({'message' : 'Hello, Middleware!'});
+							});
+							
+							app.get('/error', (req, res, next) => {
+								setTimeout(() => {
+									try {
+										throw new Error('Internal Server Error')
+									} catch(err) {
+										next(err);
+									}
+								}, 100);
+							});
+							
+							app.use(errorHandler);
+							
+							app.listen(port, _ => {
+								console.log(`Server running 'middleware' on port ${port}`)
+							})
+						</script></code></pre>
+						<small>examples/middleware/index.js</small>
 					</section>
 				</section>
 				<section>

@@ -134,10 +134,16 @@
 									<li>queue empty — if <code>setImmediate()</code> end; go to <mark>check</mark> else wait for callback and execute immediately</mark></li>
 								</ul>
 							</li>
-							<li><mark>check</mark><ul>
-								<li>invoke <code>setImmediate()</code> callback here</li>
-							</ul></li>
-							<li><mark>close callbacks</mark></li>
+							<li><mark>check</mark>
+								<ul>
+									<li>invoke <code>setImmediate()</code> callbacks here</li>
+								</ul>
+							</li>
+							<li><mark>close callbacks</mark>
+								<ul>
+									<li>Clean-up, close sockets, etc.</li>
+								</ul>
+							</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>

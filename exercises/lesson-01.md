@@ -46,7 +46,7 @@ Now that we have tinkered with the basic building blocks in Node.js, it is time 
 3. Inspect the in `examples/hello-node/http-methods-and-routes.js` and implement the API with Express.js
     - An endpoint at `/` with `GET` and `POST` that returns data with `Content-Type: text/plain`
     - An endpoint at `/json` with `GET` and `POST` that returns data with `Content-Type: application/json`
-    - There should be a separate `Router` for each endpoint (see )
+    - There should be a separate `Router` for each endpoint (see `examples/multi-router`)
 4. Write down the main differences between the vanilla Node.js and Express.js implementation.
 
-_Hints: Problems parsing HTTP bodies? Check out https://github.com/expressjs/body-parser._
+_Hints: Problems parsing HTTP bodies? Check out https://github.com/expressjs/body-parser for more information_

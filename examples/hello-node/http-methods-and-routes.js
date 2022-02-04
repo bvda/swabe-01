@@ -1,3 +1,4 @@
+const { read } = require('fs');
 const http = require('http');
 
 const hostname = '127.0.0.1';
@@ -9,8 +10,7 @@ const server = http.createServer((req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/plain');
       res.end('Hello, Node.js');
-    }
-    if(req.method === 'POST') {
+    } else if(req.method === 'POST') {
       let body = ''
       req.on('data', chunk => {
         body += chunk
@@ -20,14 +20,16 @@ const server = http.createServer((req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         res.end(body)
       });
+    } else {
+      res.statusCode = 404;
+      res.end();
     }
   } else if(req.url === '/json') {
     if(req.method === 'GET') {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({'message': 'Hello, Node.js'}));
-    }
-    if(req.method === 'POST') {
+    } else if(req.method === 'POST') {
       let body = ''
       req.on('data', chunk => {
         body += chunk
@@ -37,6 +39,9 @@ const server = http.createServer((req, res) => {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({'message': body}));
       });     
+    } else {
+      res.statusCode = 404;
+      res.end();
     }
   } else {
     res.statusCode = 404;

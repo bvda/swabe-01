@@ -13,4 +13,4 @@ const schema = new Schema<Transaction>({
   timestamp: { type: Date }
 })
 
-export const transactionModel = model<Transaction>('transaction', schema)
+export const TransactionModel = model<Transaction>('transaction', schema)

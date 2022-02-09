@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json())
 
 setImmediate(async () => {
-  await mongoose.connect('mongodb://localhost:27017')
+  const client = await mongoose.connect('mongodb://localhost:27017/transactions')
 })
 
 app.get('', async (req, res) => {

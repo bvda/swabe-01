@@ -1,7 +1,7 @@
 # Lesson 02 exercises
 ## Exercise 02-1
 ### Get the template
-Clone <INSERT_GITHUB_URL> from GitHub.
+Create a new repository in GitHub based on [this](https://github.com/bvda/node-with-typescript) template.
 
 1. Install the dependencies `npm install` or `npm i` (shorthand notation)
 2. Open `index.ts` and setup an express<sup>(<a href="">docs</a>)</sup> app with the following routes:

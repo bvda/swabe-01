@@ -1,29 +1,29 @@
 # Lesson 02 exercises
 ## Exercise 02-1
 ### Get the template
-Check out <INSERT_GITHUB_URL> from GitHub.
+Clone <INSERT_GITHUB_URL> from GitHub.
 
 1. Install the dependencies `npm install` or `npm i` (shorthand notation)
-2. Open `index.ts` and setup a 
+2. Open `index.ts` and setup an express<sup>(<a href="">docs</a>)</sup> app with the following routes:
+    - `GET /orders`
+    - `POST /orders`
+    - `GET /orders/:uid`
+    - `PUT /orders/:uid`
+    - `UPDATE /orders/:uid`  
+    - `DELETE /orders/:uid`
+3. Test everything with Postman<sup>(<a href="https://www.postman.com/">docs</a>)</sup> to make sure everything is working as expected (you can just return an empty response for now. We will add real functionalty later)
 
 ## Exercise 02-2
-### Add MongoDB
-
-1. Install Mongoose with `npm install mongoose`
-2. Add files for routes
-3. 
-
-- `GET /orders`
-- `POST /orders`
-- `GET /orders/:uid`
-- `PUT /orders/:uid`
-- `UPDATE /orders/:uid`  
-- `DELETE /orders/:uid`
-
+### Install MongoDB and Mongoose
+1. Make sure you have MongoDB up and running on your computer. See [this](https://docs.mongodb.com/manual/installation/) guide for information.
+2. Install Mongoose in the project with `npm install mongoose` 
+3. Add files for the following routes (make sure to follow the best practices<sup>(<a href="https://github.com/expressjs/express/tree/master/examples/route-separation">docs</a>)</sup>
+4. Set up a connection to your MongoDB with a Mongoose connection<sup>(<a href="https://mongoosejs.com/docs/connections.html">docs</a>)</sup>
 
 ## Exercise 02-3
-### Build module and schema
-1. Add a schema with the below structure
+### Implement Mongoose model and schema
+1. Add a schema<sup>(<a href="https://mongoosejs.com/docs/guide.html">docs</a>)</sup> for an order to the project (see the JSON structure below)
+2. Set up an endpoint that seeds the database with the contents of `MOCK_DATA_MATERIALS.json`
 
 ```json
 {
@@ -45,4 +45,9 @@ Check out <INSERT_GITHUB_URL> from GitHub.
 ```
 
 ## Exercise 02-4
-### 
+### Add CRUD operations
+Now we have everything set up to implement the functionality in our endpoints.
+
+We want to be able to add filters based on query parameters to the `GET /orders` endpoint.
+
+_Hint: Check out `examples/lesson-02/hello-mongoose/src/transaction-controller.ts` for inspiration_

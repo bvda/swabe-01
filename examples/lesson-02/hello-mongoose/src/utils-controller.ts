@@ -2,19 +2,34 @@ import { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import { readFile } from 'fs/promises';
 
-import { schema } from './transaction'
+import { schema as transactionSchema } from './transaction'
+import { schema as userSchema } from './user'
 
 const transactionsConnection = mongoose.createConnection('mongodb://localhost:27017/transactions')
-const TransactionModel = transactionsConnection.model('Transaction', schema)
+const TransactionModel = transactionsConnection.model('Transaction', transactionSchema)
+
+const usersConnection = mongoose.createConnection('mongodb://localhost:27017/users')
+const UserModel = usersConnection.model('User', userSchema)
 
 const bootstrap = async (req: Request, res: Response) => {
   await TransactionModel.deleteMany({}).exec()
-  let data = await readFile('../assets/MOCK_DATA.json', 'utf-8')
-  let docs = await TransactionModel.insertMany(JSON.parse(data))
+  await UserModel.deleteMany({}).exec()
+
+  let data = await readFile('../assets/MOCK_DATA_TRANSACTION.json', 'utf-8')
+  let transactionResult = await TransactionModel.insertMany(JSON.parse(data))
+  
+  let user = await readFile('../assets/MOCK_DATA_USER.json', 'utf-8')
+  let userResult = await UserModel.insertMany(JSON.parse(user))
 
   res.json({
-    ids: docs.map(t => t._id),
-    cnt: docs.length,
+    transactions: {
+      ids: transactionResult.map(t => t._id),
+      cnt: transactionResult.length,
+    },
+    users: {
+      ids: userResult.map(u => u._id),
+      count: userResult.length
+    }
   })
 }
 

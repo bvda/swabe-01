@@ -15,11 +15,11 @@ const bootstrap = async (req: Request, res: Response) => {
   await TransactionModel.deleteMany({}).exec()
   await UserModel.deleteMany({}).exec()
 
-  let data = await readFile('../assets/MOCK_DATA_TRANSACTION.json', 'utf-8')
-  let transactionResult = await TransactionModel.insertMany(JSON.parse(data))
-  
-  let user = await readFile('../assets/MOCK_DATA_USER.json', 'utf-8')
-  let userResult = await UserModel.insertMany(JSON.parse(user))
+  let transactions = await readFile('../assets/MOCK_DATA_TRANSACTION.json', 'utf-8')
+  let transactionResult = await TransactionModel.insertMany(JSON.parse(transactions))
+
+  let users = await readFile('../assets/MOCK_DATA_USER.json', 'utf-8')
+  let userResult = await UserModel.insertMany(JSON.parse(users))
 
   res.json({
     transactions: {

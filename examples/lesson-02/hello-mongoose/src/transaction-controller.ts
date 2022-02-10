@@ -7,7 +7,7 @@ const transactionsConnection = mongoose.createConnection('mongodb://localhost:27
 const TransactionModel = transactionsConnection.model('Transaction', schema)
 
 const list = async (req: Request, res: Response) => {
-  const { src, dst, from, to } = req.query
+  const { src, dst, f, t } = req.query
 
   let filter = { }
 
@@ -19,14 +19,14 @@ const list = async (req: Request, res: Response) => {
     filter = { ...filter, dst }
   }
 
-  if(from && to) {
-    filter = { ...filter, ts: { $gt: from, $lt: to }}
+  if(f && t) {
+    filter = { ...filter, ts: { $gt: f, $lt: t }}
   } else {
-    if(from) {
-      filter = { ...filter, ts: { $gt: from }}
+    if(f) {
+      filter = { ...filter, ts: { $gt: f }}
     }
-    if(to) {
-      filter = { ...filter, ts: { $lt: to }}
+    if(t) {
+      filter = { ...filter, ts: { $lt: t }}
     }
   }
   

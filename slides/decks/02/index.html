@@ -152,8 +152,36 @@
 					</section>
 					<section>
 						<h2>Connections</h2>
-						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|1|3-9|11-17|19|"><script type="text/template">
-							import { Schema, model } from 'mongoose'
+						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="6,7,10,16"><script type="text/template">
+							import { Request, Response } from 'express'
+							import mongoose from 'mongoose'
+							
+							import { schema } from './user'
+							
+							const usersConnection = mongoose.createConnection('mongodb://localhost:27017/transactions')
+							const UserModel  = usersConnection.model('User', schema)
+							
+							const list = async (req: Request, res: Response) => {
+								let result = await UserModel.find({}).lean().exec()
+								res.json(result)
+							}
+							
+							const read = async (req: Request, res: Response) => {
+								const { uid } = req.params
+								let result = await UserModel.find({ _id: uid})
+								res.json(result)
+							}
+							
+							export const Users = {
+								list, read
+							}
+						</script></code></pre>
+						<small>examples/lesson-02/hello-mongoose/src/user-controller.ts</small>
+					</section>
+					<section>
+						<h2>Schemas</h2>
+						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|1|3-9|11-17|"><script type="text/template">
+							import { Schema } from 'mongoose'
 
 							export interface User {
 								name: {
@@ -162,21 +190,16 @@
 								},
 								email: string
 							}
-
-							const schema = new Schema<User>({
+							
+							export const schema = new Schema<User>({
 								name: { 
 									first: { type: String, required: true },
 									last: { type: String, required: true }
 								},
 								email: { type: String, required: false },
 							})
-
-							export const TransactionModel = model<User>('User', schema)
 						</script></code></pre>
 						<small>examples/lesson-02/hello-mongoose/src/user.ts</small>
-					</section>
-					<section>
-						<h2>Schemas</h2>
 					</section>
 					<section>
 						<h2>Models</h2>
@@ -184,36 +207,115 @@
 					<section>
 						<h2>Schema and model</h2>
 						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|1|3-9|11-17|19|"><script type="text/template">
-							import { Schema, model } from 'mongoose'
-
-							export interface User {
-								name: {
-									first: string,
-									last: string,
-								},
-								email: string
-							}
-
-							const schema = new Schema<User>({
-								name: { 
-									first: { type: String, required: true },
-									last: { type: String, required: true }
-								},
-								email: { type: String, required: false },
-							})
-
-							export const TransactionModel = model<User>('User', schema)
 						</script></code></pre>
-						<small>examples/lesson-02/hello-mongoose/src/user.ts</small>
+						<small></small>
 					</section>
 					<section>
 						<h2>Queries</h2>
+						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|10|12|14-16|18-20|22-31|23,26,29|33-34|"><script type="text/template">
+							import { Request, Response } from 'express'
+							import mongoose from 'mongoose'
+							
+							import { schema } from './transaction'
+							
+							const transactionsConnection = mongoose.createConnection('mongodb://localhost:27017/transactions')
+							const TransactionModel = transactionsConnection.model('Transaction', schema)
+							
+							const list = async (req: Request, res: Response) => {
+								const { src, dst, f, t } = req.query
+							
+								let filter = { }
+							
+								if(src) {
+									filter = { src }
+								}
+							
+								if(dst) {
+									filter = { ...filter, dst }
+								}
+							
+								if(f && t) {
+									filter = { ...filter, ts: { $gt: f, $lt: t }}
+								} else {
+									if(f) {
+										filter = { ...filter, ts: { $gt: f }}
+									}
+									if(t) {
+										filter = { ...filter, ts: { $lt: t }}
+									}
+								}
+								
+								let result = await TransactionModel.find(filter, { __v: 0 }).lean()
+								res.json(result);
+							}
+							
+							const create =  async (req: Request, res: Response) => {
+								let { id } = await new TransactionModel(req.body).save()
+								res.json({ id })
+							}
+							
+							const read = async (req: Request, res: Response) => {
+								const { uid } = req.params
+								let result = await TransactionModel.find({ _id: uid }, { __v: 0}).exec()
+								res.json(result)
+							}
+							
+							const overwrite = async (req: Request, res:Response) => {
+								const { uid } = req.params
+								const body = req.body
+								let result = await TransactionModel.findOne({ _id: uid}, {__v: 0}).exec()
+								if(result) {
+									let resp = result.overwrite(body)
+									res.json(resp)
+								} else {
+									res.sendStatus(404)
+								}
+							}
+							
+							const update = async (req: Request, res: Response) => {
+								const { uid } = req.params
+								console.log(uid)
+								let result = await TransactionModel.updateOne({_id: uid }, { $set: { amnt: 100, src: '123', dst: '321' }}).exec()
+								res.json({uid, result})
+							}
+							
+							const remove = async (req: Request, res: Response) => {
+							const { uid } = req.params
+								let result = await TransactionModel.deleteOne({ _id: uid })
+								res.json(result)
+							}
+							
+							export const Transactions = {
+								list, create, read, overwrite, update, remove
+							}
+						</script></code></pre>
+						<small>examples/lesson-02/hello-mongoose/src/transaction-controller.ts</small>	
 					</section>
 					<section>
 						<h2>Validators</h2>
 					</section>
 					<section>
 						<h2>Mongoose vs. Node.js Driver</h2>
+						<ul>
+							<li>Mongoose provide a schema
+								<ul>
+									<li>Explicit relationship between MongoDB documents and Mongoose models in applications</li>
+									<li>Rigid structure defined by schemas</li>
+								</ul>
+							</li>
+							<li>Node.js Driver is more flexible
+								<ul>
+									<li>Create and run queries on the fly</li>
+									<li>Node.js Driver does not have concept of object data modeling or mapping</li>
+								</ul>
+							</li>
+							<li>Validation
+								<ul>
+									<li>Mongoose has application-level validators</li>
+									<li>MongoDB scheme has collection-level validators</li>
+								</ul>
+							</li>
+						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>

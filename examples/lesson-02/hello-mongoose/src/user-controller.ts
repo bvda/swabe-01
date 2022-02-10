@@ -11,6 +11,12 @@ const list = async (req: Request, res: Response) => {
   res.json(result)
 }
 
+const read = async (req: Request, res: Response) => {
+  const { uid } = req.params
+  let result = await UserModel.find({ _id: uid})
+  res.json(result)
+}
+
 export const Users = {
-  list
+  list, read
 }

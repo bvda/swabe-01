@@ -131,8 +131,57 @@
 									<li>Supports both promises and callbacks</li>
 								</ul>
 							</li>
-							<li>Developed by Automa</li>
 						</ul>
+					</section>
+					<section>
+						<h2>Mongoose core concepts</h2>
+						<ul>
+							<li>Connections</li>
+							<li>Schemas</li>
+							<li>Models</li>
+							<li>Queries</li>
+							<li>Validators</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Connections</h2>
+					</section>
+					<section>
+						<h2>Schemas</h2>
+					</section>
+					<section>
+						<h2>Models</h2>
+					</section>
+					<section>
+						<h2>Schema and model</h2>
+						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|1|3-9|11-17|19|"><script type="text/template">
+							import { Schema, model } from 'mongoose'
+
+							export interface User {
+								name: {
+									first: string,
+									last: string,
+								},
+								email: string
+							}
+
+							const schema = new Schema<User>({
+								name: { 
+									first: { type: String, required: true },
+									last: { type: String, required: true }
+								},
+								email: { type: String, required: false },
+							})
+
+							export const TransactionModel = model<User>('User', schema)
+						</script></code></pre>
+						<small>examples/lesson-02/hello-mongoose/src/user.ts</small>
+					</section>
+					<section>
+						<h2>Queries</h2>
+					</section>
+					<section>
+						<h2>Validators</h2>
 					</section>
 					<section>
 						<h2>Mongoose vs. Node.js Driver</h2>
@@ -142,6 +191,17 @@
 								<li><a href="https://www.mongodb.com/developer/article/mongoose-versus-nodejs-driver/">MongoDB & Mongoose: Compatibility and Comparison</a></li>
 							</ul>
 						</aside>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>MongoDB design patterns</h2>
+					</section>
+					<section>
+						<h2></h2>
+					</section>
+					<section>
+						<h2>Transaction</h2>
 					</section>
 				</section>
 				<section>

@@ -50,4 +50,11 @@ Now we have everything set up to implement the functionality in our endpoints.
 
 We want to be able to add filters based on query parameters to the `GET /orders` endpoint.
 
+The query parameters:
+- `t`—defines the end date
+- `f`—defines the start date
+- `m`–defines material
+
+Can you come up with more possible query parameters? Implement them!
+
 _Hint: Check out `examples/lesson-02/hello-mongoose/src/transaction-controller.ts` for inspiration_

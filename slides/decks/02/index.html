@@ -27,8 +27,10 @@
 				<section id="agenda">
 					<h2>Agenda</h2>
 					<ul>
-						<li>Node.js environment variables</li>
 						<li>Introduction to MongoDB</li>
+						<li>MongoDB Node.js Driver</li>
+						<li>Mongoose</li>
+						<li>NoSQL design patterns</li>
 					</ul>
 				</section>
 				<section>
@@ -202,13 +204,35 @@
 						<small>examples/lesson-02/hello-mongoose/src/user.ts</small>
 					</section>
 					<section>
-						<h2>Models</h2>
+						<h2>SchemaTypes</h2>
+						<ul>
+							<li>SchemaTypes handle definitions for general characteristics for document Mongoose properties
+								<ul>
+									<li>A Schema serves as a configuration for a Mongoose <mark>model</mark></li>
+									<li>A SchemaType serves as a configuration an individual <mark>property</mark></li>
+								</ul>
+							</li>
+							<li></li>
+						</ul>
+						<aside class="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://mongoosejs.com/docs/schematypes.html">Mongoose v6.2.1: SchemaTypes</a></li>
+							</ul>
+						</aside>
 					</section>
 					<section>
-						<h2>Schema and model</h2>
-						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|1|3-9|11-17|19|"><script type="text/template">
-						</script></code></pre>
-						<small></small>
+						<h2>Models</h2>
+						<ul>
+							<li>Models are contructors <mark>compiled</mark> from <mark>schemas</mark></li>
+							<li>The first argument is the singular name of the <mark>collection</mark> the model is for</li>
+							<li>An <mark>instance</mark> of a model is a <mark>document</mark></li>
+						</ul>
+						<pre data-id="code-animation"><code class='typescript' data-trim><script type="text/template">
+							const usersConnection = mongoose.createConnection('mongodb://localhost:27017/transactions')
+							const UserModel  = usersConnection.model('User', schema)
+						</script></code></pre>	
+						<small>examples/lesson-02/hello-mongoose/src/user-controller.ts</small>
 					</section>
 					<section>
 						<h2>Queries</h2>
@@ -293,36 +317,53 @@
 					</section>
 					<section>
 						<h2>Validators</h2>
-					</section>
-					<section>
-						<h2>Mongoose vs. Node.js Driver</h2>
 						<ul>
-							<li>Mongoose provide a schema
+							<li>Validators is defined in the<mark>SchemaType</mark></li>
+							<li>Mongoose comes with built-in validators
 								<ul>
-									<li>Explicit relationship between MongoDB documents and Mongoose models in applications</li>
-									<li>Rigid structure defined by schemas</li>
+									<li>All SchemaTypes and <code>required</code></li>
+									<li>Numbers have <code>min</code> and <code>max</code></li>
+									<li>String have <code>enum</code>, <code>match</code>, <code>minLength</code>, and <code>maxLength</code></li>
 								</ul>
 							</li>
-							<li>Node.js Driver is more flexible
-								<ul>
-									<li>Create and run queries on the fly</li>
-									<li>Node.js Driver does not have concept of object data modeling or mapping</li>
-								</ul>
-							</li>
-							<li>Validation
-								<ul>
-									<li>Mongoose has application-level validators</li>
-									<li>MongoDB scheme has collection-level validators</li>
-								</ul>
-							</li>
+							<li>If the built-in validators aren't enough, you can define custom validators to suit your needs</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
-								<li><a href="https://www.mongodb.com/developer/article/mongoose-versus-nodejs-driver/">MongoDB & Mongoose: Compatibility and Comparison</a></li>
+								<li><a href="https://mongoosejs.com/docs/validation.html">Mongoose v6.2.1: Validation</a></li>
 							</ul>
 						</aside>
 					</section>
+				</section>
+				<section>
+					<h2>Mongoose vs. Node.js Driver</h2>
+					<ul>
+						<li>Mongoose provide a schema
+							<ul>
+								<li><mark>Explicit</mark> relationship between MongoDB documents and Mongoose models in applications</li>
+								<li>Rigid structure defined by schemas</li>
+							</ul>
+						</li>
+						<li>Node.js Driver is more <mark>flexible</mark>
+							<ul>
+								<li>Create and run queries on the fly</li>
+								<li>Node.js Driver does not have concept of object data modeling or mapping</li>
+							</ul>
+						</li>
+						<li>Validation
+							<ul>
+								<li>Mongoose has <mark>application-level</mark> validators</li>
+								<li>MongoDB scheme has <mark>collection-level</mark> validators</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li><a href="https://www.mongodb.com/developer/article/mongoose-versus-nodejs-driver/">MongoDB & Mongoose: Compatibility and Comparison</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section>
 					<section>
@@ -342,13 +383,10 @@
 						</aside>
 					</section>
 					<section>
-						<h2>Embedding</h2>
-					</section>
-					<section>
 						<h2>Transaction</h2>
 					</section>
 				</section>
-				<section>
+				<!-- <section>
 					<section>
 						<h2>Deployment</h2>
 					</section>
@@ -361,11 +399,12 @@
 							</ul>
 						</aside>
 					</section>
-				</section>
+				</section> -->
 				<section>
 					<h2>Wrap-up</h2>
 					<ul>
-						<li></li>
+						<li>What is a NoSQL document database</li>
+						<li>Mongoose as a ORM for MongoDB</li>
 					</ul>
 				</section>
 			</div>

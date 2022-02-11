@@ -4,7 +4,7 @@
 Create a new repository in GitHub based on [this](https://github.com/bvda/node-with-typescript) template.
 
 1. Install the dependencies `npm install` or `npm i` (shorthand notation)
-2. Open `index.ts` and setup an express<sup>(<a href="http://expressjs.com/en/starter/hello-world.html">docs</a>)</sup> app 
+2. Open `index.ts` and setup an express<sup>(<a href="http://expressjs.com/en/starter/hello-world.html">docs</a>)</sup> app. _Hint: Check `package.json` to make sure you have everything you need_
 3. Add a router in a separate module<sup>(<a href="http://expressjs.com/en/4x/api.html#router">docs</a>)</sup> with the following routes:
     - `GET /orders`
     - `POST /orders`

@@ -10,7 +10,7 @@ Create a new repository in GitHub based on [this](https://github.com/bvda/node-w
     - `POST /orders`
     - `GET /orders/:uid`
     - `PUT /orders/:uid`
-    - `UPDATE /orders/:uid`  
+    - `PATCH /orders/:uid`  
     - `DELETE /orders/:uid`
 4. Test everything with Postman<sup>(<a href="https://www.postman.com/">docs</a>)</sup> to make sure everything is working as expected (you can just return an empty response for now. We will add real functionalty later)
 

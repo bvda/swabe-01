@@ -59,8 +59,8 @@ const overwrite = async (req: Request, res:Response) => {
 
 const update = async (req: Request, res: Response) => {
   const { uid } = req.params
-  console.log(uid)
-  let result = await TransactionModel.updateOne({_id: uid }, { $set: { amnt: 100, src: '123', dst: '321' }}).exec()
+  const body = req.body
+  let result = await TransactionModel.updateOne({_id: uid }, { $set: body }).exec()
   res.json({uid, result})
 }
 

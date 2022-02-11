@@ -40,7 +40,6 @@ route-separation">docs</a>)</sup>
       "street_name": "Blaine",
       "street_number": "48649",
       "city": "Linxi"
-      }
     }
   }
 }

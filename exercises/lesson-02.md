@@ -32,6 +32,7 @@ route-separation">docs</a>)</sup>
   "amount": 8345839,
   "currency": "CNY",
   "price": 624.83,
+  "timestamp":"1614553155000",
   "delivery":{
     "first_name": "Jeniffer",
     "last_name": "Adam",

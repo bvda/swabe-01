@@ -51,7 +51,8 @@ const overwrite = async (req: Request, res:Response) => {
   let result = await TransactionModel.findOne({ _id: uid}, {__v: 0}).exec()
   if(result) {
     let resp = result.overwrite(body)
-    res.json(resp)
+    let result = await TransactionModel.replaceOne({ _id: uid }, resp).exec();
+    res.json(result)
   } else {
     res.sendStatus(404)
   }

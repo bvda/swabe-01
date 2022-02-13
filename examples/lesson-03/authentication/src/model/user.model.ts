@@ -1,16 +1,16 @@
 export interface User {
-  name: FullName
-  password: Crypto
+  name: Name
+  password: Password
   email: string
 }
 
-export interface FullName {
+export interface Name {
   first: string
   middle?: string
   last?: string
 }
 
-export interface Crypto {
+export interface Password {
   hash: string
   salt: string
 }

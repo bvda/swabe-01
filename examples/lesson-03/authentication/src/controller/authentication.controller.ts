@@ -1,4 +1,4 @@
-import { sign, verify, decode } from 'jsonwebtoken'
+import { sign, verify } from 'jsonwebtoken'
 import { Request, Response } from 'express'
 import { readFile } from 'fs'
 import { join } from 'path'
@@ -14,7 +14,7 @@ export const authenticate = (req: Request, res: Response) => {
       console.error(`NOT FOUND: ${PATH_PRIVATE_KEY}`)
       res.sendStatus(500)
     } else {
-      let token = sign({ pay: 'load' }, privateKey, { header: { alg: 'RS256', x5u: X5U} })
+      let token = sign({ pay: 'load' }, privateKey, { expiresIn: '1h', header: { alg: 'RS256', x5u: X5U} })
       res.json({ token })
     }
   })

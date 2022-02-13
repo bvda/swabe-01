@@ -1,14 +1,13 @@
-import { Router } from 'express'
+import { Router, json } from 'express'
+import { create, check } from '../controller/user.controller'
 
 const router = Router()
 
-router.get('', (req, res) => {
+router.get('', create)
 
-})
+router.post('', json(), create)
 
-router.post('', (req, res) => {
-
-})
+router.post('/verify', json(), check)
 
 router.get(':uid', (req, res) => {
 

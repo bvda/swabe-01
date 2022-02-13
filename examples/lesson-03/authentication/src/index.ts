@@ -5,6 +5,8 @@ import { UserRouter } from './router/user.router'
 const app = express()
 const port = 3000
 
+app.use(express.static('public'))
+
 app.use('/auth', AuthenticationRouter)
 app.use('/user', UserRouter)
 

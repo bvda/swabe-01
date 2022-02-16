@@ -14,7 +14,7 @@ export const authenticate = (req: Request, res: Response) => {
       console.error(`NOT FOUND: ${PATH_PRIVATE_KEY}`)
       res.sendStatus(500)
     } else {
-      let token = sign({ pay: 'load' }, privateKey, { expiresIn: '1h', header: { alg: 'RS256', x5u: X5U} })
+      let token = sign({ email: 'ctrl@hey.com', admin: true }, privateKey, { expiresIn: '1h', header: { alg: 'RS256', x5u: X5U} })
       res.json({ token })
     }
   })

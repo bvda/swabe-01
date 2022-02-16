@@ -119,18 +119,87 @@
 								</ul>
 							</li>
 							<li>Can be signed with symmetric and asymmetric keys</li>
+							<li></li>
 						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://jwt.io/introduction">JSON Web Token Introduction - jwt.io</a></li>
+							</ul>
+						</aside>
 					</section>
 					<section>
-						<h2>Header</h2>
+						<h1 style="font-family: monospace"><span style="color: tomato">xxxxx</span>.<span style="color: cornflowerblue">yyyyy</span>.<span style="color: goldenrod">zzzzz</span></code></h1>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://jwt.io/introduction">JSON Web Token Introduction - jwt.io</a></li>
+							</ul>
+						</aside>
 					</section>
 					<section>
-						<h2>Payload</h2>
+						<h2 style="font-family: monospace; color: tomato">Header</h2>
+						<ul>
+							<li>The header (typically consists of two parts)
+								<ul>
+									<li>Token type</li>
+									<li>Signing algorithm</li>
+								</ul>
+							</li>
+							<li>The header is then <code>Base64URL</code> encoded</li>
+						</ul>
+						<pre data-id="code-animation"><code class='json' data-trim data-line-numbers="|9-12|14-18|20-22|"><script type="text/template">
+							{
+								"alg": "RS256",
+								"typ": "JWT",
+								"x5u": "http://localhost:3000/auth-rsa256.key.pub"
+							}
+						</script></code></pre>
+						<small>Generated with examples/lesson-03/authentication/src/controller/authentication.controller.ts:11-21</small>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://jwt.io/introduction">JSON Web Token Introduction - jwt.io</a></li>
+							</ul>
+						</aside>
 					</section>
 					<section>
-						<h2>Signature</h2>
+						<h2 style="font-family: monospace; color: cornflowerblue">Payload</h2>
+						<ul>
+							<li>The payload contains the claims (statements about an entity)
+								<ul>
+									<li><mark>Registered claims</mark> are recommended to allow interoperability with third-party applications</li>
+									<li><mark>Public claims</mark> are custom (private) claims meant for public consumption. Must collision-resistant or registered</li>
+									<li><mark>Private claims</mark> are defined and controlled by individual organizations</li>
+								</ul>
+							</li>
+						</ul>
+						<pre data-id="code-animation"><code class='json' data-trim data-line-numbers="|9-12|14-18|20-22|"><script type="text/template">
+							{
+								"email": "ctrl@hey.com",
+								"admin": true,
+								"iat": 1645018456,
+								"exp": 1645022056
+							}
+					</script></code></pre>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://jwt.io/introduction">JSON Web Token Introduction - jwt.io</a></li>
+							</ul>
+						</aside>
 					</section>
 					<section>
+						<h2 style="font-family: monospace; color: goldenrod">Signature</h2>
+						<ul>
+							<li></li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://jwt.io/introduction">JSON Web Token Introduction - jwt.io</a></li>
+							</ul>
+						</aside>
 					</section>
 				</section>
 				<section>

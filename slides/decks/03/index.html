@@ -76,19 +76,22 @@
 					</section>
 					<section>
 						<h2>HTTPS in Node.js</h2>
-						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|9-12|14-18|20-22|"><script type="text/template">
+						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|10-13|15|17-21|23-25|"><script type="text/template">
 							import https from 'https';
 							import express from 'express';
 							import fs from 'fs';
 							import path from 'path';
+							import helmet from 'helmet';
 							
 							const app = express();
 							const port = 3000;
 							
-							const options=  {
+							const options =  {
 								key: fs.readFileSync(path.join(__dirname, '../selfsigned.key')),
 								cert: fs.readFileSync(path.join(__dirname, '../selfsigned.crt'))
-							}
+							};
+							
+							app.use(helmet());
 							
 							app.get('', (req, res) => {
 								res.json({
@@ -211,19 +214,21 @@
 						</aside>
 					</section>
 					<section>
-						<h2>Hashing algorithms</h2>
+						<h2>Signing algorithms</h2>
 						<ul>
 							<li>Symmetric algorithms
 								<ul>
-									<li><code>HMACs</code></li>
-									<li>Use a <mark>shared</mark> secret to <mark>sign</mark> and <mark>verify</mark> tokens</li>
+									<li><code>HMAC</code> Hash-based Message Authentication Codes</li>
+									<li>Uses a <mark>shared</mark> secret to <mark>sign</mark> and <mark>verify</mark> tokens</li>
+									<li>Used when all parties create and check tokens</li>
 								</ul>
 							</li>
 							<li>Asymmetric algorithms
 								<ul>
 									<li><code>RSA</code> and <code>ECDSA</code></li>
-									<li>Use a <mark>private</mark> key to <mark>sign</mark> tokens</li>
-									<li>Use a <mark>public</mark> key to <mark>verify</mark> tokens</li>
+									<li>Uses a <mark>private</mark> key to <mark>sign</mark> tokens</li>
+									<li>Uses a <mark>public</mark> key to <mark>verify</mark> tokens</li>
+									<li>Used when only one party should be able to create tokens</li>
 								</ul>
 							</li>
 						</ul>

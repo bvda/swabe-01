@@ -2,14 +2,17 @@ import https from 'https';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+import helmet from 'helmet';
 
 const app = express();
 const port = 3000;
 
-const options=  {
+const options =  {
   key: fs.readFileSync(path.join(__dirname, '../selfsigned.key')),
   cert: fs.readFileSync(path.join(__dirname, '../selfsigned.crt'))
-}
+};
+
+app.use(helmet());
 
 app.get('', (req, res) => {
   res.json({

@@ -27,8 +27,12 @@ export const verifyToken = (req: Request, res: Response) => {
       console.error(`NOT FOUND: ${PATH_PUBLIC_KEY}`)
       res.sendStatus(500)
     } else {
-      const json = verify(token, publicKey, { complete: true })
-      res.json(json)
+      try {
+        const json = verify(token, publicKey, { complete: true })
+        res.json(json)
+      } catch(e) {
+        res.json(e)
+      }
     }
   })
 }

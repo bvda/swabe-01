@@ -1,0 +1,23 @@
+{
+  "name": "secure-http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bvda/swabe-01.git"
+  },
+  "author": "ctrl@hey.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bvda/swabe-01/issues"
+  },
+  "homepage": "https://github.com/bvda/swabe-01#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "typescript": "^4.5.5"
+  }
+}

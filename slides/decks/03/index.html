@@ -24,6 +24,11 @@
 				</section>
 				<section>
 					<h2>Agenda</h2>
+					<ul>
+						<li>Secure network communication with HTTPS</li>
+						<li>JSON Web Tokens</li>
+						<li>Authentication</li>
+					</ul>
 				</section>
 				<section>
 					<section>
@@ -31,15 +36,71 @@
 					</section>
 					<section>
 						<h2>Overview</h2>
+						<ul>
+							<li>We need HTTPS for three reasons:
+								<ul>
+									<li><mark>Privacy</mark> Prevent bad actors from eavesdropping</li>
+									<li><mark>Integrity</mark> Prevent bad actors to modify the message</li>
+									<li><mark>Identification</mark> Guarantee the identity of the sender</li>
+								</ul>
+							</li>
+						</ul>
 					</section>
 					<section>
 						<h2>TLS Handshake</h2>
+						<mark>TODO: Insert diagram</mark>
+						<aside class="notes" aria-label="notes">
+							<ol>
+								<li>Client: Client Hello—sends a list of supported SSL/TLS version and encryption algoritms (cipher suite)</li>
+								<li>Server: Server Hello—sends response with selected ciphers</li>
+								<li>Server: Server and certificate (which includes public key)</li>
+								<li>Server: Server Done</li>
+								<li>Client: Client Key Exchange (checks certificate before)—responds with pre-master key and encrypt with server public key</li>
+								<li>Client: Cipher spec change</li>
+								<li>Client: Finished</li>
+								<li>Server: Cipher spec change</li>
+								<li>Server: Finished</li>
+							</ol>
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://www.thesslstore.com/blog/explaining-ssl-handshake/">The TLS Handshake: Taking a closer look - Hashed Out by The SSL Store™</a></li>
+							</ul>
+						</aside>
 					</section>
 					<section>
-						<h2>Certificate authorities</h2>
+						<h2>Certificate authorities (CA)</h2>
+						<ul>
+							<li>A trusted entity that issues digital certificates</li>
+							<li>CAs are trusted by vendors by whitelisting their root certificates</li>
+						</ul>
 					</section>
 					<section>
 						<h2>HTTPS in Node.js</h2>
+						<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|9-12|14-18|20-22|"><script type="text/template">
+							import https from 'https';
+							import express from 'express';
+							import fs from 'fs';
+							import path from 'path';
+							
+							const app = express();
+							const port = 3000;
+							
+							const options=  {
+								key: fs.readFileSync(path.join(__dirname, '../selfsigned.key')),
+								cert: fs.readFileSync(path.join(__dirname, '../selfsigned.crt'))
+							}
+							
+							app.get('', (req, res) => {
+								res.json({
+									"message": "Hello, HTTPS! 👋"
+								});
+							});
+							
+							https.createServer(options, app).listen(port, () => {
+								console.log(`Running 'secure-http' on ${port}`);
+							});
+						</script></code></pre>
+						<small>examples/lesson-03/secure-http/src/index.ts</small>
 					</section>
 				</section>
 				<section>
@@ -48,6 +109,17 @@
 					</section>
 					<section>
 						<h2>Overview</h2>
+						<ul>
+							<li>An open standard defined in RFC 7519</li>
+							<li>Compact and self-contained secure data transmission</li>
+							<li>Use cases: 
+								<ul>
+									<li><mark>Authorization</mark> the most common scenario, where the token is used to check if the user has permission to perform requested actions</li>
+									<li><mark>Information exchange</mark> secure transmission of data through signing</li>
+								</ul>
+							</li>
+							<li>Can be signed with symmetric and asymmetric keys</li>
+						</ul>
 					</section>
 					<section>
 						<h2>Header</h2>
@@ -57,6 +129,8 @@
 					</section>
 					<section>
 						<h2>Signature</h2>
+					</section>
+					<section>
 					</section>
 				</section>
 				<section>

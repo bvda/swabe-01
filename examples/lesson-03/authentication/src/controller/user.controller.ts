@@ -33,9 +33,7 @@ export const create = async (req: Request, res: Response) => {
 
 export const check = async (req: Request, res: Response) => {
   const { email, password } = req.body
-  console.log(req.body)
   let user = await UserModel.findOne({ email }).exec()
-  console.log(user, password)
   let valid = await user.password.isPasswordValid(password)
   if(valid) {
     res.json(user)

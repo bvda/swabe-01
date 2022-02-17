@@ -25,7 +25,7 @@ Reservations
 
 ### Requirements
 The system must fulfill the following functional requirements:
-  - `R1` A room can only be reserved one time within a given period
+  - `R1` A room can only be reserved once within a given time period
   - `R2` The must be implemented using Node.js
   - `R3` All reservations, users, and reservations must be persisted in a MongoDB
   - `R4` An asymmetric algorithm must be used to sign tokens

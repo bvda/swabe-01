@@ -1,7 +1,10 @@
 import crypto from 'crypto' 
 import util from 'util'
 
+export const ROUNDS = 10
+
 export const SALT_LENGTH = 32
+export const KEY_LENGTH = 16
 export const ITERATIONS = 1000000
 export const DIGEST = 'sha512'
 

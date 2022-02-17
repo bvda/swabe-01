@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { DIGEST, ITERATIONS, pbkdf2, SALT_LENGTH } from '../utils/auth-crypto'
+import { DIGEST, ITERATIONS, KEY_LENGTH, pbkdf2 } from '../utils/auth-crypto'
 
 export interface User {
   name: Name
@@ -32,7 +32,7 @@ export const PasswordSchema = new Schema<Password> ({
 })
 
 PasswordSchema.methods.isPasswordValid = async function(password: string) {
-  const hash = await pbkdf2(password, this.salt, ITERATIONS, SALT_LENGTH, DIGEST)
+  const hash = await pbkdf2(password, this.salt, ITERATIONS, KEY_LENGTH, DIGEST)
   return this.hash === hash.toString('hex')
 }
 

@@ -122,7 +122,6 @@
 								</ul>
 							</li>
 							<li>Can be signed with symmetric and asymmetric keys</li>
-							<li></li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -353,7 +352,143 @@
 							</aside>
 						</section>
 						<section>
+							<h2>User Controller</h2>
+							<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|11-25|13,17,24|14-16|18-20|21|22-23|43-55|44|45|46,52,54|47,49,51|48,50|53|"><script type="text/template">
+								import { Request, Response } from 'express'
+								import mongoose from 'mongoose'
+								import { compare, genSalt, hash } from 'bcrypt'
+								
+								import { randomBytes, pbkdf2, SALT_LENGTH, DIGEST, ITERATIONS, KEY_LENGTH, ROUNDS } from '../utils/auth-crypto'
+								import { Name, userSchema } from '../model/user.model'
+								
+								const usersConnection = mongoose.createConnection('mongodb://localhost:27017/users')
+								const UserModel = usersConnection.model('User', userSchema)
+								
+								export const create = async (req: Request, res: Response) => {
+									const { email, password, name } = req.body
+									if(await userExists(email)) {
+										res.status(400).json({
+											"message": "User already exists"
+										});
+									} else {
+										let salt = await randomBytes(SALT_LENGTH);
+										let hashed = await pbkdf2(password, salt.toString('hex'), ITERATIONS, KEY_LENGTH, DIGEST)
+										let user = newUser(email, name);
+										user.password.setPassword(hashed.toString('hex'), salt.toString('hex'))
+										await user.save()
+										res.json(user)
+									}
+								}
+								
+								export const create_bcrypt =  async (req: Request, res: Response) => {
+									const { email, password, name } = req.body;
+									if(await userExists(email)) {
+										res.status(400).json({
+											"message": "User already exists"
+										});
+									} else {
+										const salt = await genSalt(ROUNDS)
+										const hashed = await hash(password, salt)
+										let user = newUser(email, name);
+										user.password.setPassword(hashed, salt)
+										await user.save()
+										res.json(user)
+									}
+								}
+								
+								export const check = async (req: Request, res: Response) => {
+									const { email, password } = req.body
+									let user = await UserModel.findOne({ email }).exec()
+									if(user) {
+										if(await user.password.isPasswordValid(password)) {
+											res.json(user)
+										} else {
+											res.sendStatus(403)
+										}
+									} else {
+										res.sendStatus(400)
+									}
+								}
+								
+								export const check_bcrypt = async (req: Request, res: Response) => {
+									const { email, password } = req.body
+									let user = await UserModel.findOne({ email }).exec()
+									if(user) {
+										if(await compare(password, user.password.hash)) {
+											res.json(user)
+										} else {
+											res.sendStatus(403)
+										}
+									} else {
+										res.sendStatus(400)
+									}
+								}
+								
+								const userExists = (email: string) => UserModel.findOne({ email }).exec()
+								
+								const newUser = (email: string, name: Name) => new UserModel({ 
+									email, 
+									name, 
+									password: {
+										hash: '',
+										salt: ''
+									}
+								}) 
+							</script></code></pre>
+						</section>
+						<section>
 							<h2>Adding methods to Mongoose</h2>
+							<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|29-32|34-37,39-42|34-37|39-42|"><script type="text/template">
+								import { Schema } from 'mongoose'
+								import { DIGEST, ITERATIONS, KEY_LENGTH, pbkdf2 } from '../utils/auth-crypto'
+
+								export interface User {
+									name: Name
+									password: Password
+									email: string
+								}
+
+								export interface Name {
+									first: string
+									middle?: string
+									last?: string
+								}
+
+								export interface Password {
+									hash: string
+									salt: string
+									setPassword(hash: string, salt: string): void
+									isPasswordValid(password: string): boolean
+								}
+
+								export const NameSchema = new Schema<Name>({
+									first: { type: String, required: true },
+									middle: { type: String }, 
+									last: { type: String}
+								})
+
+								export const PasswordSchema = new Schema<Password> ({
+									hash: { type: String, required: true },
+									salt: { type: String, required: true }
+								})
+
+								PasswordSchema.methods.isPasswordValid = async function(password: string) {
+									const hash = await pbkdf2(password, this.salt, ITERATIONS, KEY_LENGTH, DIGEST)
+									return this.hash === hash.toString('hex')
+								}
+
+								PasswordSchema.methods.setPassword = function(hash: string, salt: string) {
+									this.hash = hash
+									this.salt = salt
+								}
+
+								export const userSchema = new Schema<User>({
+									name: { type: NameSchema, required: true }, 
+									password: { type: PasswordSchema, required: true },
+									email: { type: String, required: true }
+								})
+
+							</script></code></pre>
 						</section>
 				</section>
 				<section>

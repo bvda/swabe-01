@@ -15,9 +15,9 @@ export const create = async (req: Request, res: Response) => {
       "message": "User already exists"
     });
   } else {
-    let user = newUser(email, name);
     let salt = await randomBytes(SALT_LENGTH);
     let hashed = await pbkdf2(password, salt.toString('hex'), ITERATIONS, KEY_LENGTH, DIGEST)
+    let user = newUser(email, name);
     user.password.setPassword(hashed.toString('hex'), salt.toString('hex'))
     await user.save()
     res.json(user)
@@ -31,9 +31,9 @@ export const create_bcrypt =  async (req: Request, res: Response) => {
       "message": "User already exists"
     });
   } else {
-    let user = newUser(email, name);
     const salt = await genSalt(ROUNDS)
     const hashed = await hash(password, salt)
+    let user = newUser(email, name);
     user.password.setPassword(hashed, salt)
     await user.save()
     res.json(user)
@@ -56,7 +56,6 @@ export const check = async (req: Request, res: Response) => {
 
 export const check_bcrypt = async (req: Request, res: Response) => {
   const { email, password } = req.body
-  
   let user = await UserModel.findOne({ email }).exec()
   if(user) {
     if(await compare(password, user.password.hash)) {

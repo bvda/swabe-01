@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import mongoose from 'mongoose'
 
-import { randomBytes, pbkdf2 } from '../utils/auth-crypto'
+import { randomBytes, pbkdf2, SALT_LENGTH, DIGEST, ITERATIONS } from '../utils/auth-crypto'
 import { userSchema } from '../model/user.model'
 
 const usersConnection = mongoose.createConnection('mongodb://localhost:27017/users')
@@ -24,8 +24,8 @@ export const create = async (req: Request, res: Response) => {
       }
     })
     let salt = await randomBytes(32);
-    let key = await pbkdf2(password, salt.toString('hex'), 1000000, 32, 'sha512')
-    user.password.setPassword(key.toString('hex'), salt.toString('hex'))
+    let hash = await pbkdf2(password, salt.toString('hex'), ITERATIONS, SALT_LENGTH, DIGEST)
+    user.password.setPassword(hash.toString('hex'), salt.toString('hex'))
     await user.save()
     res.json(user)
   }

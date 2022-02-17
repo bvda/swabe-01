@@ -236,27 +236,8 @@
 				</section>
 				<section>
 					<section>
-						<h2>Authentication in Node.js</h2>
+						<h2>Handling password</h2>
 					</section>
-					<section>
-						<h2>Overview</h2>
-						<ul>
-							<li>The authentication process</li>
-							<li>Handling passwords</li>
-							<li>Relevant <code>npm</code> packages
-								<ul>
-									<li><code>jsonwebtoken</code> Represent claims securely between two parties</li>
-									<li><code>bcrypt</code>Password hashing</li>
-								</ul></li>
-							</ul>
-							<aside class="notes" aria-label="notes">
-								<h4>References</h4>
-								<ul>
-									<li><a href="https://www.npmjs.com/package/jsonwebtoken">jsonwebtoken - npm</a></li>
-									<li><a href="https://www.npmjs.com/package/bcrypt">bcrypt - npm</a></li>
-								</ul>
-							</aside>
-						</section>
 						<section>
 							<h2>Authentication process</h2>
 							<img src="../../assets/client-server.svg" alt="client-server" width="80%"/>
@@ -282,11 +263,65 @@
 							</li>
 							<li>Hashing algorithms has to be <mark>deterministic</mark></li>
 							<li>A hashing algorithm produces a <mark>message digest</mark></li>
+							<li>Message digests are easy to <mark>validate</mark>
+								<ul>
+									<li>Simply hash provided input and check digest for equality</li>
+								</ul>
+							</li>
+							<li>Provided input should be <mark>salted</mark> before hashing
+								<ul>
+									<li>Otherwise, the same digest would be produced for same input</li>
+								</ul>
+							</li>
 						</ul>
 					</section>
+				</section>
+				<section>
 					<section>
-						<h2>Adding methods to Mongoose</h2>
+						<h2>Authentication in Node.js</h2>
 					</section>
+					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li>Relevant <code>npm</code> packages
+								<ul>
+									<li><code>jsonwebtoken</code> Represent claims securely between two parties</li>
+									<li><code>bcrypt</code>Password hashing</li>
+								</ul></li>
+							</ul>
+							<aside class="notes" aria-label="notes">
+								<h4>References</h4>
+								<ul>
+									<li><a href="https://www.npmjs.com/package/jsonwebtoken">jsonwebtoken - npm</a></li>
+									<li><a href="https://www.npmjs.com/package/bcrypt">bcrypt - npm</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section>
+							<h2>Endpoints</h2>
+							<ul>
+								<li><code>/user</code>
+									<ul>
+										<li><code>GET /</code>—gets a list of User IDs</li>
+										<li><code>POST /</code>—create a user</li>
+										<li><code>GET /{:uid}</code>—get user with ID</li>
+										<li><code>DELETE /{:uid}</code>—remove user with ID</li>
+									</ul>
+								</li>
+								<li><code>/auth</code>
+									<ul>
+										<li><code>POST /login</code>—authenticate user, returns JWT with claims</li>
+										<li><code>POST /verify</code>—check token for validity</li>
+									</ul>
+								</li>
+							</ul>
+						</section>
+						<section>
+							<h2></h2>
+						</section>
+						<section>
+							<h2>Adding methods to Mongoose</h2>
+						</section>
 				</section>
 				<section>
 					<h2>Wrap-up</h2>

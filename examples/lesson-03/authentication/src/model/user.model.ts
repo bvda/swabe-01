@@ -1,7 +1,5 @@
 import { Schema } from 'mongoose'
 import { DIGEST, ITERATIONS, pbkdf2, SALT_LENGTH } from '../utils/auth-crypto'
-import { promisify } from 'util'
-
 
 export interface User {
   name: Name
@@ -18,8 +16,8 @@ export interface Name {
 export interface Password {
   hash: string
   salt: string
-  setPassword(hash: String, salt: String): void
-  isPasswordValid(password: String): boolean
+  setPassword(hash: string, salt: string): void
+  isPasswordValid(password: string): boolean
 }
 
 export const NameSchema = new Schema<Name>({

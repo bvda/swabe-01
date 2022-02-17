@@ -1,10 +1,10 @@
 import { Router, json } from 'express'
-import { authenticate, verifyToken } from '../controller/authentication.controller'
+import { authenticate, check } from '../controller/authentication.controller'
 
 const router = Router()
 router.use(json())
 
 router.post('', authenticate)
-router.post('/token', verifyToken)
+router.post('/verify', check)
 
 export { router as AuthenticationRouter }

@@ -277,16 +277,23 @@
 				</section>
 				<section>
 					<section>
-						<h2>Authentication in Node.js</h2>
+						<h2>IAM in Node.js</h2>
 					</section>
 					<section>
 						<h2>Overview</h2>
 						<ul>
+							<li>Identity and access management (IAM)
+								<ul>
+									<li>Do the right users have access to the right resources</li>
+								</ul>
+							</li>
+							<li>Node.js <code>crypto</code> module</li>
 							<li>Relevant <code>npm</code> packages
 								<ul>
 									<li><code>jsonwebtoken</code> Represent claims securely between two parties</li>
 									<li><code>bcrypt</code>Password hashing</li>
-								</ul></li>
+								</ul>
+							</li>
 							</ul>
 							<aside class="notes" aria-label="notes">
 								<h4>References</h4>
@@ -309,11 +316,79 @@
 								</li>
 								<li><code>/auth</code>
 									<ul>
-										<li><code>POST /login</code>—authenticate user, returns JWT with claims</li>
+										<li><code>POST /</code>—authenticate user, returns JWT with claims</li>
 										<li><code>POST /verify</code>—check token for validity</li>
 									</ul>
 								</li>
 							</ul>
+						</section>
+						<section>
+							<h2>Sign and verify JWTs</h2>
+							<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|22-36|22-23,25,36|24|26-27,31,33-34|28-30|32|45-63|46|47-48,50,60-61|49|51-52,56,58|53-55|57|"><script type="text/template">
+								import { sign, verify } from 'jsonwebtoken'
+								import { Request, Response } from 'express'
+								import { readFile } from 'fs'
+								import { join } from 'path'
+
+								import mongoose from 'mongoose'
+								import { userSchema } from '../model/user.model'
+
+								const PATH_PRIVATE_KEY = join(__dirname, '..', '..', 'auth-rsa256.key')
+								const PATH_PUBLIC_KEY = join(__dirname, '..', '..', 'public', 'auth-rsa256.key.pub')
+
+								const X5U = 'http://localhost:3000/auth-rsa256.key.pub'
+
+								const usersConnection = mongoose.createConnection('mongodb://localhost:27017/users')
+								const UserModel = usersConnection.model('User', userSchema)
+
+								export const authenticate = async (req: Request, res: Response) => {
+									const { email, password } = req.body
+									let user = await UserModel.findOne({ email }).exec()
+									if(user) {
+										if(await user.password.isPasswordValid(password)) {
+											readFile(PATH_PRIVATE_KEY, (err, privateKey) => {
+												if(err) {
+													res.sendStatus(500)
+												} else {
+													sign({ email, admin: true }, privateKey, { expiresIn: '1h', header: { alg: 'RS256', x5u: X5U} }, (err, token) => {
+														if(err) {
+															res.status(500).json({
+																message: err.message
+															})
+														} else {
+															res.json({ token })
+														}
+													})
+												}
+											})
+										} else {
+											res.sendStatus(403)
+										}
+									} else {
+										res.sendStatus(400)
+									}
+								}
+
+								export const check = (req: Request, res: Response) => {
+									const { token } = req.body
+									readFile(PATH_PUBLIC_KEY, (err, publicKey) => {
+										if(err) {
+											res.sendStatus(500)
+										} else {
+											verify(token, publicKey, { complete: true }, (err, decoded) => {
+													if(err) {
+														res.status(400).json({
+															message: err.message
+														})
+													} else {
+														res.json(decoded)
+													}
+												})
+											}
+										})
+								}
+							</script></code></pre>
+							<small>examples/lesson-03/authentication/src/controller/authentication.controller.ts</small>
 						</section>
 						<section>
 							<h2>Hashing with <code>bcrypt</code></h2>
@@ -435,9 +510,10 @@
 									}
 								}) 
 							</script></code></pre>
+							<small>examples/lesson-03/authentication/src/controller/user.controller.ts</small>
 						</section>
 						<section>
-							<h2>Adding methods to Mongoose</h2>
+							<h2>Adding methods to Mongoose Schema</h2>
 							<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|29-32|34-37,39-42|34-37|39-42|"><script type="text/template">
 								import { Schema } from 'mongoose'
 								import { DIGEST, ITERATIONS, KEY_LENGTH, pbkdf2 } from '../utils/auth-crypto'
@@ -489,6 +565,7 @@
 								})
 
 							</script></code></pre>
+							<small>examples/lesson-03/authentication/src/model/user.model.ts</small>
 						</section>
 				</section>
 				<section>

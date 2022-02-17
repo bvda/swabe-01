@@ -3,9 +3,9 @@ import { create, check, check_bcrypt, create_bcrypt } from '../controller/user.c
 
 const router = Router()
 
-router.post('/login', json(), create)
-router.post('/verify', json(), check)
-router.post('/bcrypt/login', json(), create_bcrypt)
-router.post('/bcrypt/verify', json(), check_bcrypt)
+router.post('/', json(), create)
+router.post('/bcrypt', json(), create_bcrypt)
+router.post('/login', json(), check)
+router.post('/bcrypt/login', json(), check_bcrypt)
 
 export { router as UserRouter }

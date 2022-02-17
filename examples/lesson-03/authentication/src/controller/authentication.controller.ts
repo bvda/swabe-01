@@ -15,36 +15,48 @@ const usersConnection = mongoose.createConnection('mongodb://localhost:27017/use
 const UserModel = usersConnection.model('User', userSchema)
 
 export const authenticate = async (req: Request, res: Response) => {
-  const { email } = req.body
+  const { email, password } = req.body
   let user = await UserModel.findOne({ email }).exec()
-  if(!user) {
-    res.sendStatus(403)
+  if(user) {
+    if(await user.password.isPasswordValid(password)) {
+      readFile(PATH_PRIVATE_KEY, (err, privateKey) => {
+        if(err) {
+          res.sendStatus(500)
+        } else {
+          sign({ email, admin: true }, privateKey, { expiresIn: '1h', header: { alg: 'RS256', x5u: X5U} }, (err, token) => {
+            if(err) {
+              res.status(500).json({
+                message: err.message
+              })
+            } else {
+              res.json({ token })
+            }
+          })
+        }
+      })
+    } else {
+      res.sendStatus(403)
+    }
   } else {
-    readFile(PATH_PRIVATE_KEY, (err, privateKey) => {
-      if(err) {
-        console.error(`NOT FOUND: ${PATH_PRIVATE_KEY}`)
-        res.sendStatus(500)
-      } else {
-        let token = sign({ email: 'ctrl@hey.com', admin: true }, privateKey, { expiresIn: '1h', header: { alg: 'RS256', x5u: X5U} })
-        res.json({ token })
-      }
-    })
+    res.sendStatus(400)
   }
 }
 
-export const verifyToken = (req: Request, res: Response) => {
+export const check = (req: Request, res: Response) => {
   const { token } = req.body
   readFile(PATH_PUBLIC_KEY, (err, publicKey) => {
     if(err) {
-      console.error(`NOT FOUND: ${PATH_PUBLIC_KEY}`)
       res.sendStatus(500)
     } else {
-      try {
-        const json = verify(token, publicKey, { complete: true })
-        res.json(json)
-      } catch(e) {
-        res.json(e)
+      verify(token, publicKey, { complete: true }, (err, decoded) => {
+          if(err) {
+            res.status(400).json({
+              message: err.message
+            })
+          } else {
+            res.json(decoded)
+          }
+        })
       }
-    }
-  })
+    })
 }

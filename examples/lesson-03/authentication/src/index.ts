@@ -18,7 +18,7 @@ app.get('', (req, res) => {
 })
 
 app.use('/protected', (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1]
+  const token = req.get('authorization')?.split(' ')[1]
   if(token) {
     const jwt = decode(token, {json: true})
     if(jwt?.admin  === true) {

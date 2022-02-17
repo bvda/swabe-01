@@ -47,8 +47,15 @@
 						</ul>
 					</section>
 					<section>
+						<h2>Certificate authorities (CA)</h2>
+						<ul>
+							<li>A trusted entity that issues digital certificates</li>
+							<li>CAs are trusted by vendors by whitelisting their root certificates</li>
+						</ul>
+					</section>
+					<section>
 						<h2>TLS Handshake</h2>
-						<img src="../../assets/tls-handshake.svg" height="500px">
+						<img src="../../assets/tls-handshake.svg" alt="tls-handshake" height="500px">
 						<aside class="notes" aria-label="notes">
 							<ol>
 								<li>Client: Client Hello—sends a list of supported SSL/TLS version and encryption algoritms (cipher suite)</li>
@@ -66,13 +73,6 @@
 								<li><a href="https://www.thesslstore.com/blog/explaining-ssl-handshake/">The TLS Handshake: Taking a closer look - Hashed Out by The SSL Store™</a></li>
 							</ul>
 						</aside>
-					</section>
-					<section>
-						<h2>Certificate authorities (CA)</h2>
-						<ul>
-							<li>A trusted entity that issues digital certificates</li>
-							<li>CAs are trusted by vendors by whitelisting their root certificates</li>
-						</ul>
 					</section>
 					<section>
 						<h2>HTTPS in Node.js</h2>
@@ -240,12 +240,49 @@
 					</section>
 					<section>
 						<h2>Overview</h2>
-					</section>
+						<ul>
+							<li>The authentication process</li>
+							<li>Handling passwords</li>
+							<li>Relevant <code>npm</code> packages
+								<ul>
+									<li><code>jsonwebtoken</code> Represent claims securely between two parties</li>
+									<li><code>bcrypt</code>Password hashing</li>
+								</ul></li>
+							</ul>
+							<aside class="notes" aria-label="notes">
+								<h4>References</h4>
+								<ul>
+									<li><a href="https://www.npmjs.com/package/jsonwebtoken">jsonwebtoken - npm</a></li>
+									<li><a href="https://www.npmjs.com/package/bcrypt">bcrypt - npm</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section>
+							<h2>Authentication process</h2>
+							<img src="../../assets/client-server.svg" alt="client-server" width="80%"/>
+						</section>
 					<section>
 						<h2>Handling passwords</h2>
+						<ul>
+							<li>The credentials (naturally) have to be stored in a database</li>
+							<li>Passwords should <mark>NEVER</mark> be stored as <mark>plaintext</mark>
+								<ul>
+									<li>Plaintext is any data that can be viewed/used without requiring a key</li>
+								</ul>
+							</li>
+						</ul>
 					</section>
 					<section>
-						<h2>Hashing modules</h2>
+						<h2>Hashing</h2>
+						<ul>
+							<li>Hashing algorithms are <mark>one-way</mark> functions
+								<ul>
+									<li>Practically infeasible to reverse the computation</li>
+								</ul>
+							</li>
+							<li>Hashing algorithms has to be <mark>deterministic</mark></li>
+							<li>A hashing algorithm produces a <mark>message digest</mark></li>
+						</ul>
 					</section>
 					<section>
 						<h2>Adding methods to Mongoose</h2>

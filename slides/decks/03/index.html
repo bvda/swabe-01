@@ -391,6 +391,54 @@
 							<small>examples/lesson-03/authentication/src/controller/authentication.controller.ts</small>
 						</section>
 						<section>
+							<h2>Authorize access to endpoints</h2>
+							<pre data-id="code-animation"><code class='typescript' data-trim data-line-numbers="|20-32|21|22,29,31|30|23|24,26,28|25|27|34-38|35-37|"><script type="text/template">
+								import express from 'express'
+								import { decode } from 'jsonwebtoken'
+								import { AuthenticationRouter } from './router/authentication.router'
+								import { UserRouter } from './router/user.router'
+								
+								const app = express()
+								const port = 3000
+								
+								app.use(express.static('public'))
+								
+								app.use('/auth', AuthenticationRouter)
+								app.use('/user', UserRouter)
+								
+								app.get('', (req, res) => {
+									res.json({
+										'message': 'Hello, world!'
+									})
+								})
+								
+								app.use((req, res, next) => {
+									const token = req.get('authorization')?.split(' ')[1]
+									if(token) {
+										const jwt = decode(token, { json: true })
+										if(jwt?.admin  === true) {
+											next()
+										} else {
+											res.sendStatus(401)
+										}
+									} else {
+										res.sendStatus(400)
+									}
+								})
+								
+								app.get('/protected', (req, res) => {
+									res.json({
+										message: 'Such authenticate. Very allow. So access. Wow!'
+									})
+								})
+								
+								app.listen(port, () => {
+									console.log(`Running 'authentication' on ${port}`)
+								})
+							</script></code></pre>
+							<small>examples/lesson-03/authentication/src/index.ts</small>
+						</section>
+						<section>
 							<h2>Hashing with <code>bcrypt</code></h2>
 							<ul>
 								<li><code>bcrypt</code> is an <mark>adaptive</mark> password-hashing algorithm

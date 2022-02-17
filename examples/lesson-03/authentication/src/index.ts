@@ -17,10 +17,10 @@ app.get('', (req, res) => {
   })
 })
 
-app.use('/protected', (req, res, next) => {
+app.use((req, res, next) => {
   const token = req.get('authorization')?.split(' ')[1]
   if(token) {
-    const jwt = decode(token, {json: true})
+    const jwt = decode(token, { json: true })
     if(jwt?.admin  === true) {
       next()
     } else {
@@ -29,7 +29,9 @@ app.use('/protected', (req, res, next) => {
   } else {
     res.sendStatus(400)
   }
-}, (req, res) => {
+})
+
+app.get('/protected', (req, res) => {
   res.json({
     message: 'Such authenticate. Very allow. So access. Wow!'
   })

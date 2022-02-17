@@ -4,7 +4,7 @@ Implement an API for a hotel management system.
 
 ### API specification
 Authentication
-  - `GET /users`–list all users
+  - `GET /users`–list all user IDs
   - `GET /users/{:uid}`–view user data
   - `POST /user`–create user
   - `POST /login`–issue JWT token

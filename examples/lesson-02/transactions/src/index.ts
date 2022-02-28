@@ -1,7 +1,7 @@
 import express from 'express'
 import axios from 'axios'
 
-import { connection, Transaction } from './transaction'
+import { connection } from './transaction'
 
 const PORT = 3000
 

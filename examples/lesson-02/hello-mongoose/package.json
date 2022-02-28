@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc -w & nodemon dist/index.js"
+    "tsc": "tsc -w",
+    "start": "nodemon dist/index.js"
   },
   "repository": {
     "type": "git",

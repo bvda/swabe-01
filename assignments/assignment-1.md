@@ -19,7 +19,7 @@ Rooms
 Reservations
   - `GET /reservations`–list all reservation. Accessible for roles `manager` and `clerk`. It should be possible to filter based dates (from, to and from-to)
   - `GET /reservations/{:uid}`-view reservation details. Accessible for roles `manager`, `clerk`, and `guest` (if created by `guest`)
-  - `POST /reservations/{:uid}`–create reservation. Accessible for roles `manager`, `clerk`, and `guest` 
+  - `POST /reservations/`–create reservation. Accessible for roles `manager`, `clerk`, and `guest` 
   - `PATCH /reservations/{:uid}`—modify reservation. Accessible for roles `manager`, `clerk`, and `guest` (if created by `guest`) 
   - `DELETE /reservations/{:uid}`–delete reservation. Accessible for roles `manager`, `clerk`
 

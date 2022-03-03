@@ -5,12 +5,12 @@ const configuration: Configuration = {
     client_id: 'foo',
     response_types: ['id_token', 'code'],
     grant_types: ['implicit', 'authorization_code'],
-    pkce: {
-      required: true,
-    },
     token_endpoint_auth_method: 'none',
     redirect_uris: ['https://httpbin.org/anything']
   }],
+  pkce: {
+    methods: ['plain', 'S256']
+  },
   jwks: {
       keys: [
           {

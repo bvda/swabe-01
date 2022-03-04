@@ -3,10 +3,10 @@ import { Configuration, Provider } from 'oidc-provider'
 const configuration: Configuration = {
   clients: [{
     client_id: 'foo',
-    response_types: ['id_token', 'code'],
-    grant_types: ['implicit', 'authorization_code'],
+    response_types: ['code'],
+    grant_types: ['authorization_code'],
     token_endpoint_auth_method: 'none',
-    redirect_uris: ['https://httpbin.org/anything']
+    redirect_uris: ['https://127.0.0.1:3010/callback', 'https://httpbin.org/anything']
   }],
   pkce: {
     methods: ['plain', 'S256']

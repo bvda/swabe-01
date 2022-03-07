@@ -1,5 +1,5 @@
 import express from 'express'
-import { Issuer, TokenSet, generators, custom } from 'openid-client';
+import { Issuer, TokenSet, generators } from 'openid-client';
 
 const app = express()
 

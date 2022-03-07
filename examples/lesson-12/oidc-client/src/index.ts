@@ -3,7 +3,7 @@ import { Issuer, TokenSet, generators, custom } from 'openid-client';
 
 const app = express()
 const PORT = 3010
-const REDIRECT_URI = 'http://127.0.0.1:3010/callback';
+const REDIRECT_URI = 'https://127.0.0.1:3010/callback';
 
 const code_verifier = generators.codeVerifier();
 const code_challenge = generators.codeChallenge(code_verifier);

@@ -6,7 +6,7 @@ const configuration: Configuration = {
     response_types: ['code'],
     grant_types: ['authorization_code'],
     token_endpoint_auth_method: 'none',
-    redirect_uris: ['https://127.0.0.1:3010/callback', 'https://httpbin.org/anything']
+    redirect_uris: ['http://127.0.0.1:3010/callback']
   }],
   pkce: {
     methods: ['plain', 'S256']

@@ -2,6 +2,7 @@ import express from 'express'
 import { Issuer, TokenSet, generators, custom } from 'openid-client';
 
 const app = express()
+
 const PORT = 3010
 const REDIRECT_URI = 'http: //127.0.0.1:3010/callback';
 
@@ -22,9 +23,6 @@ async function main() {
     code_challenge,
     code_challenge_method: 'S256',
   });
-
-
-  console.log({ code_verifier, code_challenge })
   
   app.get('', async (req, res) => {
     res.json(auth_url)

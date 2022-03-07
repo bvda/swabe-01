@@ -4,13 +4,14 @@ import { Issuer, TokenSet, generators } from 'openid-client';
 const app = express()
 
 const PORT = 3010
-const REDIRECT_URI = 'http: //127.0.0.1:3010/callback';
+const ISSUER_URL = 'http://127.0.0.1:3000'
+const REDIRECT_URI = `http://127.0.0.1:${PORT}/callback`;
 
 const code_verifier = generators.codeVerifier();
 const code_challenge = generators.codeChallenge(code_verifier);
 
 async function main() {
-  const issuer = await Issuer.discover('http://127.0.0.1:3000')
+  const issuer = await Issuer.discover(ISSUER_URL)
   const client = new issuer.Client({
     client_id: 'foo',
     redirect_uris: [REDIRECT_URI],    
@@ -25,12 +26,12 @@ async function main() {
   });
   
   app.get('', async (req, res) => {
-    res.json(auth_url)
+    res.json({ auth_url })
   })
   
   app.get('/callback', async (req, res) => {  
     const params = client.callbackParams(req);
-    const token_set: TokenSet = await client.callback('http://127.0.0.1:3010/callback', params, { code_verifier });
+    const token_set: TokenSet = await client.callback(REDIRECT_URI, params, { code_verifier });
     
     res.json({
       token_set,

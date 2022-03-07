@@ -1,12 +1,16 @@
 import { Configuration, Provider } from 'oidc-provider'
 
+const PORT = 3000
+const ISSUER_URL = `http://127.0.0.1:${PORT}`
+const REDIRECT_URI = 'http://127.0.0.1:3010/callback';
+
 const configuration: Configuration = {
   clients: [{
     client_id: 'foo',
     response_types: ['code'],
     grant_types: ['authorization_code'],
     token_endpoint_auth_method: 'none',
-    redirect_uris: ['http://127.0.0.1:3010/callback']
+    redirect_uris: [REDIRECT_URI]
   }],
   pkce: {
     methods: ['plain', 'S256']
@@ -31,7 +35,7 @@ const configuration: Configuration = {
   }
 }
 
-const oidc = new Provider('http://127.0.0.1:3000', configuration)
-oidc.listen(3000, () => {
-  console.log(`Running 'oidc-provider' running on port 3000`)
+const oidc = new Provider(ISSUER_URL, configuration)
+oidc.listen(PORT, () => {
+  console.log(`Running 'oidc-provider' running on port ${PORT}`)
 })

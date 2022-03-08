@@ -24,19 +24,64 @@
 				</section>
 				<section>
 					<section>
-						<h4>OpenID Connect</h4>
+						<h2> OAuth 2.0</h2>
+					</section>
+					<section>
+						<h2>Roles</h2>
+						<ul>
+							<li>Resource Owner
+								<ul>
+									<li>An entity capable of granting access to protected resources</li>
+								</ul>
+							</li>
+							<li>Resource Server
+								<ul>
+									<li>The server hosting the protected resources</li>
+								</ul>
+							</li>
+							<li>Client
+								<ul>
+									<li>An entity making protected resource requests on behalf of the resource owner</li>
+								</ul>
+							</li>
+							<li>Authorization Server
+								<ul>
+									<li>The server issuing access tokens to clients</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.1">1.1 Roles</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>OpenID Connect</h2>
 					</section>
 					<section>
 						<h2>Endpoints (Auth0)</h2>
 						<ul>
-							<li>OAuth Authorization URL—<code>authorize</code></li>
-							<li>Device Authorization URL—<code>oauth/device/code</code></li>
-							<li>OAuth Token URL—<code>token</code></li>
-							<li>OAuth User Info URL—<code>userinfo</code></li>
-							<li>OpenID Configuration<code>.well-known/openid-configuration</code></li>
-							<li>JSON Web Key Set<code>jwks.json</code></li>
+							<li>OAuth Authorization URL—<code>/authorize</code></li>
+							<li>Device Authorization URL—<code>/oauth/device/code</code></li>
+							<li>OAuth Token URL—<code>/token</code></li>
+							<li>OAuth User Info URL—<code>/userinfo</code></li>
+							<li>OpenID Configuration<code>/.well-known/openid-configuration</code></li>
+							<li>JSON Web Key Set<code>/jwks.json</code></li>
 						</ul>
 					</section>
+				</section>
+				<section>
+					<h2>Grant types</h2>
+					<ul>
+						<li>Authorization Code</li>
+						<li>Client Credentials</li>
+						<li>Device Code</li>
+						<li>Refresh Token</li>
+					</ul>
 				</section>
 			</div>
 		</div>

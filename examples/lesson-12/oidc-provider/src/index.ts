@@ -8,9 +8,10 @@ const configuration: Configuration = {
   clients: [{
     client_id: 'foo',
     response_types: ['code'],
-    grant_types: ['authorization_code'],
+    grant_types: ['authorization_code', 'refresh_token'],
     token_endpoint_auth_method: 'none',
-    redirect_uris: [REDIRECT_URI]
+    redirect_uris: [REDIRECT_URI],
+    scope: 'openid offline_access'
   }],
   pkce: {
     methods: ['plain', 'S256']

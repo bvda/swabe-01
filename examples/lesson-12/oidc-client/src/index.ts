@@ -20,7 +20,8 @@ async function main() {
   })
   
   const auth_url = client.authorizationUrl({
-    scope: 'openid',
+    scope: 'openid offline_access',
+    prompt: 'consent',
     code_challenge,
     code_challenge_method: 'S256',
   });

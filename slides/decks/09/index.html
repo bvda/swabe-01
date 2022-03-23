@@ -91,7 +91,27 @@
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
+								<li><a href="https://dotnet.microsoft.com/download/e-book/microservices-architecture/pdf">.NET Microservices: Architecture for Containerized .NET Applications (pp. 296, 305-306)</a></li>
 								<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/retry">Retry pattern - Azure Architecture Center | Microsoft Docs</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Circuit Breaker</h2>
+						<ul>
+							<li>There can be situations where faults are due unanticipated events
+								<ul>
+									<li>Usually takes longer to fix</li>
+									<li>Retry strategies might make matters worse</li>
+									<li>Circuit breaking can be used to handle non-transient failures</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://dotnet.microsoft.com/download/e-book/microservices-architecture/pdf">.NET Microservices: Architecture for Containerized .NET Applications (pp. 306-310)</a></li>
+								<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker">Circuit Breaker pattern - Azure Architecture Center | Microsoft Docs</a></li>
 							</ul>
 						</aside>
 					</section>

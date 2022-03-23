@@ -71,6 +71,30 @@
 							</ul>
 						</aside>
 					</section>
+					<section>
+						<h2>Retries</h2>
+						<ul>
+							<li>Three different strategies
+								<ul>
+									<li><mark>Cancel</mark>–a fault that is not transient or unlikely to be successful if repeated</li>
+									<li><mark>Retry</mark>–a usual or rare fault that is unlikely to be repeated</li>
+									<li><mark>Retry after delay</mark>–a commonplace connectivity or busy fault should be repeated after an appropiate timespan</li>
+								</ul>
+							</li>
+							<li>Retries with exponential backoff
+								<ul>
+									<li>Spread out requests from clients as evenly as possible</li>
+									<li>Retry policy should be tuned to match business requirements</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/retry">Retry pattern - Azure Architecture Center | Microsoft Docs</a></li>
+							</ul>
+						</aside>
+					</section>
 				</section>
 				<section>
 					<section>

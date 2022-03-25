@@ -7,7 +7,7 @@ public class UsersHealthCheck : IHealthCheck
   public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) 
   {
     return Task.FromResult(
-      HealthCheckResult.Healthy("A health result")
+      HealthCheckResult.Unhealthy("A health result")
     );
   }
 }

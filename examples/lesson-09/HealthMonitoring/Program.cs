@@ -1,13 +1,33 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.EntityFrameworkCore;
 using HealthMonitoring.HealthChecks;
 using HealthChecks.UI.Client;
+
+using HealthMonitoring.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add database contexts to the container.
+builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer(
+    builder.Configuration["ConnectionStrings:UserDb"])
+);
+
+// Add health checks to the container.
 builder.Services.AddHealthChecks()
-    .AddCheck<UsersHealthCheck>("Users", tags: new[] {"iam"})
-    .AddCheck<StartupHealthCheck>("Startup", tags: new[] {"infrastructure"});
+    .AddDbContextCheck<UserDbContext>(
+        tags: new [] { "iam" })
+    .AddSqlServer(
+        connectionString: builder.Configuration["ConnectionStrings:UserDb"], 
+        name: "Identity and Authorization",
+        tags: new[] { "iam" })
+    .AddSqlServer(
+        connectionString: builder.Configuration["ConnectionStrings:DataDb"],
+        name: "Data",
+        tags: new[] { "data" })
+    .AddCheck<UsersHealthCheck>("Users", tags: new[] { "iam" })
+    .AddCheck<StartupHealthCheck>("Startup", tags: new[] { "data" });
 
 builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
@@ -30,11 +50,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
-app.UseHealthChecks("/infrastructure", new HealthCheckOptions {
-    Predicate = x => x.Tags.Contains("infrastructure"),
+app.UseHealthChecks("/data", new HealthCheckOptions {
+    Predicate = x => x.Tags.Contains("data"),
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-app.UseHealthChecks("/users", new HealthCheckOptions {
+app.UseHealthChecks("/iam", new HealthCheckOptions {
     Predicate = x => x.Tags.Contains("iam"),
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });

@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
-using HealthMonitoring.HealthChecks;
 using HealthChecks.UI.Client;
 
+using HealthMonitoring.Controllers;
 using HealthMonitoring.Data;
+using HealthMonitoring.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<UserHealthCheck>();
+builder.Services.AddSingleton<UserController>();
 
 // Add database contexts to the container.
 builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer(
@@ -19,17 +22,22 @@ builder.Services.AddHealthChecks()
     .AddDbContextCheck<UserDbContext>(
         tags: new [] { "iam" })
     .AddSqlServer(
-        connectionString: builder.Configuration["ConnectionStrings:UserDb"], 
-        name: "Identity and Authorization",
-        tags: new[] { "iam" })
-    .AddSqlServer(
         connectionString: builder.Configuration["ConnectionStrings:DataDb"],
-        name: "Data",
+        name: "DataDb",
+        failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded,
         tags: new[] { "data" })
-    .AddCheck<UsersHealthCheck>("Users", tags: new[] { "iam" })
+    .AddSqlServer(
+        connectionString: builder.Configuration["ConnectionStrings:UserDb"],
+        name: "UserDb",
+        failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded,
+        tags: new[] { "iam" })
+    .AddCheck<UserHealthCheck>("Users", tags: new[] { "iam" })
     .AddCheck<StartupHealthCheck>("Startup", tags: new[] { "data" });
 
-builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+builder.Services.AddHealthChecksUI(config => {
+    config.SetEvaluationTimeInSeconds(10);
+    config.SetMinimumSecondsBetweenFailureNotifications(60);
+}).AddInMemoryStorage();
 
 builder.Services.AddControllers();
 

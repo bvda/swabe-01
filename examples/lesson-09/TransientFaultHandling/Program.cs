@@ -1,6 +1,17 @@
+using Polly;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpClient("PollyWaitAndRetry")
+    .AddTransientHttpErrorPolicy(
+        builder => builder.WaitAndRetryAsync(3, retryCount => TimeSpan.FromMilliseconds(500)));
+
+builder.Services.AddHttpClient("PollyMultiple")
+    .AddTransientHttpErrorPolicy(
+        builder => builder.RetryAsync(3))
+    .AddTransientHttpErrorPolicy(
+        builder => builder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

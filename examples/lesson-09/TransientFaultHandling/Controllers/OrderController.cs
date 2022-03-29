@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TransientFaultHandling.Controllers;
 
 [ApiController]
-[Route("[controller")]
+[Route("[controller]")]
 public class OrderController: ControllerBase {
 
   private readonly IHttpClientFactory _httpClientFactory;

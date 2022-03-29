@@ -15,23 +15,20 @@ public class MockController: ControllerBase {
 
   }
 
-  public Task<IActionResult> OnGet() {
-    var rand = (EndpointState)new Random().Next(0,4);
-    IActionResult result = new BadRequestResult();
+  public Task<StatusCodeResult> OnGet() {
+    var rand = (EndpointState)new Random().Next(0,3);
+    var result = StatusCodes.Status418ImATeapot;
     switch (rand) {
       case EndpointState.Fail:
-        result = new BadRequestResult();
+        result = StatusCodes.Status500InternalServerError;
         break;
       case EndpointState.Ok:
-        result = new OkResult();
+        result = StatusCodes.Status200OK;
         break;
       case EndpointState.Slow:
-        result = new UnprocessableEntityResult();
+        result = StatusCodes.Status408RequestTimeout;
       break;
     }
-    var sleep = new Random().Next(50,150);
-    Console.WriteLine(sleep);
-    Thread.Sleep(sleep);
-    return Task.FromResult<IActionResult>(result);
+    return Task.FromResult(new StatusCodeResult(result));
   }
 }

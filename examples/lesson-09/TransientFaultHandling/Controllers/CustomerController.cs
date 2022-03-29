@@ -10,8 +10,9 @@ public class CustomerController: ControllerBase {
 
   public CustomerController(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
-  public async Task<Object> OnGetAsync() {
-    return await _httpClientFactory.CreateClient("PollyMultiple").GetAsync("");
+  public async Task<ActionResult> OnGetAsync() {
+    var result = await _httpClientFactory.CreateClient("PollyWaitAndRetry").GetAsync("");
+    return new StatusCodeResult((int)result.StatusCode);
   }
 }
 

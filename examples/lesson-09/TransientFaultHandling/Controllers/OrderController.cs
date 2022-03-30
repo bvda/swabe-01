@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
+using Polly.CircuitBreaker;
+
 namespace TransientFaultHandling.Controllers;
 
 [ApiController]
@@ -11,6 +13,12 @@ public class OrderController: ControllerBase {
   public OrderController(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
   public async Task<ActionResult> OnGetAsync() {
-    var result = await _httpClientFactory.CreateClient("PollyMultiple").GetAsync("");
-    return new StatusCodeResult((int)result.StatusCode);  }
+    try {
+      var result = await _httpClientFactory.CreateClient("PollyCircuitBreaker").GetAsync("");
+      return new StatusCodeResult((int)result.StatusCode);  
+    } catch (BrokenCircuitException e) {
+      Console.WriteLine(e.Message);
+      return new StatusCodeResult(StatusCodes.Status451UnavailableForLegalReasons);
+    }
+  }
 }

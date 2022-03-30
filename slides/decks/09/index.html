@@ -78,6 +78,7 @@
 							<li>Use asynchronous communication</li>
 							<li>Use retries with exponential backoff</li>
 							<li>Use the Circuit Breaker pattern</li>
+							<li>Work around network timeouts</li>
 							<li>Provide fallbacks</li>
 							<li>Limit the number of queued requests</li>
 						</ul>
@@ -128,6 +129,7 @@
 									<li>Circuit breaking can be used to handle non-transient failures</li>
 								</ul>
 							</li>
+							<li>Often used with retries to prevent Denial of Service (DoS) incidents</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -140,13 +142,23 @@
 					<section>
 						<h2>Circuit Breaker – how does it work</h2>
 						<ul>
-							<li>A state machine with three states:
-								<ul>
-									<li><mark>Closed</mark></li>
-									<li><mark>Open</mark></li>
-									<li><mark>Half-open</mark></li>
-								</ul>
-							</li>
+								<li><mark>Closed</mark>—The request is routed to the operation
+									<ul>
+										<li>Maintains a count of recent failures</li>
+										<li>Switches to <mark>Open</mark> state if threshold is exceeded</li>
+									</ul>
+								</li>
+								<li><mark>Open</mark>—The request fails immediately
+									<ul>
+										<li>Switch to <mark>Half-open</mark> after timeout expires</li>
+									</ul>
+								</li>
+								<li><mark>Half-open</mark>—A limited number of requests is routed to the operation
+									<ul>
+										<li>On success—Go to <mark>Closed</mark> state</li>
+										<li>On failure—Revert to <mark>Open</mark> state</li>
+									</ul>
+								</li>
 						</ul>
 					</section>
 					<section>
@@ -158,6 +170,7 @@
 									<li>If one fails, the others will continue to function</li>
 								</ul>
 							</li>
+							<li>Prevents cascading failures</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -203,7 +216,20 @@
 					<section>
 						<h2>Overview</h2>
 						<ul>
-							<li>Retries with exponential backoff</li>
+							<li>Polly is transient fault handling library
+								<ul>
+									<li>Helps developers with adding resiliency to their applications</li>
+									<li>Uses pre-defined policies</li>
+									<li>Thread-safe</li>
+								</ul>
+							</li>
+							<li>Policies
+								<ul>
+									<li>Retries with exponential backoff</li>
+									<li>Circuit Breaker</li>
+									<li>Bulkhead isolation</li>
+								</ul>
+							</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>

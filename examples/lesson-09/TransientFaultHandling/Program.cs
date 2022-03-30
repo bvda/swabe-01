@@ -13,16 +13,14 @@ builder.Services.AddHttpClient("PollyWaitAndRetry", client =>
             Console.WriteLine($"onRetry {outcome.Result.StatusCode} {outcome.Result.ReasonPhrase} {timespan} {retryAttempt}");
         }));
 
-builder.Services.AddHttpClient("PollyMultiple", client =>
+builder.Services.AddHttpClient("PollyCircuitBreaker", client =>
 {
   client.BaseAddress = new Uri("http://localhost:5000/mock");
 }).AddTransientHttpErrorPolicy(
-    builder => builder.RetryAsync(3))
-.AddTransientHttpErrorPolicy(
     builder => builder.CircuitBreakerAsync(5, 
     TimeSpan.FromSeconds(5), 
     onBreak: (outcome, timespan, context) => Console.WriteLine($"onBreak {outcome.Result.ReasonPhrase} {timespan}"), 
-    // onHalfOpen: () => Console.WriteLine("onHalfOpen"), 
+    onHalfOpen: () => Console.WriteLine("onHalfOpen"), 
     onReset: (context) => Console.WriteLine("onReset")));
 
 builder.Services.AddControllers();

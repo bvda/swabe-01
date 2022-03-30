@@ -20,7 +20,7 @@ builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer(
 // Add health checks to the container.
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<UserDbContext>(
-        tags: new [] { "iam" })
+        tags: new[] { "iam" })
     .AddSqlServer(
         connectionString: builder.Configuration["ConnectionStrings:DataDb"],
         name: "DataDb",
@@ -34,9 +34,10 @@ builder.Services.AddHealthChecks()
     .AddCheck<UserHealthCheck>("Users", tags: new[] { "iam" })
     .AddCheck<StartupHealthCheck>("Startup", tags: new[] { "data" });
 
-builder.Services.AddHealthChecksUI(config => {
-    config.SetEvaluationTimeInSeconds(10);
-    config.SetMinimumSecondsBetweenFailureNotifications(60);
+builder.Services.AddHealthChecksUI(config =>
+{
+  config.SetEvaluationTimeInSeconds(10);
+  config.SetMinimumSecondsBetweenFailureNotifications(60);
 }).AddInMemoryStorage();
 
 builder.Services.AddControllers();
@@ -50,27 +51,29 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
-app.UseHealthChecks("/data", new HealthCheckOptions {
-    Predicate = x => x.Tags.Contains("data"),
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+app.UseHealthChecks("/data", new HealthCheckOptions
+{
+  Predicate = x => x.Tags.Contains("data"),
+  ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-app.UseHealthChecks("/iam", new HealthCheckOptions {
-    Predicate = x => x.Tags.Contains("iam"),
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+app.UseHealthChecks("/iam", new HealthCheckOptions
+{
+  Predicate = x => x.Tags.Contains("iam"),
+  ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 app.MapHealthChecks("/healthz");
 app.MapHealthChecks("/live", new HealthCheckOptions()
 {
-    Predicate = _ => false,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+  Predicate = _ => false,
+  ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
 app.MapControllers();

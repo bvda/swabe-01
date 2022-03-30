@@ -233,7 +233,7 @@
 									<li><code>AspNetCore.HealthChecks.UI.InMemory.Storage</code></li>	
 								</ul>
 							</li>
-							<li>The <code>AddHealthChecks()</code> middleware configures </li>
+							<li>The <code>AddHealthChecks()</code> and <code>MapHealthChecks()</code> middleware configures checks and endpoints</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -241,6 +241,147 @@
 								<li><a href="https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks">Xabaril/AspNetCore.Diagnostics.HealthChecks: Enterprise HealthChecks for ASP.NET Core Diagnostics Package</a></li>
 							</ul>
 						</aside>
+					</section>
+					<section>
+						<h2>Setting up health checks</h2>
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+							using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+							using Microsoft.EntityFrameworkCore;
+							using HealthChecks.UI.Client;
+							
+							using HealthMonitoring.Controllers;
+							using HealthMonitoring.Data;
+							using HealthMonitoring.HealthChecks;
+							
+							var builder = WebApplication.CreateBuilder(args);
+							
+							// Add services to the container.
+							builder.Services.AddSingleton<UserHealthCheck>();
+							builder.Services.AddSingleton<UserController>();
+							
+							// Add database contexts to the container.
+							builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer(
+									builder.Configuration["ConnectionStrings:UserDb"])
+							);
+							
+							// Add health checks to the container.
+							builder.Services.AddHealthChecks()
+									.AddDbContextCheck<UserDbContext>(
+											tags: new [] { "iam" })
+									.AddSqlServer(
+											connectionString: builder.Configuration["ConnectionStrings:DataDb"],
+											name: "DataDb",
+											failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded,
+											tags: new[] { "data" })
+									.AddSqlServer(
+											connectionString: builder.Configuration["ConnectionStrings:UserDb"],
+											name: "UserDb",
+											failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded,
+											tags: new[] { "iam" })
+									.AddCheck<UserHealthCheck>("Users", tags: new[] { "iam" })
+									.AddCheck<StartupHealthCheck>("Startup", tags: new[] { "data" });
+							
+							builder.Services.AddHealthChecksUI(config => {
+									config.SetEvaluationTimeInSeconds(10);
+									config.SetMinimumSecondsBetweenFailureNotifications(60);
+							}).AddInMemoryStorage();
+							
+							builder.Services.AddControllers();
+							
+							// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+							builder.Services.AddEndpointsApiExplorer();
+							builder.Services.AddSwaggerGen();
+							
+							var app = builder.Build();
+							
+							// Configure the HTTP request pipeline.
+							if (app.Environment.IsDevelopment())
+							{
+									app.UseSwagger();
+									app.UseSwaggerUI();
+							}
+							
+							app.UseHttpsRedirection();
+							
+							app.UseAuthorization();
+							app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
+							app.UseHealthChecks("/data", new HealthCheckOptions {
+									Predicate = x => x.Tags.Contains("data"),
+									ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+							});
+							app.UseHealthChecks("/iam", new HealthCheckOptions {
+									Predicate = x => x.Tags.Contains("iam"),
+									ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+							});
+							app.MapHealthChecks("/healthz");
+							app.MapHealthChecks("/live", new HealthCheckOptions()
+							{
+									Predicate = _ => false,
+									ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+							});
+							
+							app.MapControllers();
+							
+							app.Run();							
+						</script></code></pre>
+						<small>examples/lesson-09/HealthMonitoring/Program.cs</small>
+					</section>
+					<section>
+						<h2>Setting up health checks</h2>
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+							using Microsoft.Extensions.Diagnostics.HealthChecks;
+
+							namespace HealthMonitoring.HealthChecks;
+							
+							public class UserHealthCheck : IHealthCheck 
+							{
+							
+								private volatile bool _isReady = false;
+								public bool IsReady { 
+									get => _isReady;
+									set => _isReady = value; 
+								}
+							
+								public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) 
+								{
+									return Task.FromResult(_isReady ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy());
+								}
+							}
+						</script></code></pre>
+						<small>examples/lesson-09/HealthMonitoring/UserHealthCheck.cs</small>
+					</section>
+					<section>
+						<h2>Setting up health checks</h2>
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+							using Microsoft.AspNetCore.Mvc;
+							using HealthMonitoring.HealthChecks;
+							
+							namespace HealthMonitoring.Controllers;
+							
+							[ApiController]
+							[Route("[controller]")]
+							public class UserController : ControllerBase {
+								private readonly ILogger<UserController> _logger;
+								private readonly UserHealthCheck _check;
+								public UserController(ILogger<UserController> logger, UserHealthCheck check) {
+									_logger = logger;
+									_check = check;
+								}
+							
+								[HttpGet]
+								public Task<IsReadyResponse> GetAsync() {
+									_check.IsReady = !_check.IsReady;
+									return Task.FromResult(new IsReadyResponse {
+										IsReady = _check.IsReady
+									});
+								}
+							
+								public sealed class IsReadyResponse {
+									public bool IsReady { get; set; }
+								}
+							}
+						</script></code></pre>
+						<small>examples/lesson-09/HealthMonitoring/Controllers/UserService.cs</small>
 					</section>
 					<section>
 						<h2>Endpoint monitoring</h2>

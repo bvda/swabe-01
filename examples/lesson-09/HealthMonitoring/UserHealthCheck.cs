@@ -13,7 +13,6 @@ public class UserHealthCheck : IHealthCheck
 
   public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default) 
   {
-    Console.WriteLine(_isReady);
     return Task.FromResult(_isReady ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy());
   }
 }

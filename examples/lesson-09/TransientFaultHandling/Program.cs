@@ -15,7 +15,6 @@ builder.Services.AddHttpClient(
             onRetry: (outcome, timespan, retryAttempt, context) => Console.WriteLine($"onRetry {outcome.Result.StatusCode} {outcome.Result.ReasonPhrase} {timespan} {retryAttempt}")
         )
     );
-
 builder.Services.AddHttpClient(
     "PollyCircuitBreaker",
     client =>

@@ -31,8 +31,10 @@ builder.Services.AddHealthChecks()
         name: "UserDb",
         failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded,
         tags: new[] { "iam" })
-    .AddCheck<UserHealthCheck>("Users", tags: new[] { "iam" })
-    .AddCheck<StartupHealthCheck>("Startup", tags: new[] { "data" });
+    .AddCheck<UserHealthCheck>("Users", 
+        tags: new[] { "iam" })
+    .AddCheck<StartupHealthCheck>("Startup", 
+        tags: new[] { "data" });
 
 builder.Services.AddHealthChecksUI(config =>
 {

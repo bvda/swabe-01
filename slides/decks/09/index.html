@@ -244,7 +244,7 @@
 					</section>
 					<section>
 						<h2>Setting up health checks</h2>
-						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers="|21-37|22,24,29,34,36|23,28,33,35,37|39-42|62-75|"><script type="text/template">
 							using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 							using Microsoft.EntityFrameworkCore;
 							using HealthChecks.UI.Client;
@@ -267,7 +267,7 @@
 							// Add health checks to the container.
 							builder.Services.AddHealthChecks()
 									.AddDbContextCheck<UserDbContext>(
-											tags: new [] { "iam" })
+											tags: new[] { "iam" })
 									.AddSqlServer(
 											connectionString: builder.Configuration["ConnectionStrings:DataDb"],
 											name: "DataDb",
@@ -278,8 +278,10 @@
 											name: "UserDb",
 											failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded,
 											tags: new[] { "iam" })
-									.AddCheck<UserHealthCheck>("Users", tags: new[] { "iam" })
-									.AddCheck<StartupHealthCheck>("Startup", tags: new[] { "data" });
+									.AddCheck<UserHealthCheck>("Users", 
+											tags: new[] { "iam" })
+									.AddCheck<StartupHealthCheck>("Startup", 
+											tags: new[] { "data" });
 							
 							builder.Services.AddHealthChecksUI(config => {
 									config.SetEvaluationTimeInSeconds(10);
@@ -313,7 +315,6 @@
 									Predicate = x => x.Tags.Contains("iam"),
 									ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 							});
-							app.MapHealthChecks("/healthz");
 							app.MapHealthChecks("/live", new HealthCheckOptions()
 							{
 									Predicate = _ => false,

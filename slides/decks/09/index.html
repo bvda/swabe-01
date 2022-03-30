@@ -251,6 +251,28 @@
 						<h2>Retries with exponential backoff</h2>
 						<span>Code example</span>
 					</section>
+					<section>
+						<h2>Cicuit Breaker</h2>
+						<span>Code example</span>
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers="|5|6|8|9|10-15|11|12|13|14|15|	"><script type="text/template">
+							using Polly;
+
+							var builder = WebApplication.CreateBuilder(args);
+
+							builder.Services.AddHttpClient(
+								"PollyCircuitBreaker",
+								client => {
+									client.BaseAddress = new Uri("http://localhost:5000/mock");
+								}).AddTransientHttpErrorPolicy(
+										builder => builder.CircuitBreakerAsync(
+											5,
+											TimeSpan.FromSeconds(5),
+											onBreak: (outcome, timespan, context) => Console.WriteLine($"onBreak {outcome.Result.ReasonPhrase} {timespan}"),
+											onHalfOpen: () => Console.WriteLine("onHalfOpen"),
+											onReset: (context) => Console.WriteLine("onReset")));
+						</script></code></pre>
+						<small>examples/lesson-09/TransientFaultHandling/Program.cs</small>
+					</section>
 				</section>
 				<section>
 					<h2>Wrap-up</h2>

@@ -239,7 +239,50 @@
 						</aside>
 					</section>
 					<section>
-						<h2>Retries with exponential backoff</h2>
+						<h2>Setup Polly</h2>
+						<ul>
+							<li>Polly is a third-party library
+								<ul>
+									<li>Installed from NuGet (there a various packages available, you want:)
+										<ul>
+											<li><code>dotnet add package Microsoft.Extensions.Http.Polly</code>(.NET CLI)</li>
+											<li><code>Install-Package Microsoft.Extensions.Http.Polly</code>(Package Manager)</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>Integrates seamlessly with <code>IHttpClientFactory</code></li>
+							<li>Use <code>AddTransientHttpErrorPolicy</code> to add policies to handle the following responses:
+								<ul>
+									<li>HttpRequestException</li>
+									<li>HTTP <code>5xx</code> Server error responses</li>
+									<li>HTTP <code>408 Request Timeout</code> response</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href=""></a></li>
+								<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408">408 Request Timeout - HTTP | MDN</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Retries with backoff</h2>
+						<span>Code example</span>
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers="|1|2|4|5-9|6|7|8|9|"><script type="text/template">
+						builder.Services.AddHttpClient(
+							"PollyWaitAndRetry",
+							client => {
+								client.BaseAddress = new Uri("http://localhost:5000/mock");
+							}).AddTransientHttpErrorPolicy(
+									builder => builder.WaitAndRetryAsync(
+										3,
+										retryCount => TimeSpan.FromMilliseconds(500),
+										onRetry: (outcome, timespan, retryAttempt, context) => Console.WriteLine($"onRetry {outcome.Result.StatusCode} {outcome.Result.ReasonPhrase} {timespan} {retryAttempt}")));
+						</script></code></pre>
+						<small>examples/lesson-09/TransientFaultHandling/Program.cs</small>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
@@ -248,17 +291,9 @@
 						</aside>
 					</section>
 					<section>
-						<h2>Retries with exponential backoff</h2>
-						<span>Code example</span>
-					</section>
-					<section>
 						<h2>Cicuit Breaker</h2>
 						<span>Code example</span>
-						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers="|5|6|8|9|10-15|11|12|13|14|15|	"><script type="text/template">
-							using Polly;
-
-							var builder = WebApplication.CreateBuilder(args);
-
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers="|5|6|8|9|10-15|11|12|13|14|15|"><script type="text/template">
 							builder.Services.AddHttpClient(
 								"PollyCircuitBreaker",
 								client => {

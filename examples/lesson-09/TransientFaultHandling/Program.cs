@@ -18,8 +18,9 @@ builder.Services.AddHttpClient(
 
 builder.Services.AddHttpClient(
     "PollyCircuitBreaker",
-    client => {
-        client.BaseAddress = new Uri("http://localhost:5000/mock");
+    client =>
+    {
+      client.BaseAddress = new Uri("http://localhost:5000/mock");
     }).AddTransientHttpErrorPolicy(
         builder => builder.CircuitBreakerAsync(
             5,

@@ -26,7 +26,7 @@
 					<section>
 						<h2>Agenda</h2>
 						<ul>
-							<li>Patterns
+							<li>Design Patterns
 								<ul>
 									<li>Retry</li>
 									<li>Circuit Breaker</li>
@@ -60,7 +60,7 @@
 						</ul>
 					</section>
 					<section>
-						<h2>Features</h2>
+						<h2>What can go wrong?</h2>
 						<ul>
 							<li>Ability to recover from failures and continue to function
 								<ul>
@@ -88,6 +88,22 @@
 								<li><a href="https://docs.microsoft.com/en-us/azure/architecture/framework/resiliency/reliability-patterns">Reliability patterns - Cloud Design Patterns | Microsoft Docs</a></li>
 							</ul>
 						</aside>
+					</section>
+					<section>
+						<h2>Proactive vs. reactive</h2>
+						<ul>
+							<li>We need to figure out how to handle failure</li>
+							<li>Proactive
+								<ul>
+									<li>Strategies that deals with <mark>transient</mark> faults</li>
+								</ul>
+							</li>
+							<li>Reactive
+								<ul>
+									<li>Strategies that promote and enhance <mark>stability</mark> and <mark>resilience</mark></li>
+								</ul>
+							</li>
+						</ul>
 					</section>
 				</section>
 				<section>
@@ -165,12 +181,12 @@
 						<h2>Bulkhead</h2>
 						<ul>
 							<li>A type of application design that is fault-tolerant</li>
-							<li>Elements are isolated into pools
+							<li>Elements are <mark>isolated</mark> into pools
 								<ul>
 									<li>If one fails, the others will continue to function</li>
 								</ul>
 							</li>
-							<li>Prevents cascading failures</li>
+							<li>Prevents <mark>cascading</mark> failures</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -196,6 +212,7 @@
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
+								<li><a href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks">Health checks in ASP.NET Core | Microsoft Docs</a></li>
 								<li><a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health">Health monitoring | Microsoft Docs</a></li>
 								<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring">Health Endpoint Monitoring pattern - Azure Architecture Center | Microsoft Docs</a></li>
 							</ul>
@@ -329,14 +346,14 @@
 					</section>
 					<section>
 						<h2>Setting up health checks</h2>
-						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers="|5|8|9-12|14-17|16|"><script type="text/template">
 							using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 							namespace HealthMonitoring.HealthChecks;
 							
 							public class UserHealthCheck : IHealthCheck 
 							{
-							
+	
 								private volatile bool _isReady = false;
 								public bool IsReady { 
 									get => _isReady;
@@ -350,10 +367,20 @@
 							}
 						</script></code></pre>
 						<small>examples/lesson-09/HealthMonitoring/UserHealthCheck.cs</small>
+						<aside class="notes" aria-label="notes">
+							<h4>Notes</h4>
+							<ul>
+								<li><code>volatile</code> is used because field is accessed from multiple threads</li>
+							</ul>
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/volatile">volatile - C# Reference | Microsoft Docs</a></li>
+							</ul>
+						</aside>
 					</section>
 					<section>
 						<h2>Setting up health checks</h2>
-						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+						<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers="|8,27|10|11,14|13|16-22|18|19-21,23-26|"><script type="text/template">
 							using Microsoft.AspNetCore.Mvc;
 							using HealthMonitoring.HealthChecks;
 							
@@ -384,26 +411,12 @@
 						</script></code></pre>
 						<small>examples/lesson-09/HealthMonitoring/Controllers/UserService.cs</small>
 					</section>
-					<section>
-						<h2>Endpoint monitoring</h2>
-						<ul>
-							<li></li>
-						</ul>
-						<aside class="notes" aria-label="notes">
-							<h4>References</h4>
-							<ul>
-								<li><a href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks">Health checks in ASP.NET Core | Microsoft Docs</a></li>
-								<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring">Health Endpoint Monitoring pattern - Azure Architecture Center | Microsoft Docs</a></li>
-								<li><a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health">Health monitoring | Microsoft Docs</a></li>
-							</ul>
-						</aside>
-					</section>
 				</section>
 				<section>
 					<section id="polly">
 						<h2>Polly</h2>
 					</section>
-					<section>
+					<section id="polly-overview">
 						<h2>Overview</h2>
 						<ul>
 							<li>Polly is transient fault handling library
@@ -453,8 +466,36 @@
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
-								<li><a href=""></a></li>
+								<li><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httprequestexception">HttpRequestException Class (System.Net.Http) | Microsoft Docs</a></li>
+								<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server_error_responses">HTTP response status codes - HTTP | MDN</a></li>
 								<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408">408 Request Timeout - HTTP | MDN</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2><code>IHttpClientFactory</code></h2>
+						<ul>
+							<li>Used to register and create <code>HttpClient</code> instances
+								<ul>
+									<li>Central location for naming and configuring logical instances</li>
+									<li>Manages the pooling and lifetime of underlying <code>HttpMessageHandler</code> instances</li>
+								</ul>
+							</li>
+							<li>Can be used in multiple ways:
+								<ul>
+									<li>Basic</li>
+									<li>Named clients—Distinct usage and different configuration</li>
+									<li>Typed clients—As Named clients, but provides IntelliSense and enxcapsulate logic</li>
+									<li>Generated clients—Used in combination with third-party libraries</li>
+								</ul>
+							</li>
+							<li>Extensions for Polly-based middleware</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-6.0">Make HTTP requests using IHttpClientFactory in ASP.NET Core | Microsoft Docs</a></li>
+								<li><a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests">Use IHttpClientFactory to implement resilient HTTP requests | Microsoft Docs</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -497,6 +538,28 @@
 											onReset: (context) => Console.WriteLine("onReset")));
 						</script></code></pre>
 						<small>examples/lesson-09/TransientFaultHandling/Program.cs</small>
+					</section>
+					<section>
+						<h2>Polly</h2>
+						<ul>
+							<li>Retry policy family
+								<ul>
+									<li>📡  <em>"Maybe it's just a blip" </em></li>
+								</ul>
+							</li>
+							<li>Circuit Breaker policy family
+								<ul>
+									<li>🙅‍♂️ <em>"Stop doing it if it hurts"</em></li>
+									<li>☕️ <em>"Give that system a break"</em></li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<a href="https://github.com/App-vNext/Polly">App-vNext/Polly: Polly is a .NET resilience and transient-fault-handling library that allows developers to express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner. From version 6.0.1, Polly targets .NET Standard 1.1 and 2.0+.</a>
+							</ul>
+						</aside>
 					</section>
 				</section>
 				<section>

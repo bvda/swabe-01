@@ -32,17 +32,6 @@ builder.Services.AddHttpClient(
     )
 );
 
-var policy = Policy.BulkheadAsync<HttpResponseMessage>(1, 2, onBulkheadRejectedAsync: (c) => {
-    Console.WriteLine("Rejected");
-    return Task.CompletedTask;
-    });
-builder.Services.AddHttpClient(
-    "PollyBulkhead",
-    client => {
-        client.BaseAddress  = new Uri("http://localhost:5000/mock");
-    }
-).AddPolicyHandler(policy);
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

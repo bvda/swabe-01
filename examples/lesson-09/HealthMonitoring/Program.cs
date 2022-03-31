@@ -38,8 +38,8 @@ builder.Services.AddHealthChecks()
 
 builder.Services.AddHealthChecksUI(config =>
 {
-  config.SetEvaluationTimeInSeconds(10);
-  config.SetMinimumSecondsBetweenFailureNotifications(60);
+  config.SetEvaluationTimeInSeconds(5);
+  config.SetMinimumSecondsBetweenFailureNotifications(5);
 }).AddInMemoryStorage();
 
 builder.Services.AddControllers();

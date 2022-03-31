@@ -14,7 +14,13 @@ public class MockController: ControllerBase {
   public MockController() {
 
   }
+  [Route("success")]
+  [HttpGet]
+  public Task<StatusCodeResult> OnGetSuccess() {
+    return Task.FromResult(new StatusCodeResult(StatusCodes.Status200OK));
+  }
 
+  [HttpGet]
   public Task<StatusCodeResult> OnGet() {
     var rand = (EndpointState)new Random().Next(0,3);
     var result = StatusCodes.Status418ImATeapot;

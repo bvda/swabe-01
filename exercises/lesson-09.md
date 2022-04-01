@@ -1,7 +1,7 @@
 # Lesson 09 exercises
 ## Exercise 09-1
 ### Setup Polly
-1. Create a new .NET project using the ASP.NET Core WebAPI template[]
+1. Create a new .NET project using the ASP.NET Core WebAPI template[^5]
 2. Add Polly to your project[^4]
 3. Add new controller to the project named `MockController.cs` and copy the following code (or grap it @ `examples/lesson-09/TransientFaultHandling/Controllers/MockController.cs`):
     ```cs

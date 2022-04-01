@@ -17,7 +17,6 @@ public class MockController: ControllerBase {
   [Route("success")]
   [HttpGet]
   public Task<StatusCodeResult> OnGetSuccess() {
-    Thread.Sleep(1000);
     return Task.FromResult(new StatusCodeResult(StatusCodes.Status200OK));
   }
 

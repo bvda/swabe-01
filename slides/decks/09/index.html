@@ -27,12 +27,6 @@
 						<h2>Agenda</h2>
 						<ul>
 							<li>Design Patterns
-								<ul>
-									<li>Retry</li>
-									<li>Circuit Breaker</li>
-									<li>Bulkhead</li>
-								</ul>
-							</li>
 							<li>Health monitoring</li>
 							<li>Polly</li>
 						</ul>
@@ -62,13 +56,15 @@
 					<section>
 						<h2>What can go wrong?</h2>
 						<ul>
-							<li>Ability to recover from failures and continue to function
+							<li>Ability to recover from failures 
 								<ul>
 									<li>Network failures</li>
+									<li>Bandwidth limitations</li>
 									<li>Nodes crashing</li>
+									<li>Topology changes</li>
 								</ul>
 							</li>
-							<li>Being able to return the application to a functioning state after a failure</li>
+							<li>The ability to return the application to a functioning state after failures</li>
 							<li>How to handle transient downtime and normal hiccups that occur in complex and cloud-based deployment?</li>
 						</ul>
 					</section>
@@ -93,12 +89,12 @@
 						<h2>Proactive vs. reactive</h2>
 						<ul>
 							<li>We need to figure out how to handle failure</li>
-							<li>Proactive
+							<li>Reactive
 								<ul>
 									<li>Strategies that deals with <mark>transient</mark> faults</li>
 								</ul>
 							</li>
-							<li>Reactive
+							<li>Proactive
 								<ul>
 									<li>Strategies that promote and enhance <mark>stability</mark> and <mark>resilience</mark></li>
 								</ul>
@@ -124,6 +120,7 @@
 								<ul>
 									<li>Spread out requests from clients as evenly as possible</li>
 									<li>Retry policy should be tuned to match business requirements</li>
+									<li>Apply jitter to add randomness to retry intervals</li>
 								</ul>
 							</li>
 						</ul>
@@ -132,6 +129,7 @@
 							<ul>
 								<li><a href="https://dotnet.microsoft.com/download/e-book/microservices-architecture/pdf">.NET Microservices: Architecture for Containerized .NET Applications (pp. 296, 305-306)</a></li>
 								<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/retry">Retry pattern - Azure Architecture Center | Microsoft Docs</a></li>
+								<li><a href="https://github.com/App-vNext/Polly/wiki/Retry-with-jitter">Retry with jitter · App-vNext/Polly Wiki</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -184,14 +182,17 @@
 							<li>Elements are <mark>isolated</mark> into pools
 								<ul>
 									<li>If one fails, the others will continue to function</li>
+									<li>Prevents <mark>cascading</mark> failures</li>
 								</ul>
 							</li>
-							<li>Prevents <mark>cascading</mark> failures</li>
+							<li>Can control I/O-bound or CPU-bound operations</li>
+							<li>Application-level resource partitioning</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
 								<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/bulkhead">Bulkhead pattern - Cloud Design Patterns | Microsoft Docs</a></li>
+								<li><a href="https://github.com/App-vNext/Polly/wiki/Bulkhead">Bulkhead · App-vNext/Polly Wiki</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -541,6 +542,7 @@
 					</section>
 					<section>
 						<h2>Polly</h2>
+						<h3>Resilience policies</h3>
 						<ul>
 							<li>Retry policy family
 								<ul>
@@ -551,6 +553,16 @@
 								<ul>
 									<li>🙅‍♂️ <em>"Stop doing it if it hurts"</em></li>
 									<li>☕️ <em>"Give that system a break"</em></li>
+								</ul>
+							</li>
+							<li>Bulkhead
+								<ul>
+									<li>⛵️<em>"One fault shouldn't sink the whole ship"</em></li>
+								</ul>
+							</li>
+							<li>Fallback
+								<ul>
+									<li>🕺<em>"Degrade gracefully"</em></li>
 								</ul>
 							</li>
 						</ul>

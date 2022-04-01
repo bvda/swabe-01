@@ -1,8 +1,10 @@
 using Polly;
-using Polly.Bulkhead;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+IAsyncPolicy<HttpResponseMessage> fallbackPolicy =
+    Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+        .FallbackAsync(FallbackAction, OnFallbackAsync);
 
 // Add services to the container.
 builder.Services.AddHttpClient(
@@ -30,7 +32,14 @@ builder.Services.AddHttpClient(
             onHalfOpen: () => Console.WriteLine("onHalfOpen"),
             onReset: (context) => Console.WriteLine("onReset")
     )
-);
+).AddPolicyHandler(fallbackPolicy);
+
+builder.Services.AddHttpClient(
+  "PollyFallback",
+  client => {
+    client.BaseAddress = new Uri("http://localhost:5000/mock");
+  }
+).AddPolicyHandler(fallbackPolicy);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -53,3 +62,20 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+Task OnFallbackAsync(DelegateResult<HttpResponseMessage> response, Context context)
+{
+    Console.WriteLine("About to call the fallback action. This is a good place to do some logging");
+    return Task.CompletedTask;
+}
+
+Task<HttpResponseMessage> FallbackAction(DelegateResult<HttpResponseMessage> responseToFailedRequest, Context context, CancellationToken cancellationToken)
+{
+    Console.WriteLine("Fallback action is executing");
+
+    HttpResponseMessage httpResponseMessage = new HttpResponseMessage(responseToFailedRequest.Result.StatusCode)
+    {
+        Content = new StringContent($"The fallback executed, the original error was {responseToFailedRequest.Result.ReasonPhrase}")
+    };
+    return Task.FromResult(httpResponseMessage);
+}

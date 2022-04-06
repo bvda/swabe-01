@@ -19,7 +19,7 @@ Rooms
 Reservations
   - `GET /reservations`–list all reservation. Accessible for roles `manager` and `clerk`. It should be possible to filter based dates (from, to and from-to)
   - `GET /reservations/{:uid}`-view reservation details. Accessible for roles `manager`, `clerk`, and `guest` (if created by `guest`)
-  - `POST /reservations/{:uid}`–create reservation. Accessible for roles `manager`, `clerk`, and `guest` 
+  - `POST /reservations/`–create reservation. Accessible for roles `manager`, `clerk`, and `guest` 
   - `PATCH /reservations/{:uid}`—modify reservation. Accessible for roles `manager`, `clerk`, and `guest` (if created by `guest`) 
   - `DELETE /reservations/{:uid}`–delete reservation. Accessible for roles `manager`, `clerk`
 
@@ -29,7 +29,7 @@ The system must fulfill the following functional requirements:
   - `R2` The must be implemented using Node.js
   - `R3` All reservations, users, and reservations must be persisted in a MongoDB
   - `R4` An asymmetric algorithm must be used to sign tokens
-  - `R5` All endpoints must verify received tokens to ensure it has not been tampered with
+  - `R5` All endpoints (except Authentication endpoints) must verify received tokens to ensure it has not been tampered with
   - `R6` A user shall have an email associated with their account
   - `R7` User emails should be system-wide unique
   - `R8` All sensitive information shall not be persisted as plaintext

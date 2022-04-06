@@ -1,0 +1,16 @@
+
+services:
+  db-users:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "thisSh0uldBestor3dInAzureKeyV4ultAnd0rUserS3cr3ts"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "14333:1433"
+  db-data:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "thisSh0uldBestor3dInAzureKeyV4ultAnd0rUserS3cr3ts"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "14334:1433"

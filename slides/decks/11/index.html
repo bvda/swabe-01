@@ -165,6 +165,20 @@
 				</section>
 				<section>
 					<h2>Only load the columns you need</h2>
+					<ul>
+						<li>For queries that require data from multiple tables, use <code>Select</code>
+							<ul>
+								<li>It provides the most efficient access</li>
+							</ul>
+						</li>
+						<li>Creating a <code>Select</code> query with a DTO takes more effort
+							<ul>
+								<li>Compared to using <code>Include()</code></li>
+								<li>Benefits includes better read performance</li>
+								<li>Reduces coupling between layers</li>
+							</ul>
+						</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -174,6 +188,24 @@
 				</section>
 				<section>
 					<h2>Paging and filtering</h2>
+					<ul>
+						<li>Queries can pull thousands or millions of rows
+							<ul>
+								<li>Might be okay for development environments</li>
+							</ul>
+						</li>
+						<li>Limit the amount of data return from queries
+							<ul>
+								<li><mark>Paging</mark> Return a limited set of data and provide a mechanism to get more data</li>
+								<li><mark>Filtering</mark> Add filter parameters to your queries to get subset based on needs</li>
+							</ul>
+						</li>
+						<li>Do not implement open-ended queries
+							<ul>
+								<li>Running <code>_context.&lt;DbSet&gt;.ToList()</code> in production can be shocking</li>
+							</ul>
+						</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>

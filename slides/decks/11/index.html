@@ -214,7 +214,23 @@
 					</aside>
 				</section>
 				<section>
-					<h2>Add <code>AsNoTracking()</code> to read-only queries</h2>
+					<h2>No tracking for read-only queries</h2>
+					<ul>
+						<li>Sometimes we know we do not need to update entities</li>
+						<li>Add <code>AsNoTracking()</code> to the query
+							<ul>
+								<li>EF Core will not create a tracking snapshot for entities</li>
+								<li>Saves a bit of time and memory usage</li>
+							</ul>
+						</li>
+					</ul>
+					<pre data-id="code-animation"><code class='sql' data-trim data-line-numbers><script type="text/template">
+						var result = context.<DbSet>
+							.Include(x => x.Value)
+							.AsNoTracking()
+							.ToList();
+					</script></code></pre>
+					<small>TODO: Reference</small>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -224,6 +240,23 @@
 				</section>
 				<section>
 					<h2>Use Async versions of EF Core commands</h2>
+					<ul>
+						<li>Use Async versions of method
+							<ul>
+								<li>As recommended by Microsoft</li>
+							</ul>
+						</li>
+						<li>Improves application scalability
+							<ul>
+								<li>The thread is freed during database operations</li>
+							</ul>
+						</li>
+						<li>The <code>async</code>/<code>await</code> patterns is considered best practice
+							<ul>
+								<li>Even though it comes with a performance overhead</li>
+							</ul>
+						</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -235,11 +268,19 @@
 					<h2>Decouple database access code</h2>
 					<ul>
 						<li>Prepares the code base for performance optimization</li>
+						<li>How to decouple database
+							<ul>
+								<li>Isolate each database operation into separate methods</li>
+								<li>Do not mix business logic with database operations</li>
+							</ul>
+						</li>
+						<li>Create a <code>classlib</code> project for your <code>DbContext</code> objects and migrations</li>
 					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
 							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 449</li>
+							<li><a href="https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/projects">Using a Separate Migrations Project - EF Core | Microsoft Docs</a></li>
 						</ul>
 					</aside>
 				</section>

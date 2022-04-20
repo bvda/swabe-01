@@ -92,11 +92,71 @@
 			<section>
 				<section>
 					<h2>Fixing performace issues</h2>
+				</section>
+				<section>
+					<h2>SQL inspection</h2>
 					<ul>
-						<li></li>
-						<li></li>
-						<li></li>
+						<li>The SQL statements are the ultimate truth</li>
+						<li>The needed steps to fixing issues
+							<ul>
+								<li>Understanding the logging output producted by EF Core</li>
+								<li>Capturing the logging output</li>
+								<li>Extracting the SQL statements sent to the database</li>
+							</ul>
+						</li>
+						<li>EF Core logs temporal measurements</li>
 					</ul>
+				</section>
+				<section>
+					<h2>Capturing the logging output</h2>
+					<ul>
+						<li>Use the built-in logging system in ASP.NET Core
+							<ul>
+								<li>Logging providers are configures at startup</li>
+								<li>EF Core added <code>LogTo</code> in version 5</li>
+							</ul>
+						</li>
+					</ul>
+					<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+						var logs = new List<string>();
+							var builder =
+							new DbContextOptionsBuilder<BookDbContext>()
+							.UseSqlServer(connectionString)
+							.EnableSensitiveDataLogging()
+							.LogTo(log => logs.Add(log), LogLevel.Information);
+							using var context = new BookDbContext(builder.Options);
+							// TODO: Add real example
+					</script></code></pre>
+					<small>TODO: Reference</small>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li><a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging">Logging in .NET Core and ASP.NET Core | Microsoft Docs</a></li>
+						</ul>
+					</aside> 
+				</section>
+				<section>
+					<h2>SQL queries from logging output</h2>
+					<pre data-id="code-animation"><code class='sql' data-trim data-line-numbers><script type="text/template">
+						Executed DbCommand (4ms)
+						[Parameters=[],
+						CommandType='Text',
+						CommandTimeout='30']
+						SELECT [p].[BookId], [p].[Description],
+						[p].[ImageUrl], [p].[Price],
+						[p].[PublishedOn], [p].[Publisher],
+						[p].[Title],
+						[p.Promotion].[PriceOfferId],
+						[p.Promotion].[BookId],
+						[p.Promotion].[NewPrice],
+						[p.Promotion].[PromotionalText]
+						FROM [Books] AS [p]
+						LEFT JOIN [PriceOffers] AS [p.Promotion]
+						ON [p].[BookId] = [p.Promotion].[BookId]
+						ORDER BY [p].[BookId] DESC
+						// TODO: Add real example
+					</script></code></pre>
+					<small>TODO: Reference</small>
 				</section>
 			</section>
 			<section>
@@ -107,6 +167,54 @@
 						<li></li>
 						<li></li>
 					</ul>
+				</section>
+				<section>
+					<h2>Only load the columns you need</h2>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 447-448</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Paging and filtering</h2>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 448</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Add <code>AsNoTracking()</code> to read-only queries</h2>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 449</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Use Async versions of EF Core commands</h2>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 449</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Decouple database access code</h2>
+					<ul>
+						<li>Prepares the code base for performance optimization</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 449</li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section>

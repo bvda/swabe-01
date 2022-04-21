@@ -125,9 +125,7 @@
 							.EnableSensitiveDataLogging()
 							.LogTo(log => logs.Add(log), LogLevel.Information);
 							using var context = new BookDbContext(builder.Options);
-							// TODO: Add real example
 					</script></code></pre>
-					<small>TODO: Reference</small>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -143,20 +141,15 @@
 						CommandType='Text',
 						CommandTimeout='30']
 						SELECT [p].[BookId], [p].[Description],
-						[p].[ImageUrl], [p].[Price],
-						[p].[PublishedOn], [p].[Publisher],
-						[p].[Title],
-						[p.Promotion].[PriceOfferId],
-						[p.Promotion].[BookId],
-						[p.Promotion].[NewPrice],
-						[p.Promotion].[PromotionalText]
+							[p].[ImageUrl], [p].[Price], [p].[PublishedOn], 
+							[p].[Publisher], [p].[Title],
+							[p.Promotion].[PriceOfferId], [p.Promotion].[BookId], 
+							[p.Promotion].[NewPrice], [p.Promotion].[PromotionalText]
 						FROM [Books] AS [p]
 						LEFT JOIN [PriceOffers] AS [p.Promotion]
 						ON [p].[BookId] = [p.Promotion].[BookId]
 						ORDER BY [p].[BookId] DESC
-						// TODO: Add real example
 					</script></code></pre>
-					<small>TODO: Reference</small>
 				</section>
 			</section>
 			<section>
@@ -230,7 +223,6 @@
 							.AsNoTracking()
 							.ToList();
 					</script></code></pre>
-					<small>TODO: Reference</small>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -373,9 +365,7 @@
 							<td style="padding: 8px;">0.3%</td>
 						</tr>
 					</table>
-					<ul>
-						<li>Only use <code>Find&lt;&gt;</code> if the entity is being tracked in the context</li>
-					</ul>
+					<p>Only use <code>Find&lt;&gt;</code> if the entity is being tracked in the context</>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -538,28 +528,13 @@
 						<li>SQL+Dapper</li>
 						<li>LINQ+caching</li>
 					</ul>
-				</section>
-				<section>
-					<h2>Good LINQ</h2>
-					<ul>
-						<li>Simple</li>
-					</ul>
-				</section>
-				<section>
-					<h2>LINQ+UDFs</h2>
-				</section>
-				<section>
-					<h2>SQL+Dapper</h2>
-					<aside href="notes" aria-label="notes">
+					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
 							<li><a href="https://www.nuget.org/packages/Dapper">NuGet Gallery | Dapper 2.0.123</a></li>
 							<li><a href="https://github.com/DapperLib/Dapper">DapperLib/Dapper: Dapper - a simple object mapper for .Net</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section>
-					<h2>LINQ+caching</h2>
 				</section>
 			</section>
 			<section>

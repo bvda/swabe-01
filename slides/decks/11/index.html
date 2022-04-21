@@ -19,10 +19,558 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
-			<section id="improving-application-security">
-				<h1>Entity Framework Core performance tuning</h1>
-				<h3>Lesson 11</h3>
-				<h4>SWABE-01</h4>
+			<section id="introduction">
+				<section>
+					<h1>Entity Framework Core performance tuning</h1>
+					<h3>Lesson 11</h3>
+					<h4>SWABE-01</h4>
+				</section>
+				<section>
+					<h2>Agenda</h2>
+					<ul>
+						<li>Performance optimization</li>
+						<li>EF-Core optimization patterns and anti-patterns</li>
+						<li>Query optimizing</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Performace optimization</h2>
+						<ul>
+							<li>Kent Beck says
+								<ul>
+									<li>Make it work</li>
+									<li>Make it right</li>
+									<li>Make it fast</li>
+								</ul>
+							</li>
+							<li>Consider the software patterns</li>
+							<li>Do not write code that makes is hard to fix performace problems</li>
+							<li>Pick your architecture with care</li>
+						</ul>
+				</section>
+				<section>
+					<h2>Speed and scalability</h2>
+					<ul>
+						<li><mark>Speed</mark> How much time does it take to handle a request</li>
+						<li><mark>Scalability</mark> How many requests can be handled at a time</li>
+					</ul>
+				</section>
+				<section>
+					<h2>What to optimize</h2>
+					<ul>
+						<li>Be selective when deciding what to optimize</li>
+						<li>Metrics
+							<ul>
+								<li>Define the feature what needs to be improved under what circumstances</li>
+								<li>Profiling and timing</li>
+								<li>Cost of fix</li>
+								<li>Verify changes</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Abstraction</h2>
+					<ul>
+						<li>Do not be too abstract in your application design
+							<ul>
+								<li>You can abstract away special features</li>
+								<li>Your application will have decreased performance</li>
+								<li>You have paid for those features</li>
+							</ul>
+						</li>
+						<li>It will be harder to change the the underlying database
+							<ul>
+								<li>But how often do you do that?</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Fixing performace issues</h2>
+				</section>
+				<section>
+					<h2>SQL inspection</h2>
+					<ul>
+						<li>The SQL statements are the ultimate truth</li>
+						<li>The needed steps to fixing issues
+							<ul>
+								<li>Understanding the logging output producted by EF Core</li>
+								<li>Capturing the logging output</li>
+								<li>Extracting the SQL statements sent to the database</li>
+							</ul>
+						</li>
+						<li>EF Core logs temporal measurements</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Capturing the logging output</h2>
+					<ul>
+						<li>Use the built-in logging system in ASP.NET Core
+							<ul>
+								<li>Logging providers are configures at startup</li>
+								<li>EF Core added <code>LogTo</code> in version 5</li>
+							</ul>
+						</li>
+					</ul>
+					<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+						var logs = new List<string>();
+							var builder =
+							new DbContextOptionsBuilder<BookDbContext>()
+							.UseSqlServer(connectionString)
+							.EnableSensitiveDataLogging()
+							.LogTo(log => logs.Add(log), LogLevel.Information);
+							using var context = new BookDbContext(builder.Options);
+							// TODO: Add real example
+					</script></code></pre>
+					<small>TODO: Reference</small>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li><a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging">Logging in .NET Core and ASP.NET Core | Microsoft Docs</a></li>
+						</ul>
+					</aside> 
+				</section>
+				<section>
+					<h2>SQL queries from logging output</h2>
+					<pre data-id="code-animation"><code class='sql' data-trim data-line-numbers><script type="text/template">
+						Executed DbCommand (4ms)
+						[Parameters=[],
+						CommandType='Text',
+						CommandTimeout='30']
+						SELECT [p].[BookId], [p].[Description],
+						[p].[ImageUrl], [p].[Price],
+						[p].[PublishedOn], [p].[Publisher],
+						[p].[Title],
+						[p.Promotion].[PriceOfferId],
+						[p.Promotion].[BookId],
+						[p.Promotion].[NewPrice],
+						[p.Promotion].[PromotionalText]
+						FROM [Books] AS [p]
+						LEFT JOIN [PriceOffers] AS [p.Promotion]
+						ON [p].[BookId] = [p.Promotion].[BookId]
+						ORDER BY [p].[BookId] DESC
+						// TODO: Add real example
+					</script></code></pre>
+					<small>TODO: Reference</small>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Patterns</h2>
+				</section>
+				<section>
+					<h2>Only load the columns you need</h2>
+					<ul>
+						<li>For queries that require data from multiple tables, use <code>Select</code>
+							<ul>
+								<li>It provides the most efficient access</li>
+							</ul>
+						</li>
+						<li>Creating a <code>Select</code> query with a DTO takes more effort
+							<ul>
+								<li>Compared to using <code>Include()</code></li>
+								<li>Benefits includes better read performance</li>
+								<li>Reduces coupling between layers</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 447-448</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Paging and filtering</h2>
+					<ul>
+						<li>Queries can pull thousands or millions of rows
+							<ul>
+								<li>Might be okay for development environments</li>
+							</ul>
+						</li>
+						<li>Limit the amount of data return from queries
+							<ul>
+								<li><mark>Paging</mark> Return a limited set of data and provide a mechanism to get more data</li>
+								<li><mark>Filtering</mark> Add filter parameters to your queries to get subset based on needs</li>
+							</ul>
+						</li>
+						<li>Do not implement open-ended queries
+							<ul>
+								<li>Running <code>_context.&lt;DbSet&gt;.ToList()</code> in production can be shocking</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 448</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>No tracking for read-only queries</h2>
+					<ul>
+						<li>Sometimes we know we do not need to update entities</li>
+						<li>Add <code>AsNoTracking()</code> to the query
+							<ul>
+								<li>EF Core will not create a tracking snapshot for entities</li>
+								<li>Saves a bit of time and memory usage</li>
+							</ul>
+						</li>
+					</ul>
+					<pre data-id="code-animation"><code class='sql' data-trim data-line-numbers><script type="text/template">
+						var result = context.<DbSet>
+							.Include(x => x.Value)
+							.AsNoTracking()
+							.ToList();
+					</script></code></pre>
+					<small>TODO: Reference</small>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 449</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Use Async versions of EF Core commands</h2>
+					<ul>
+						<li>Use Async versions of method
+							<ul>
+								<li>As recommended by Microsoft</li>
+							</ul>
+						</li>
+						<li>Improves application scalability
+							<ul>
+								<li>The thread is freed during database operations</li>
+							</ul>
+						</li>
+						<li>The <code>async</code>/<code>await</code> patterns is considered best practice
+							<ul>
+								<li>Even though it comes with a performance overhead</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 449</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Decouple database access code</h2>
+					<ul>
+						<li>Prepares the code base for performance optimization</li>
+						<li>How to decouple database
+							<ul>
+								<li>Isolate each database operation into separate methods</li>
+								<li>Do not mix business logic with database operations</li>
+							</ul>
+						</li>
+						<li>Create a <code>classlib</code> project for your <code>DbContext</code> objects and migrations</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 449</li>
+							<li><a href="https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/projects">Using a Separate Migrations Project - EF Core | Microsoft Docs</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h3>Anti-patterns</h3>
+					<h2>Queries</h2>
+				</section>
+				<section>
+					<h2>Not minimizing calls to databases</h2>
+					<ul>
+						<li>Four different ways load data:
+							<ul>
+								<li><mark>Select</mark> Load select columns</li>
+								<li><mark>Eager</mark> Load related data in the same query</li>
+								<li><mark>Explicit</mark>Load related data after</li>
+								<li><mark>Lazy</mark> Load when needed</li>
+							</ul>
+						</li>
+						<li>Same result, but a difference in the number of separate database accesses
+							<ul>
+								<li>The more separate database accesses, the slower the operation</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 450-451</li>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 40-46</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Missing indexes</h2>
+					<ul>
+						<li>EF Core automatically indexes:
+							<ul>
+								<li>Primary keys</li>
+								<li>Foreign keys</li>
+								<li>Alternate keys</li>
+							</ul>
+						</li>
+						<li>Search or sort on other properties
+							<ul>
+								<li>Adding an index will improve the performace</li>
+							</ul>
+						</li>
+						<li>There is a cost to updating indexes on changed indexed properties
+							<ul>
+								<li>But the cost is smaller than the gains when filtering or sorting in them</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 451-452</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Loading single entities</h2>
+					<table>
+						<caption>Time measurements</caption>
+						<thead>
+							<th>Method</th>
+							<th>Time</th>
+							<th>Ratio</th>
+						</thead>
+						<tr style="font-size: 0.50em;">
+							<td style="padding: 8px;"><code>context.&lt;DbSet&gt;.Single(x => x.Id == id)</code></td>
+							<td style="padding: 8px;">175us</td>
+							<td style="padding: 8px;">100%</td>
+						</tr>
+						<tr style="font-size: 0.50em;">
+							<td style="padding: 8px;"><code>context.&lt;DbSet&gt;.First(x => x.Id == id)</code></td>
+							<td style="padding: 8px;">195us</td>
+							<td style="padding: 8px;">109%</td>
+						</tr>
+						<tr style="font-size: 0.50em;">
+							<td style="padding: 8px;"><code>context.Find&lt;Entity&gt;(id)</code> (not tracked)</td>
+							<td style="padding: 8px;">610us</td>
+							<td style="padding: 8px;">350%</td>
+						</tr>
+						<tr style="font-size: 0.50em;">
+							<td style="padding: 8px;"><code>context.Find&lt;Entity&gt;(id)</code> (tracked)</td>
+							<td style="padding: 8px;">0.5us</td>
+							<td style="padding: 8px;">0.3%</td>
+						</tr>
+					</table>
+					<ul>
+						<li>Only use <code>Find&lt;&gt;</code> if the entity is being tracked in the context</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 452</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Data query in software</h2>
+					<ul>
+						<li>It is easy to write LINQ that moves evaluation out of the database
+							<ul>
+								<li>Bad LINQ can have a huge impact on performance</li>
+							</ul>
+						</li>
+						<li>Aggregate LINQ methods (<code>Sum</code>, <code>Max</code>, <code>Min</code>, <code>Average</code>) requires nullable types</li>
+					</ul>
+					<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+						// 'Where' is executed in database
+						context.<DbSet>.Where(x => x.id == id).ToList()
+						
+						// 'Where' is executed in software
+						context.<DbSet>.ToList().Where(x => x.id == id)
+					</script></code></pre>
+					<small>Database vs. software execution</small>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 453</li>
+							<li><a href="https://docs.microsoft.com/en-us/ef/core/querying/client-eval">Client vs. Server Evaluation - EF Core | Microsoft Docs</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Not doing calculations into the database</h2>
+					<ul>
+						<li>It is not possible to move much calculation to the database
+							<ul>
+								<li>But the perfomance increase is substantial when possible</li>
+							</ul>
+						</li>
+						<li>Possibilities
+							<ul>
+								<li>Count of a navigational property</li>
+								<li>Sum of a value in a collection</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 453-454</li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h3>Anti-patterns</h3>
+					<h2>Writes</h2>
+				</section>
+				<section>
+					<h2>Calling <code>SaveChanges()</code> multiple times</h2>
+					<ul>
+						<li>When you want to add data to the database, you have two options
+							<ol>
+								<li>Add one <code>Entity</code> object and call <code>SaveChanges</code></li>
+								<li>Add all <code>Entity</code> objects and call <code>SaveChanges</code></li>
+							</ol>
+						</li>
+						<li>Option 2 is a lot faster
+							<ul>
+								<li>EF Core uses batching to optimize database access</li>
+							</ul>
+						</li>
+						<li>Calling <code>SaveChanges()</code> only once gives us some transactional features
+							<ul>
+								<li>If a single operation fails, nothing will be written</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 456</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Making <code>DetectChanges()</code> work too hard</h2>
+					<ul>
+						<li>Everytime <code>SaveChanges()</code> runs, EF Core runs <code>DetectChanges()</code>
+							<ul>
+								<li>The execution time depends on the number of tracked <code>Entity</code> objects</li>
+							</ul>
+						</li>
+						<li>Add <code>AsNoTracking()</code> for queries where you know you will not mutate state</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 457</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Updating entities</h2>
+					<ul>
+						<li>EF Core is great at detecting changes
+							<ul>
+								<li>If a property change, EF Core will generate the SQL to update a single column and the exat row</li>
+							</ul>
+						</li>
+						<li>The <code>Update</code> method should only be used when the whole <code>Entity</code> has changed
+							<ul>
+								<li>It creates a lot more SQL</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 458</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Using one large <code>DbContext</code></h2>
+					<ul>
+						<li>Creating a <code>DbContext</code> for the first time takes some time
+							<ul>
+								<li>Scans all entities</li>
+								<li>Builds a model of the database</li>
+							</ul>
+						</li>
+						<li>Normally, this is not a problem
+							<ul>
+								<li>EF Core caches the configuration and model</li>
+								<li>But if you are running a serverless architecture, your application will start and stop often</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 458</li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Query optimization</h2>
+				</section>
+				<section>
+					<h2>Overview</h2>
+					<ul>
+						<li>Good LINQ</li>
+						<li>LINQ+UDFs</li>
+						<li>SQL+Dapper</li>
+						<li>LINQ+caching</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Good LINQ</h2>
+					<ul>
+						<li>Simple</li>
+					</ul>
+				</section>
+				<section>
+					<h2>LINQ+UDFs</h2>
+				</section>
+				<section>
+					<h2>SQL+Dapper</h2>
+					<aside href="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li><a href="https://www.nuget.org/packages/Dapper">NuGet Gallery | Dapper 2.0.123</a></li>
+							<li><a href="https://github.com/DapperLib/Dapper">DapperLib/Dapper: Dapper - a simple object mapper for .Net</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>LINQ+caching</h2>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Wrap-up</h2>
+					<ul>
+						<li>Performance optimization</li>
+						<li>EF-Core optimization patterns and anti-patterns</li>
+						<li>Query optimizing</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 	</div>

@@ -385,10 +385,27 @@
 				</section>
 				<section>
 					<h2>Data query in software</h2>
+					<ul>
+						<li>It is easy to write LINQ that moves evaluation out of the database
+							<ul>
+								<li>Bad LINQ can have a huge impact on performance</li>
+							</ul>
+						</li>
+						<li>Aggregate LINQ methods (<code>Sum</code>, <code>Max</code>, <code>Min</code>, <code>Average</code>) requires nullable types</li>
+					</ul>
+					<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
+						// 'Where' is executed in database
+						context.<DbSet>.Where(x => x.id == id).ToList()
+						
+						// 'Where' is executed in software
+						context.<DbSet>.ToList().Where(x => x.id == id)
+					</script></code></pre>
+					<small>Database vs. software execution</small>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
 							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 453</li>
+							<li><a href="https://docs.microsoft.com/en-us/ef/core/querying/client-eval">Client vs. Server Evaluation - EF Core | Microsoft Docs</a></li>
 						</ul>
 					</aside>
 				</section>

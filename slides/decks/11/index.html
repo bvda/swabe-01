@@ -292,15 +292,50 @@
 				</section>
 				<section>
 					<h2>Not minimizing calls to databases</h2>
+					<ul>
+						<li>Four different ways load data:
+							<ul>
+								<li><mark>Select</mark> Load select columns</li>
+								<li><mark>Eager</mark> Load related data in the same query</li>
+								<li><mark>Explicit</mark>Load related data after</li>
+								<li><mark>Lazy</mark> Load when needed</li>
+							</ul>
+						</li>
+						<li>Same result, but a difference in the number of separate database accesses
+							<ul>
+								<li>The more separate database accesses, the slower the operation</li>
+							</ul>
+						</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
 							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 450-451</li>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) pp. 40-46</li>
 						</ul>
 					</aside>
 				</section>
 				<section>
 					<h2>Missing indexes</h2>
+					<ul>
+						<li>EF Core automatically indexes:
+							<ul>
+								<li>Primary keys</li>
+								<li>Foreign keys</li>
+								<li>Alternate keys</li>
+							</ul>
+						</li>
+						<li>Search or sort on other properties
+							<ul>
+								<li>Adding an index will improve the performace</li>
+							</ul>
+						</li>
+						<li>There is a cost to updating indexes on changed indexed properties
+							<ul>
+								<li>But the cost is smaller than the gains when filtering or sorting in them</li>
+							</ul>
+						</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -310,6 +345,37 @@
 				</section>
 				<section>
 					<h2>Loading single entities</h2>
+					<table>
+						<caption>Time measurements</caption>
+						<thead>
+							<th>Method</th>
+							<th>Time</th>
+							<th>Ratio</th>
+						</thead>
+						<tr style="font-size: 0.50em;">
+							<td style="padding: 8px;"><code>context.&lt;DbSet&gt;.Single(x => x.Id == id)</code></td>
+							<td style="padding: 8px;">175us</td>
+							<td style="padding: 8px;">100%</td>
+						</tr>
+						<tr style="font-size: 0.50em;">
+							<td style="padding: 8px;"><code>context.&lt;DbSet&gt;.First(x => x.Id == id)</code></td>
+							<td style="padding: 8px;">195us</td>
+							<td style="padding: 8px;">109%</td>
+						</tr>
+						<tr style="font-size: 0.50em;">
+							<td style="padding: 8px;"><code>context.Find&lt;Entity&gt;(id)</code> (not tracked)</td>
+							<td style="padding: 8px;">610us</td>
+							<td style="padding: 8px;">350%</td>
+						</tr>
+						<tr style="font-size: 0.50em;">
+							<td style="padding: 8px;"><code>context.Find&lt;Entity&gt;(id)</code> (tracked)</td>
+							<td style="padding: 8px;">0.5us</td>
+							<td style="padding: 8px;">0.3%</td>
+						</tr>
+					</table>
+					<ul>
+						<li>Only use <code>Find&lt;&gt;</code> if the entity is being tracked in the context</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>

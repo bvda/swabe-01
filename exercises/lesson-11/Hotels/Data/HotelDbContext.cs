@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Hotels;
+using Hotels.Models;
 
 public class HotelDbContext : DbContext
 {

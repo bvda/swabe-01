@@ -483,16 +483,41 @@
 				</section>
 				<section>
 					<h2>Updating entities</h2>
-					<ul></ul>
+					<ul>
+						<li>EF Core is great at detecting changes
+							<ul>
+								<li>If a property change, EF Core will generate the SQL to update a single column and the exat row</li>
+							</ul>
+						</li>
+						<li>The <code>Update</code> method should only be used when the whole <code>Entity</code> has changed
+							<ul>
+								<li>It creates a lot more SQL</li>
+							</ul>
+						</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
-							<li></li>
+							<li>Entity Framework Core in Action, 2nd edition (ISBN 9781617298363) p. 458</li>
 						</ul>
 					</aside>
 				</section>
 				<section>
 					<h2>Using one large <code>DbContext</code></h2>
+					<ul>
+						<li>Creating a <code>DbContext</code> for the first time takes some time
+							<ul>
+								<li>Scans all entities</li>
+								<li>Builds a model of the database</li>
+							</ul>
+						</li>
+						<li>Normally, this is not a problem
+							<ul>
+								<li>EF Core caches the configuration and model</li>
+								<li>But if you are running a serverless architecture, your application will start and stop often</li>
+							</ul>
+						</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>

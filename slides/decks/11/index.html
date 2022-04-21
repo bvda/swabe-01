@@ -439,6 +439,24 @@
 				</section>
 				<section>
 					<h2>Calling <code>SaveChanges()</code> multiple times</h2>
+					<ul>
+						<li>When you want to add data to the database, you have two options
+							<ol>
+								<li>Add one <code>Entity</code> object and call <code>SaveChanges</code></li>
+								<li>Add all <code>Entity</code> objects and call <code>SaveChanges</code></li>
+							</ol>
+						</li>
+						<li>Option 2 is a lot faster
+							<ul>
+								<li>EF Core uses batching to optimize database access</li>
+							</ul>
+						</li>
+						<li>Calling <code>SaveChanges()</code> only once gives us some transactional features
+							<ul>
+								<li>If a single operation fails, nothing will be written</li>
+							</ul>
+						</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -448,6 +466,14 @@
 				</section>
 				<section>
 					<h2>Making <code>DetectChanges()</code> work too hard</h2>
+					<ul>
+						<li>Everytime <code>SaveChanges()</code> runs, EF Core runs <code>DetectChanges()</code>
+							<ul>
+								<li>The execution time depends on the number of tracked <code>Entity</code> objects</li>
+							</ul>
+						</li>
+						<li>Add <code>AsNoTracking()</code> for queries where you know you will not mutate state</li>
+					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
 						<ul>
@@ -457,6 +483,13 @@
 				</section>
 				<section>
 					<h2>Updating entities</h2>
+					<ul></ul>
+					<aside class="notes" aria-label="notes">
+						<h4>References</h4>
+						<ul>
+							<li></li>
+						</ul>
+					</aside>
 				</section>
 				<section>
 					<h2>Using one large <code>DbContext</code></h2>

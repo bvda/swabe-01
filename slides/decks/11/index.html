@@ -99,7 +99,7 @@
 						<li>The SQL statements are the ultimate truth</li>
 						<li>The needed steps to fixing issues
 							<ul>
-								<li>Understanding the logging output producted by EF Core</li>
+								<li>Understanding the logging output produced by EF Core</li>
 								<li>Capturing the logging output</li>
 								<li>Extracting the SQL statements sent to the database</li>
 							</ul>
@@ -119,12 +119,13 @@
 					</ul>
 					<pre data-id="code-animation"><code class='cs' data-trim data-line-numbers><script type="text/template">
 						var logs = new List<string>();
-							var builder =
-							new DbContextOptionsBuilder<BookDbContext>()
+						var builder =
+						new DbContextOptionsBuilder<BookDbContext>()
 							.UseSqlServer(connectionString)
 							.EnableSensitiveDataLogging()
 							.LogTo(log => logs.Add(log), LogLevel.Information);
-							using var context = new BookDbContext(builder.Options);
+
+						using var context = new BookDbContext(builder.Options);
 					</script></code></pre>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
@@ -266,7 +267,7 @@
 								<li>Do not mix business logic with database operations</li>
 							</ul>
 						</li>
-						<li>Create a <code>classlib</code> project for your <code>DbContext</code> objects and migrations</li>
+						<li>Create a <code>classlib</code> project for your <code>DbContext</code> objects and one for migrations</li>
 					</ul>
 					<aside class="notes" aria-label="notes">
 						<h4>References</h4>
@@ -289,7 +290,7 @@
 							<ul>
 								<li><mark>Select</mark> Load select columns</li>
 								<li><mark>Eager</mark> Load related data in the same query</li>
-								<li><mark>Explicit</mark>Load related data after</li>
+								<li><mark>Explicit</mark> Load related data after</li>
 								<li><mark>Lazy</mark> Load when needed</li>
 							</ul>
 						</li>

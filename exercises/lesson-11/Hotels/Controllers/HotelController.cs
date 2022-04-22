@@ -26,6 +26,6 @@ public class HotelController : ControllerBase
     [HttpGet("most_visited")]
     public async Task<ActionResult<List<Hotel>>> OnGetHotelsWithTenReviewsAsync(int count)
     {
-        return await _context.Hotels; // TODO Fix this handler
+        return await _context.Hotels.ToListAsync(); // TODO Fix this handler
     }
 }

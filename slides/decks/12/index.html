@@ -27,6 +27,13 @@
 						<h2> OAuth 2.0</h2>
 					</section>
 					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li>Roles</li>
+							<li>Protocol</li>
+						</ul>
+					</section>
+					<section>
 						<h2>Roles</h2>
 						<ul>
 							<li>Resource Owner
@@ -57,10 +64,26 @@
 							</ul>
 						</aside>
 					</section>
+					<section>
+						<h2>Protocol flow</h2>
+						<img src="../../assets/abstract-protocol-flow.png" alt="abstract-protocol-flow" />
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.2">RFC 6749 – Protocol flow</a></li>
+							</ul>
+						</aside>
+					</section>
 				</section>
 				<section>
 					<section>
 						<h2>OpenID Connect</h2>
+					</section>
+					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li></li>
+						</ul>
 					</section>
 					<section>
 						<h2>Endpoints (Auth0)</h2>
@@ -75,13 +98,56 @@
 					</section>
 				</section>
 				<section>
-					<h2>Grant types</h2>
-					<ul>
-						<li>Authorization Code</li>
-						<li>Client Credentials</li>
-						<li>Device Code</li>
-						<li>Refresh Token</li>
-					</ul>
+					<section>
+						<h2>Grants</h2>
+					</section>
+					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li>An authorization grant is a credential representing the RO's authorization
+								<ul>
+									<li>Used by the client to obtain access tokens</li>
+								</ul>
+							</li>
+							<li>RFC 6749 specifies defines four grant types
+								<ul>
+									<li>Authorization Code</li>
+									<li>Client Credentials</li>
+									<li>Refresh Token</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Refresh token</h2>
+						<img src="../../assets/grant-refresh.png" alt="grant-refresh">
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.5">RFC 6749</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Client Credentials</h2>
+						<img src="../../assets/grant-client-credentials.png" alt="grant-client-credentials" />
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.4">RFC 6749</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Authorization Code</h2>
+						<img src="../../assets/grant-authentication-code.png" alt="grant-authentication-code" />
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.1">RFC 6749</a></li>
+							</ul>
+						</aside>
+					</section>
 				</section>
 			</div>
 		</div>

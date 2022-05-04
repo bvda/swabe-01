@@ -38,17 +38,17 @@
 						<ul>
 							<li>Resource Owner
 								<ul>
-									<li>An entity capable of granting access to protected resources</li>
+									<li>An <mark>entity</mark> capable of granting access to protected resources</li>
 								</ul>
 							</li>
 							<li>Resource Server
 								<ul>
-									<li>The server hosting the protected resources</li>
+									<li>The server <mark>hosting</mark> the protected resources</li>
 								</ul>
 							</li>
 							<li>Client
 								<ul>
-									<li>An entity making protected resource requests on behalf of the resource owner</li>
+									<li>An entity making protected resource requests on <mark>behalf</mark> of the resource owner</li>
 								</ul>
 							</li>
 							<li>Authorization Server
@@ -73,28 +73,6 @@
 								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.2">RFC 6749 – Protocol flow</a></li>
 							</ul>
 						</aside>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h2>OpenID Connect</h2>
-					</section>
-					<section>
-						<h2>Overview</h2>
-						<ul>
-							<li></li>
-						</ul>
-					</section>
-					<section>
-						<h2>Endpoints (Auth0)</h2>
-						<ul>
-							<li>OAuth Authorization URL—<code>/authorize</code></li>
-							<li>Device Authorization URL—<code>/oauth/device/code</code></li>
-							<li>OAuth Token URL—<code>/token</code></li>
-							<li>OAuth User Info URL—<code>/userinfo</code></li>
-							<li>OpenID Configuration<code>/.well-known/openid-configuration</code></li>
-							<li>JSON Web Key Set<code>/jwks.json</code></li>
-						</ul>
 					</section>
 				</section>
 				<section>
@@ -182,6 +160,65 @@
 								client_id=foo</span>
 						</div>
 					</section>
+					<section>
+						<h2>Proof key for exchange (PKCE)</h2>
+						<ul>
+							<li>Used for single-page applications and native mobile apps
+								<ul>
+									<li>Source code is available in the browser or on the device</li>
+									<li>Confidentiality cannot be guranteed</li>
+								</ul>
+							</li>
+							<li>Dynamic generated secrets for each grant flow
+								<ul>
+									<li>Allows OAuth exchange on public clients</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Access Token</h2>
+						<ul>
+							<li>Access token are <mark>credentials</mark></li>
+							<li>They hold specific scopes abd durations of access</li>
+							<li>They are enforced by the resource server and authorization server</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>OpenID Connect</h2>
+					</section>
+					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li>A simple layer on top of OAuth 2.0</li>
+							<li>Allows <mark>clients</mark> to verify identity of the <mark>end-user</mark>
+								<ul>
+									<li>Based on authentication performed by an Authorization Server</li>
+								</ul>
+							</li>
+							<li>Obtains information about the <mark>end-user</mark></li>
+							<li><mark>Core</mark></li>
+							<li><mark>Discovery</mark></li>
+							<li><mark></mark></li>
+							<li>OAuth is a <mark>authorization</mark> protocol, OpenID adds <mark>authentication</mark></li>
+						</ul>
+					</section>
+					<section>
+						<h2>Endpoints (Auth0)</h2>
+						<ul>
+							<li>OAuth Authorization URL—<code>/authorize</code></li>
+							<li>Device Authorization URL—<code>/oauth/device/code</code></li>
+							<li>OAuth Token URL—<code>/token</code></li>
+							<li>OAuth User Info URL—<code>/userinfo</code></li>
+							<li>OpenID Configuration<code>/.well-known/openid-configuration</code></li>
+							<li>JSON Web Key Set<code>/jwks.json</code></li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h2>Wrap-up</h2>
 				</section>
 			</div>
 		</div>

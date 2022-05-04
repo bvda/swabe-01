@@ -97,29 +97,6 @@
 						</ul>
 					</section>
 					<section>
-						<h2>Refresh token</h2>
-						<img src="../../assets/grant-refresh.png" alt="grant-refresh">
-						<aside class="notes" aria-label="notes">
-							<h4>References</h4>
-							<ul>
-								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.5">RFC 6749</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section>
-						<h2>Refresh access token</h2>
-						<div style="text-align: start;">
-							<span style="font-family: monospace;">
-								POST /token HTTP/1.1
-								Host: localhost:3000
-								Content-Type: application/x-www-form-urlencoded
-								<br /><br />
-								client_id=<span style="color: cornflowerblue;">such_app</span>&
-								grant_type=<span style="color: cornflowerblue">refresh_token</span>&
-								refresh_token=<span style="color: cornflowerblue;">CKvFN41bRNun31VKWLWZCzzj0Zy1k6l6067DrELwOi8</span></span>
-						</div>
-					</section>
-					<section>
 						<h2>Client Credentials</h2>
 						<img src="../../assets/grant-client-credentials.png" alt="grant-client-credentials" />
 						<ul>
@@ -135,7 +112,7 @@
 				</section>
 				<section>
 					<section>
-						<h2>Authorization Code</h2>
+						<h2>Authorization Code Flow</h2>
 					</section>
 					<section>
 						<h2>Authorization Code</h2>
@@ -198,6 +175,34 @@
 							<li>They hold specific scopes abd durations of access</li>
 							<li>They are enforced by the resource server and authorization server</li>
 						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Refresh Token Flow</h2>
+					</section>
+					<section>
+						<h2>Refresh token</h2>
+						<img src="../../assets/grant-refresh.png" alt="grant-refresh">
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.5">RFC 6749</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Refresh access token</h2>
+						<div style="text-align: start;">
+							<span style="font-family: monospace;">
+								POST /token HTTP/1.1
+								Host: localhost:3000
+								Content-Type: application/x-www-form-urlencoded
+								<br /><br />
+								client_id=<span style="color: cornflowerblue;">such_app</span>&
+								grant_type=<span style="color: cornflowerblue">refresh_token</span>&
+								refresh_token=<span style="color: cornflowerblue;">CKvFN41bRNun31VKWLWZCzzj0Zy1k6l6067DrELwOi8</span></span>
+						</div>
 					</section>
 				</section>
 				<section>

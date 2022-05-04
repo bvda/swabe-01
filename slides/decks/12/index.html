@@ -138,6 +138,11 @@
 							</ul>
 						</aside>
 					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Authorization Code</h2>
+					</section>
 					<section>
 						<h2>Authorization Code</h2>
 						<img src="../../assets/grant-authentication-code.png" alt="grant-authentication-code" />
@@ -147,6 +152,35 @@
 								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.1">RFC 6749</a></li>
 							</ul>
 						</aside>
+					</section>
+					<section>
+						<h2>Starting the flow</h2>
+						<div style="text-align: start;">
+							<span style="font-family: monospace;">http://localhost:3000/auth?<br />
+							client_id=<span style="color:cornflowerblue;">foo</span>&<br />
+							response_type=<span style="color:cornflowerblue;">code</span>&<br />
+							redirect_uri=<span style="color: cornflowerblue;">http://127.0.0.1:3010/callback</span>&<br />
+							scope=<span style="color: cornflowerblue;">openid</span>&<br />
+							code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&<br />
+							code_challenge_method=S256</span>
+
+						</div>
+					</section>
+					<section>
+						<h2>Exchange code for access token</h2>
+						<div style="text-align: start;">
+							<span style="font-family: monospace;">
+								POST /token HTTP/1.1
+								Host: localhost:3000
+								Content-Type: application/x-www-form-urlencoded
+								Content-Length: 204
+								
+								grant_type=authorization_code&
+								code=Z3vGXak3LpV6p6Dy23qxkkAe4FSuy5RyHbRtid4oehl&
+								redirect_uri=http%3A%2F%2F127.0.0.1%3A3010%2Fcallback&
+								code_verifier=pIUgx4tiqFpaOUz0HMc_QbIyQlL901w8mRmkrmhEJ_E&
+								client_id=foo</span>
+						</div>
 					</section>
 				</section>
 			</div>

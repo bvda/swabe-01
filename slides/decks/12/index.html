@@ -38,7 +38,7 @@
 						<ul>
 							<li>Resource Owner
 								<ul>
-									<li>An <mark>entity</mark> capable of granting access to protected resources</li>
+									<li>An entity capable of <mark>granting</mark> access to protected resources</li>
 								</ul>
 							</li>
 							<li>Resource Server
@@ -49,6 +49,7 @@
 							<li>Client
 								<ul>
 									<li>An entity making protected resource requests on <mark>behalf</mark> of the resource owner</li>
+									<li>Two different client types: <mark>confidential</mark> and <mark>public</mark></li>
 								</ul>
 							</li>
 							<li>Authorization Server
@@ -71,6 +72,28 @@
 							<h4>References</h4>
 							<ul>
 								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.2">RFC 6749 – Protocol flow</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Protocol flow</h2>
+						<ul>
+							<li>The authorization process utilizes two authorization server endpoints (HTTP resources)
+								<ul>
+									<li>Token</li>
+									<li>Authorization</li>
+								</ul>
+							</li>
+							<li>As well as one client endpoint
+								<ul>
+									<li>callback</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-3">RFC 6749 – Protocol Endpoints (pp. 17-22)</a></li>
 							</ul>
 						</aside>
 					</section>

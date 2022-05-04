@@ -6,7 +6,7 @@ import path from 'path';
 
 const app = express()
 const PORT = 3000
-const ISSUER_URL = `http://127.0.0.1:${PORT}`
+const ISSUER_URL = `https://127.0.0.1:${PORT}`
 const REDIRECT_URI = ['https://127.0.0.1:3010/callback', 'https://oauthdebugger.com/debug', 'https://oidcdebugger.com/debug'];
 
 const options =  {
@@ -23,6 +23,14 @@ const configuration: Configuration = {
     token_endpoint_auth_method: 'none',
     redirect_uris: REDIRECT_URI,
     scope: 'openid offline_access'
+  }, {
+    client_id: 'such_client',
+    client_secret: 'such_secure',
+    response_types: ['id_token'],
+    grant_types: ['implicit', 'client_credentials'],
+    token_endpoint_auth_method: 'client_secret_basic',
+    redirect_uris: REDIRECT_URI,
+    scope: 'openid'    
   }],
   pkce: {
     methods: ['plain', 'S256'],
@@ -56,6 +64,7 @@ const configuration: Configuration = {
 }
 
 const oidc = new Provider(ISSUER_URL, configuration)
-https.createServer(options, app.use('/oidc', oidc.callback())).listen(PORT, () => {
+app.use('/oidc', oidc.callback())
+https.createServer(options, app).listen(PORT, () => {
   console.log(`Running 'oidc-client' on port ${PORT}`)
 })

@@ -1,15 +1,25 @@
 import { Configuration, Provider } from 'oidc-provider'
+import express from 'express'
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
 
+const app = express()
 const PORT = 3000
 const ISSUER_URL = `http://127.0.0.1:${PORT}`
 const REDIRECT_URI = ['https://127.0.0.1:3010/callback', 'https://oauthdebugger.com/debug', 'https://oidcdebugger.com/debug'];
+
+const options =  {
+  key: fs.readFileSync(path.join(__dirname, '../selfsigned.key')),
+  cert: fs.readFileSync(path.join(__dirname, '../selfsigned.crt'))
+};
 
 const configuration: Configuration = {
   clients: [{
     client_id: 'such_app',
     client_secret: 'such_secure',
     response_types: ['code', 'code id_token', 'id_token'],
-    grant_types: ['authorization_code', 'refresh_token', 'implicit'],
+    grant_types: ['authorization_code', 'refresh_token', 'implicit', 'client_credentials'],
     token_endpoint_auth_method: 'none',
     redirect_uris: REDIRECT_URI,
     scope: 'openid offline_access'
@@ -46,6 +56,6 @@ const configuration: Configuration = {
 }
 
 const oidc = new Provider(ISSUER_URL, configuration)
-oidc.listen(PORT, () => {
-  console.log(`Running 'oidc-provider' running on port ${PORT}`)
+https.createServer(options, app.use('/oidc', oidc.callback())).listen(PORT, () => {
+  console.log(`Running 'oidc-client' on port ${PORT}`)
 })

@@ -2,33 +2,28 @@ import { Configuration, Provider } from 'oidc-provider'
 
 const PORT = 3000
 const ISSUER_URL = `http://127.0.0.1:${PORT}`
-const REDIRECT_URI = 'https://127.0.0.1:3010/callback';
+const REDIRECT_URI = ['https://127.0.0.1:3010/callback', 'https://oauthdebugger.com/debug', 'https://oidcdebugger.com/debug'];
 
 const configuration: Configuration = {
   clients: [{
-    client_id: 'code_pkce',
-    response_types: ['code'],
-    grant_types: ['authorization_code'],
+    client_id: 'such_app',
+    client_secret: 'such_secure',
+    response_types: ['code', 'code id_token', 'id_token'],
+    grant_types: ['authorization_code', 'refresh_token', 'implicit'],
     token_endpoint_auth_method: 'none',
-    redirect_uris: [REDIRECT_URI],
-    scope: 'openid'
-  }, {
-    client_id: 'implicit',
-    response_types: ['id_token'],
-    grant_types: ['implicit'],
-    token_endpoint_auth_method: 'none',
-    redirect_uris: [REDIRECT_URI],
-    scope: 'openid'    
-  }, {
-    client_id: 'code_pkce_with_refresh',
-    response_types: ['code'],
-    grant_types: ['authorization_code', 'refresh_token'],
-    token_endpoint_auth_method: 'none',
-    redirect_uris: [REDIRECT_URI],
-    scope: 'openid offline_access'    
+    redirect_uris: REDIRECT_URI,
+    scope: 'openid offline_access'
   }],
   pkce: {
-    methods: ['plain', 'S256']
+    methods: ['plain', 'S256'],
+    required: function pkceRequired(ctx, client) {
+      return false;
+    }
+  },
+  features: {
+    clientCredentials: {
+      enabled: true
+    },
   },
   jwks: {
       keys: [

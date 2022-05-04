@@ -1,16 +1,31 @@
 
+<h4>Implicit Flow</h4>
 <div style="display: flex; flex-direction: column;">
-  <a href="http://localhost:3000/auth?client_id=implicit&response_type=id_token&redirect_uri=https://127.0.0.1:3010/callback&nonce=foobar&scope=openid" type="button">Implicit</a>
-  <code>http://localhost:3000/auth?client_id=foo&response_type=id_token&redirect_uri=https://127.0.0.1:3010/callback&nonce=foobar&scope=openid</code>
+  <code>http://localhost:3000/auth?client_id=such_app&response_type=id_token&redirect_uri=https://127.0.0.1:3010/callback&nonce=foobar&scope=openid</code>
+  <a href="http://localhost:3000/auth?client_id=such_app&response_type=id_token&redirect_uri=https://127.0.0.1:3010/callback&nonce=foobar&scope=openid" type="button">Implicit (ID Token)</a>
 </div>
+
+<h4>Authorization Code Flow</h4>
 <div style="display: flex; flex-direction: column;">
-  <a href="http://localhost:3000/auth?client_id=code_pkce&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256" type="button">Authorization Code (PKCE)</a>
-  <code>http://localhost:3000/auth?client_id=foo&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256</code>
+  <code>http://localhost:3000/auth?client_id=code&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid offline_access</code>
+  <a href="http://localhost:3000/auth?client_id=such_app&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid offline_access" type="button">Authorization Code</a>
+  <h6>With refresh Token</h6>
+  <code>http://localhost:3000/auth?client_id=code&prompt=consent&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid offline_access</code>
+  <a href="http://localhost:3000/auth?client_id=such_app&response_type=code&prompt=consent&redirect_uri=https://127.0.0.1:3010/callback&scope=openid offline_access" type="button">Authorization Code</a>
+  
+<h4>The rest</h4>
+  <a href="http://localhost:3000/auth?client_id=code&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&scope=offline_access&code_challenge_method=S256" type="button">Authorization Code (PKCE) – No scope</a>
+  <code>http://localhost:3000/auth?client_id=code&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256</code>
 </div>
 <div style="display: flex; flex-direction: column;">
   <a href="http://localhost:3000/auth?client_id=code_pkce_with_refresh&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid offline_access&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256" type="button">Authorization Code (PKCE) with refresh</a>
   <code>http://localhost:3000/auth?client_id=foo&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256</code>
 </div>
+<div style="display: flex; flex-direction: column;">
+  <a href="http://localhost:3000/auth?client_id=foo&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid" type="button">Authorization Code</a>
+  <code>http://localhost:3000/auth?client_id=foo&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256</code>
+</div>
+<h2>Client Credentials</h2>
 <div style="display: flex; flex-direction: column;">
   <a href="http://localhost:3000/auth?client_id=foo&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid" type="button">Authorization Code</a>
   <code>http://localhost:3000/auth?client_id=foo&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256</code>

@@ -29,8 +29,25 @@
 					<section>
 						<h2>Overview</h2>
 						<ul>
-							<li>Roles</li>
-							<li>Protocol</li>
+							<li>What is OAuth and OpenID Connect</li>
+							<li>Terminology
+								<ul>
+									<li>Roles</li>
+									<li>Grants</li>
+								</ul>
+							</li>
+							<li></li>
+						</ul>
+					</section>
+					<section>
+						<h2>What is OAuth 2.0</h2>
+						<ul>
+							<li><mark>Problem</mark> How do we share resources?
+								<ul>
+									<li>Share credentials (username and password)</li>
+									<li>Is it the smartest thing to do? (No, it's not!)</li>
+								</ul>
+							</li>
 						</ul>
 					</section>
 					<section>
@@ -64,6 +81,21 @@
 								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.1">1.1 Roles, p. 6</a></li>
 							</ul>
 						</aside>
+					</section>
+					<section>
+						<h2>Scope & consent</h2>
+						<ul>
+							<li>The granular permissions the client wants
+								<ul>
+									<li>To be able to access data or perform actions on the resource owner's behalf</li>
+								</ul>
+							</li>
+							<li>The authorization server presents the scopes request by the client
+								<ul>
+									<li>The resource owner verifies whether or not they want to give the client permission</li>
+								</ul>
+							</li>
+						</ul>
 					</section>
 					<section>
 						<h2>Protocol flow</h2>

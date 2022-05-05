@@ -18,9 +18,442 @@
 		<div class="reveal">
 			<div class="slides">
 				<section id="introduction">
-					<h1>OAuth 2.0 and OpenID Connect</h1>
-					<h3>Lesson 12</h3>
-					<h4>SWABE-01</h4>
+					<section>
+						<h1>OAuth 2.0 and OpenID Connect</h1>
+						<h3>Lesson 12</h3>
+						<h4>SWABE-01</h4>
+					</section>
+					<section>
+						<h2>Agenda</h2>
+						<ul>
+							<li>What is OAuth and OpenID Connect</li>
+							<li>Terminology</li>
+							<li>Grant types</li>
+							<li>Tokens</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2> OAuth 2.0</h2>
+					</section>
+					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li>Roles</li>
+							<li>Grants</li>
+							<li>Scopes</li>
+							<li>Protocol flow</li>
+							<li>Redirect URIs</li>
+						</ul>
+					</section>
+					<section>
+						<h2>What is OAuth 2.0?</h2>
+						<ul>
+							<li><mark>Problem</mark> How do we share resources?
+								<ul>
+									<li>Share credentials (username and password)</li>
+									<li>Is it the smartest thing to do? (no, it's not!)</li>
+								</ul>
+							</li>
+							<li>Delegated authorization
+								<ul>
+									<li><mark>Allow</mark> a system to access data or perform actions on <mark>behalf</mark> of the user</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Roles</h2>
+						<ul>
+							<li>Resource Owner
+								<ul>
+									<li>An entity capable of <mark>granting</mark> access to protected resources</li>
+								</ul>
+							</li>
+							<li>Resource Server
+								<ul>
+									<li>The server <mark>hosting</mark> the protected resources</li>
+								</ul>
+							</li>
+							<li>Client
+								<ul>
+									<li>An entity making protected resource requests on <mark>behalf</mark> of the resource owner</li>
+									<li>Two different client types: <mark>confidential</mark> and <mark>public</mark></li>
+								</ul>
+							</li>
+							<li>Authorization Server
+								<ul>
+									<li>The server <mark>issuing</mark> access tokens to clients</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.1">1.1 Roles, p. 6</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Scope</h2>
+						<ul>
+							<li>The <mark>granular</mark> permissions the client wants
+								<ul>
+									<li>To be able to access <mark>data</mark> or perform <mark>actions</mark> on the resource owner's behalf</li>
+								</ul>
+							</li>
+							<li>The authorization server presents the scopes requested by the client
+								<ul>
+									<li>The resource owner <mark>verifies</mark> whether or not they want to give the client <mark>permission</mark></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Protocol flow</h2>
+						<img src="../../assets/abstract-protocol-flow.png" alt="abstract-protocol-flow" />
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.2">RFC 6749 – Protocol flow</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Protocol endpoints</h2>
+						<ul>
+							<li>The authorization process utilizes two authorization <mark>server</mark> endpoints (HTTP resources)
+								<ul>
+									<li>Authorization – used by <mark>client</mark> to obtain authorization</li>
+									<li>Token – used by clients to <mark>exchange</mark> authorization grants for access tokens</li>
+								</ul>
+							</li>
+							<li>As well as one client endpoint
+								<ul>
+									<li>Callback – used by authorization server to <mark>return</mark> responses</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-3">RFC 6749 – Protocol Endpoints (pp. 17-22)</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Redirect URIs</h2>
+						<ul>
+							<li>The OAuth 2.0 makes extensive use of HTTP redirects</li>
+							<li>The authorization server will <mark>redirect</mark> the user's user-agent back to the client</li>
+							<li>All redirect URIs must be served with <mark>HTTPS</mark>
+								<ul>
+									<li>Preserves <mark>confidentiality</mark></li>
+								</ul>
+							</li>
+							<li>Redirect URIs must be <mark>registered</mark> with the Authentication Server</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Grants</h2>
+					</section>
+					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li>An authorization grant is a credential representing the RO's authorization
+								<ul>
+									<li>Used by the client to obtain access tokens</li>
+								</ul>
+							</li>
+							<li>Grant types
+								<ul>
+									<li>Authorization Code
+										<ul>
+											<li>Proof key for Code Exchange (PKCE)</li>
+										</ul>
+									</li>
+									<li>Client Credentials</li>
+									<li>Refresh Token</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Client Credentials</h2>
+						<img src="../../assets/grant-client-credentials.png" alt="grant-client-credentials" />
+						<ul>
+							<li>The Client Credentials grant is used when applications request an access token to access their own data/resources
+								<ul>
+									<li>Not on behalf of a user</li>
+								</ul>
+							</li>
+							<li>Credentials passed as Basic Authorization</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.4">RFC 6749</a></li>
+								<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication">HTTP authentication - HTTP | MDN</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Client Credentials</h2>
+						<div style="text-align: start;">
+							<span style="font-family: monospace;">
+								POST /oidc/token HTTP/1.1<br />
+								Host: localhost:3000<br />
+								Authorization: <span style="color: cornflowerblue;">Basic c3VjaF9jbGllbnQ6c3VjaF1cmU=</span><br />
+								Content-Type: <span style="color: cornflowerblue;">application/x-www-form-urlencoded</span><br />
+								<br />
+								grant_type=<span style="color: cornflowerblue;">client_credentials</span>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Authorization Code Flow</h2>
+					</section>
+					<section>
+						<h2>Authorization Code Flow</h2>
+						<ul>
+							<li>All tokens are returned by the <mark>token</mark> endpoint</li>
+							<li>Returns a <mark>code</mark> that the client can <mark>exchange</mark> for an access token</li>
+							<li>Tokens not <mark>exposed</mark> to the user-agent</li>
+							<li>Suitable if Client and Authentication Server can maintain a <mark>secure</mark> secret
+								<ul>
+									<li>Otherwise, we should use PKCE</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Authorization Code</h2>
+						<img src="../../assets/grant-authentication-code.png" alt="grant-authentication-code" />
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.1">RFC 6749</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Starting the flow</h2>
+						<div style="text-align: start;">
+							<span style="font-family: monospace;">http://localhost:3000/auth?<br />
+							client_id=<span style="color:cornflowerblue;">foo</span>&<br />
+							response_type=<span style="color:cornflowerblue;">code</span>&<br />
+							redirect_uri=<span style="color: cornflowerblue;">http://127.0.0.1:3010/callback</span>&<br />
+							scope=<span style="color: cornflowerblue;">openid</span>&<br />
+						</div>
+					</section>
+					<section>
+						<h2>Proof key for exchange (PKCE)</h2>
+						<ul>
+							<li>Used for single-page applications and native mobile apps
+								<ul>
+									<li>Source code is <mark>available</mark> in the <mark>browser</mark> or on the <mark>device</mark></li>
+									<li><mark>Confidentiality</mark> cannot be guranteed</li>
+								</ul>
+							</li>
+							<li><mark>Dynamic</mark> generated secrets for each grant flow
+								<ul>
+									<li>Allows Authorization code flows on <mark>public</mark> clients</li>
+								</ul>
+							</li>
+							<li>Add the following query parameters
+								<ul>
+									<li><code>code_challenge</code></li>
+									<li><code>code_challenge_method</code></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Tokens</h2>
+					</section>
+					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li>There are two types of tokens
+								<ul>
+									<li><code>Access</code>tokens are used to access protected resources</li>
+									<li><code>Refresh</code>tokens are used to request new access tokens</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Access Token</h2>
+						<ul>
+							<li>Access token are <mark>credentials</mark></li>
+							<li>They hold specific scopes and duration of access
+								<ul>
+									<li><mark>Enforced</mark> by the resource server and the authorization server</li>
+								</ul>
+							</li>
+							<li>It is up to the Resource Server to <mark>verify</mark> the token when the client makes requests</li>
+							<li>Typically sent to the Resource Server with <mark>Bearer</mark> Authorization
+								<ul>
+									<li><code>Authorization: Bearer <token></token></code></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Exchange code for access token</h2>
+						<div style="text-align: start;">
+							<span style="font-family: monospace;">
+								POST /token HTTP/1.1
+								Host: localhost:3000
+								Content-Type: <span style="color: cornflowerblue;">application/x-www-form-urlencoded</span>
+								<br /><br />
+								grant_type=<span style="color:cornflowerblue;">authorization_code</span>&
+								code=<span style="color:cornflowerblue;">Z3vGXak3LpV6p6Dy23qxkkAe4FSuy5RyHbRtid4oehl</span>&
+								redirect_uri=<span style="color: cornflowerblue;">http://127.0.0.1:3010/callback</span>&
+								code_verifier=<span style="color: cornflowerblue;">pIUgx4tiqFpaOUz0HMc_QbIyQlL901w8mRmkrmhEJ_E</span>&
+								client_id=<span style="color: cornflowerblue;">foo</span>
+						</div>
+					</section>
+					<section>
+						<h2>Refresh token</h2>
+						<ul>
+							<li>Refresh tokens are used to obtain access tokens</li>
+							<li>Issued by the authorization server
+								<ul>
+									<li>Use the refresh token to get a new token set</li>
+									<li>The new token set will contain and <mark>new</mark> access token and a new refresh token</li>
+								</ul>
+							</li>
+							<li>According to OIDC standard the following <mark>parameters</mark> must be sent to the authorization server
+								<ul>
+									<li>Scope <code>offline_access</code> and prompt <code>consent</code></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Refresh token</h2>
+						<img src="../../assets/grant-refresh.png" alt="grant-refresh">
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.5">RFC 6749</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Refresh access token</h2>
+						<div style="text-align: start;">
+							<span style="font-family: monospace;">
+								POST /token HTTP/1.1
+								Host: localhost:3000
+								Content-Type: <span style="color: cornflowerblue;">application/x-www-form-urlencoded</span>
+								<br /><br />
+								client_id=<span style="color: cornflowerblue;">such_app</span>&<br />
+								grant_type=<span style="color: cornflowerblue">refresh_token</span>&<br />
+								refresh_token=<span style="color: cornflowerblue;">CKvFN41bRNun31VKWLWZCzzj0Zy1k6l6067DrELwOi8</span></span>
+						</div>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-6">RFC 6749 – Refreshing an Access Token (pp. 46-47)</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>OpenID Connect</h2>
+					</section>
+					<section>
+						<h2>Overview</h2>
+						<ul>
+							<li>A simple layer on top of OAuth 2.0</li>
+							<li>Allows <mark>clients</mark> to verify identity of the <mark>end-user</mark>
+								<ul>
+									<li>Based on authentication performed by an Authorization Server</li>
+								</ul>
+							</li>
+							<li>Obtain information about the <mark>End-User</mark></li>
+							<li>OAuth is an <mark>authorization</mark> protocol, OpenID Connect adds <mark>authentication</mark></li>
+						</ul>
+					</section>
+					<section>
+						<h2>ID Token</h2>
+						<ul>
+							<li>The primary extension that enables End-User authentication
+								<ul>
+									<li>The ID Token is a security token</li>
+									<li>Contains <mark>claims</mark></li>
+								</ul>
+							</li>
+							<li>Represented as a JSON Web Token (JWT)</li>
+							<li>The following claims are registered
+								<ul>
+									<li><code>iss</code>–Issuer Identifier URI to the provider that issued the token</li>
+									<li><code>sub</code>–Subject Identifier that identifies the End-User for the Issuer</li>
+									<li><code>aud</code>–Audience(s) that the token is intended for (Relying Party)</li>
+									<li><code>exp</code>–Expiration time from when the token is invalid</li>
+									<li><code>iat</code>–Issued At when the token were issued</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Claims and scopes</h2>
+						<ul>
+							<li>The specification defines a set of standard claims to unify</li>
+							<li>Each OIDC authentication request must contain the <code>openid</code> scope</li>
+							<li>Claims can be requested through scopes
+							<ul>
+								<li><code>profile</code> – access to name, picture, gender, etc.</li>
+								<li><code>email</code> – access to email</li>
+								<li><code>address</code> – access to the street, country, postal code, etc.</li>
+								<li><code>phone</code> – access to phone number</li>
+							</ul>
+						</li>
+						</ul>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims">Requesting Claims using Scope Values</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Endpoints</h2>
+						<ul>
+							<li>OAuth 2.0 endpoints
+								<ul>
+									<li>OAuth Authorization URL—<code>/authorize</code></li>
+									<li>OAuth Token URL—<code>/token</code></li>
+								</ul>
+							</li>
+							<li>OAuth User Info URL—<code>/userinfo</code></li>
+							<li>OpenID Configuration—<code>/.well-known/openid-configuration</code></li>
+							<li>JSON Web Key Set—<code>/jwks.json</code></li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h2>Wrap-up</h2>
+					<ul>
+						<li>OAuth
+							<ul>
+								<li>Terminology</li>
+								<li>Authentication flows</li>
+								<li>Scopes</li>
+							</ul>
+						</li>
+						<li>Tokens</li>
+						<li>OpenID Connect</li>
+					</ul>
 				</section>
 			</div>
 		</div>

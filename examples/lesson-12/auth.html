@@ -1,0 +1,30 @@
+<h1>OAuth 2.0 Grant Flows</h1>
+<h2>Endpoints</h2>
+<ul>
+  <li>
+    <div style="display: flex; flex-direction: column;">
+      <a href="https://localhost:3000/oidc/auth?client_id=such_app&response_type=id_token&redirect_uri=https://127.0.0.1:3010/callback&nonce=foobar&scope=openid" type="button">Implicit (ID Token)</a>
+      <code>https://localhost:3000/oidc/auth?client_id=such_app&response_type=id_token&redirect_uri=https://127.0.0.1:3010/callback&nonce=foobar&scope=openid</code>    
+    </div>
+  </li>
+  <li>
+    <div style="display: flex; flex-direction: column;">
+      <a href="https://localhost:3000/oidc/auth?client_id=such_app&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid" type="button">Authorization Code</a>
+      <code>https://localhost:3000/oidc/auth?client_id=code&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid offline_access</code>
+    </div>
+  </li>
+  <li>
+    <div style="display: flex; flex-direction: column;">
+      <a href="https://localhost:3000/oidc/auth?client_id=such_app&response_type=code&prompt=consent&redirect_uri=https://127.0.0.1:3010/callback&scope=openid offline_access" type="button">Authorization Code (Refresh Token)</a>
+      <code>https://localhost:3000/oidc/auth?client_id=code&prompt=consent&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid offline_access</code>    
+    </div>
+  </li>
+  <li>
+    <div style="display: flex; flex-direction: column;">
+      <a href="https://localhost:3000/oidc/auth?client_id=such_app&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256" type="button">Authorization Code (PKCE)</a>
+      <code>http://localhost:3000/auth?client_id=foo&response_type=code&redirect_uri=https://127.0.0.1:3010/callback&scope=openid&code_challenge=_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk&code_challenge_method=S256</code>
+    </div>
+  </li>
+</ul>
+<h2>Notes</h2>
+<p>If you're running Chrome and have trouble with the self-signed certificates, run <code>chrome://flags/#allow-insecure-localhost</code> in the address bar and enabled insecure localhost.</p>

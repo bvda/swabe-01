@@ -40,12 +40,17 @@
 						</ul>
 					</section>
 					<section>
-						<h2>What is OAuth 2.0</h2>
+						<h2>What is OAuth 2.0?</h2>
 						<ul>
 							<li><mark>Problem</mark> How do we share resources?
 								<ul>
 									<li>Share credentials (username and password)</li>
-									<li>Is it the smartest thing to do? (No, it's not!)</li>
+									<li>Is it the smartest thing to do? (no, it's not!)</li>
+								</ul>
+							</li>
+							<li>Delegated authorization
+								<ul>
+									<li><mark>Allow</mark> a system to access data or perform actions on <mark>behalf</mark> of the user</li>
 								</ul>
 							</li>
 						</ul>
@@ -165,6 +170,18 @@
 							</ul>
 						</aside>
 					</section>
+					<section>
+						<h2>Client Credentials</h2>
+						<div style="text-align: start;">
+							<span style="font-family: monospace;">
+								POST /oidc/token HTTP/1.1<br />
+								Host: localhost:3000<br />
+								Authorization: <span style="color: cornflowerblue;">Basic c3VjaF9jbGllbnQ6c3VjaF1cmU=</span><br />
+								Content-Type: <span style="color: cornflowerblue;">application/x-www-form-urlencoded</span><br />
+								<br />
+								grant_type=<span style="color: cornflowerblue;">client_credentials</span>
+						</div>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -190,7 +207,6 @@
 							scope=<span style="color: cornflowerblue;">openid</span>&<br />
 							code_challenge=<span style="color: cornflowerblue;">_drLS7o5FwkfUiBhlq2hwJnK_SC6yE7sKOde5O1fdzk</span>&<br />
 							code_challenge_method=<span style="color: cornflowerblue;">S256</span></span>
-
 						</div>
 					</section>
 					<section>
@@ -228,14 +244,32 @@
 						<h2>Access Token</h2>
 						<ul>
 							<li>Access token are <mark>credentials</mark></li>
-							<li>They hold specific scopes abd durations of access</li>
+							<li>They hold specific scopes and duration of access</li>
 							<li>They are enforced by the resource server and authorization server</li>
+							<li>It is up to the Resource Server to <mark>verify</mark> the token when the client makes requests</li>
 						</ul>
 					</section>
 				</section>
 				<section>
 					<section>
 						<h2>Refresh Token Flow</h2>
+					</section>
+					<section>
+						<h2>Refresh token</h2>
+						<ul>
+							<li>Refresh tokens are used to obtain access tokens</li>
+							<li>Issued by the authorization server
+								<ul>
+									<li>Use the refresh token to get a new token set</li>
+									<li>The new token set will contain and new access token and a refresh token</li>
+								</ul>
+							</li>
+							<li>According to OIDC standard the following parameters must be sent to the authorization server
+								<ul>
+									<li>Scope <code>offline_access</code> and prompt <code>consent</code></li>
+								</ul>
+							</li>
+						</ul>
 					</section>
 					<section>
 						<h2>Refresh token</h2>
@@ -253,12 +287,18 @@
 							<span style="font-family: monospace;">
 								POST /token HTTP/1.1
 								Host: localhost:3000
-								Content-Type: application/x-www-form-urlencoded
+								Content-Type: <span style="color: cornflowerblue;">application/x-www-form-urlencoded</span>
 								<br /><br />
-								client_id=<span style="color: cornflowerblue;">such_app</span>&
-								grant_type=<span style="color: cornflowerblue">refresh_token</span>&
+								client_id=<span style="color: cornflowerblue;">such_app</span>&<br />
+								grant_type=<span style="color: cornflowerblue">refresh_token</span>&<br />
 								refresh_token=<span style="color: cornflowerblue;">CKvFN41bRNun31VKWLWZCzzj0Zy1k6l6067DrELwOi8</span></span>
 						</div>
+						<aside class="notes" aria-label="notes">
+							<h4>References</h4>
+							<ul>
+								<li><a href="https://datatracker.ietf.org/doc/html/rfc6749#section-6">RFC 6749 – Refreshing an Access Token (pp. 46-47)</a></li>
+							</ul>
+						</aside>
 					</section>
 				</section>
 				<section>

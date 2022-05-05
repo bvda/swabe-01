@@ -138,6 +138,16 @@
 					</section>
 					<section>
 						<h2>Redirect URIs</h2>
+						<ul>
+							<li>The OAuth 2.0 makes extensive use of HTTP redirects</li>
+							<li>The authorization server will <mark>redirect</mark> the user's user-agent back to the client</li>
+							<li>All redirect URIs must be served with <mark>HTTPS</mark>
+								<ul>
+									<li>Preserves <mark>confidentiality</mark></li>
+								</ul>
+							</li>
+							<li>Redirect URIs must be <mark>registered</mark> with the Authentication Server</li>
+						</ul>
 					</section>
 				</section>
 				<section>

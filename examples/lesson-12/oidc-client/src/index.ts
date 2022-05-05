@@ -24,9 +24,11 @@ async function main() {
   const issuer = await Issuer.discover(ISSUER_URL)
   const client = new issuer.Client({
     client_id: 'such_app',
-    redirect_uris: [REDIRECT_URI],    
-    response_types: ['code'],
+    client_secret: 'such_secure',
+    redirect_uris: [REDIRECT_URI],
+    response_types: ['code', 'code id_token', 'id_token'],
     token_endpoint_auth_method: 'none',
+    scope: 'openid offline_access'
   })
   
   const auth_url = client.authorizationUrl({
@@ -42,12 +44,8 @@ async function main() {
 
   
   app.get('/callback', async (req, res) => {  
-    const params = client.callbackParams(req);
-    const token_set: TokenSet = await client.callback(REDIRECT_URI, params, { code_verifier });
-    
-    res.json({
-      token_set,
-    })
+    const params = client.callbackParams(req);    
+    res.json(params)
   })
   
 https.createServer(options, app).listen(PORT, () => {

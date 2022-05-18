@@ -43,7 +43,6 @@
 							<li>Roles</li>
 							<li>Grants</li>
 							<li>Scopes</li>
-							<li>Protocol flow</li>
 							<li>Redirect URIs</li>
 						</ul>
 					</section>
@@ -103,7 +102,7 @@
 									<li>To be able to access <mark>data</mark> or perform <mark>actions</mark> on the resource owner's behalf</li>
 								</ul>
 							</li>
-							<li>The authorization server presents the scopes requested by the client
+							<li>The authorization server presents the <mark>scopes</mark> requested by the client
 								<ul>
 									<li>The resource owner <mark>verifies</mark> whether or not they want to give the client <mark>permission</mark></li>
 								</ul>
@@ -111,7 +110,7 @@
 						</ul>
 					</section>
 					<section>
-						<h2>Protocol flow</h2>
+						<h2>General flow</h2>
 						<img src="../../assets/abstract-protocol-flow.png" alt="abstract-protocol-flow" />
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -222,7 +221,7 @@
 						<ul>
 							<li>All tokens are returned by the <mark>token</mark> endpoint</li>
 							<li>Returns a <mark>code</mark> that the client can <mark>exchange</mark> for an access token</li>
-							<li>Tokens not <mark>exposed</mark> to the user-agent</li>
+							<li>Tokens are not <mark>exposed</mark> to the user-agent</li>
 							<li>Suitable if Client and Authentication Server can maintain a <mark>secure</mark> secret
 								<ul>
 									<li>Otherwise, we should use PKCE</li>
@@ -259,7 +258,7 @@
 									<li><mark>Confidentiality</mark> cannot be guranteed</li>
 								</ul>
 							</li>
-							<li><mark>Dynamic</mark> generated secrets for each grant flow
+							<li><mark>Dynamically</mark> generated secrets for each grant flow
 								<ul>
 									<li>Allows Authorization code flows on <mark>public</mark> clients</li>
 								</ul>

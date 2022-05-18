@@ -332,3 +332,145 @@
         background-color: var(--r-background-color);
     }
 }
+
+.sources {
+	position: absolute;
+	display: flex;
+	font-size: 0.25em;
+	bottom: 0;
+	right: 0;
+}
+
+.flex {
+	display: flex;
+	.medium {
+		font-size: 0.75em;
+		margin: 0.25em;
+	}
+
+	.code-span {
+		font-family: monospace;
+		background-color: #272822;
+		color: #ddd;
+		padding: 4px 10px;
+		border-radius: 6px;
+	}
+}
+
+.direction-column {
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.yellow {
+  background-color: #FFCA28;
+}
+
+.amber {
+  background-color: #ffffff;
+}
+
+.orange {
+  background-color: #F57C00;
+}
+
+
+.column {
+  display: flex;
+  flex-direction: column;
+	align-items: flex-start;
+	justify-content: start;
+	// margin: 0 1em;
+	padding: 0.25em;
+	// border: 1px solid red;
+	width: 33.3%;
+	color: black;
+	em {
+		text-align: start;
+		font-size: 0.5em;
+	}
+	small {
+		padding-left: 0.60em;
+		color: black;
+		text-transform: uppercase;
+	}
+	h4 {
+		color: black;
+		font-size:0.75em;
+		width: 100%;
+		text-align: center;
+	}
+
+	p {
+		font-size: 0.5em;
+		text-align: start;
+		justify-content: start;
+	}
+	.capitalize {
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		font-weight: 600;
+	}
+	.advantages {
+		font-size: 0.75em;
+		// color: lime;
+	}
+	.advantages {
+		font-size: 0.5em;
+	}
+
+	ul, ol {
+		li {
+			font-size: 0.5em;
+			padding-bottom: 0.25em;
+			p {
+				padding: 0;
+				margin: 0;
+				em {
+					text-transform: uppercase;
+					font-style: normal;
+					font-size: 1em;
+					opacity: 0.35;
+				}	
+			}
+			.advantages {
+				font-size: 0.60em;
+			}
+
+			
+		}
+	}
+	
+	.no-list-style {
+		margin: 0;
+		list-style: none;
+	}
+}
+.column-wrap {
+	width: auto;
+}
+
+.flex-row {
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.column-50 {
+	width: 50%;
+}
+.row {
+
+	padding: 1em;
+	border-radius: 1em;
+	background-color: white;
+	border: 1px solid white;
+  display: flex;
+  flex-direction: row;
+	align-items: flex-start;
+	justify-content: space-around;
+}
+
+.feature {
+	height: 1.5em;
+	margin-bottom: -0.5em;
+}

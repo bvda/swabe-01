@@ -397,3 +397,133 @@ section.has-light-background, section.has-light-background h1, section.has-light
     background-color: var(--r-background-color);
   }
 }
+.sources {
+  position: absolute;
+  display: flex;
+  font-size: 0.25em;
+  bottom: 0;
+  right: 0;
+}
+
+.flex {
+  display: flex;
+}
+.flex .medium {
+  font-size: 0.75em;
+  margin: 0.25em;
+}
+.flex .code-span {
+  font-family: monospace;
+  background-color: #272822;
+  color: #ddd;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.direction-column {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.yellow {
+  background-color: #FFCA28;
+}
+
+.amber {
+  background-color: #ffffff;
+}
+
+.orange {
+  background-color: #F57C00;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: start;
+  padding: 0.25em;
+  width: 33.3%;
+  color: black;
+}
+.column em {
+  text-align: start;
+  font-size: 0.5em;
+}
+.column small {
+  padding-left: 0.6em;
+  color: black;
+  text-transform: uppercase;
+}
+.column h4 {
+  color: black;
+  font-size: 0.75em;
+  width: 100%;
+  text-align: center;
+}
+.column p {
+  font-size: 0.5em;
+  text-align: start;
+  justify-content: start;
+}
+.column .capitalize {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+.column .advantages {
+  font-size: 0.75em;
+}
+.column .advantages {
+  font-size: 0.5em;
+}
+.column ul li, .column ol li {
+  font-size: 0.5em;
+  padding-bottom: 0.25em;
+}
+.column ul li p, .column ol li p {
+  padding: 0;
+  margin: 0;
+}
+.column ul li p em, .column ol li p em {
+  text-transform: uppercase;
+  font-style: normal;
+  font-size: 1em;
+  opacity: 0.35;
+}
+.column ul li .advantages, .column ol li .advantages {
+  font-size: 0.6em;
+}
+.column .no-list-style {
+  margin: 0;
+  list-style: none;
+}
+
+.column-wrap {
+  width: auto;
+}
+
+.flex-row {
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.column-50 {
+  width: 50%;
+}
+
+.row {
+  padding: 1em;
+  border-radius: 1em;
+  background-color: white;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.feature {
+  height: 1.5em;
+  margin-bottom: -0.5em;
+}

@@ -197,7 +197,7 @@
 				</section>
 				<section data-background="#2c384a">
 					<h2>Realtime Database</h2>
-					<div class="row">
+					<div class="row" style="align-items: center;">
 						<div class="column column-50">
 							<ul class="no-list-style">
 								<li><span class="capitalize">Cloud-hosted database</span><p><em>NoSQL Cloud database</em></p></li>
@@ -208,13 +208,13 @@
 							</ul>		
 						</div>
 						<div class="column column-50 flex-row">
-							<img style="max-width: 6em;" src="../../assets/images/database-illo_2x.png" alt="database-illo_2x" />
+							<img style="max-width: 8em;" src="../../assets/images/database-illo_2x.png" alt="database-illo_2x" />
 						</div>
 					</div>
 				</section>
 				<section data-background="#F57C00">
 					<h2>Cloud Firestore</h2>
-					<div class="row">
+					<div class="row" style="align-items: center;">
 						<div class="column column-50">
 							<p>Cloud Firestore is a cloud-hosted, NoSQL database that your iOS, Android, and web apps can access directly via native SDKs</p>
 							<ul>
@@ -226,7 +226,7 @@
 							</ul>
 						</div>
 						<div class="column column-50 flex-row">
-							<img style="max-width: 6em;" src="../../assets/images/firestore-illo_2x.png" alt="firestore-illo_2x" />
+							<img style="max-width: 8em;" src="../../assets/images/firestore-illo_2x.png" alt="firestore-illo_2x" />
 						</div>
 					</div>
 				</section>
@@ -289,7 +289,7 @@
 				</section>
 				<section data-background="#FFA000">
 					<h2>Cloud Storage</h2>
-					<div class="row">
+					<div class="row" style="align-items: center;">
 						<div class="column column-50">
 							<ul>
 								<li><span class="capitalize">Stores files</span><p><em>Store and serve user-generated content, such as photos and videos</em></p></li>
@@ -310,7 +310,7 @@
 				</section>
 				<section data-background="#039BE5">
 					<h2>Cloud Functions</h2>
-					<div class="row">
+					<div class="row" style="align-items: center;">
 						<div class="column column-50">
 							<ul>
 								<li><span class="capitalize">Serverless Backend</span><p><em>Run all your backend code in the cloud</em></p></li>
@@ -330,9 +330,9 @@
 						<div class="column">
 							<h4 class="advantages">Notify users when something interesting happens</h4>
 							<ul class="no-list-style">
-								<li><p>The function triggers on writes to the Realtime Database path where followers are stored.</p></li>
-								<li><p>The function composes a message to send via FCM.</p></li>
-								<li><p>FCM sends the notification message to the user's device.</p></li>
+								<li><p style="font-size: 0.75em"><em>The function triggers on writes to the Realtime Database path where followers are stored.</em></p></li>
+								<li><p style="font-size: 0.75em"><em>The function composes a message to send via FCM.</em></p></li>
+								<li><p style="font-size: 0.75em"><em>FCM sends the notification message to the user's device.</em></p></li>
 							</ul>
 						</div>
 						<div class="column column-50">
@@ -346,9 +346,9 @@
 						<div class="column">
 							<h4 class="advantages">Perform database sanitization and maintenance</h4>
 							<ul class="no-list-style">
-								<li><p>The function's database event handler listens for write events on a specific path, and retrieves event data containing the text of any chat messages.</p></li>
-								<li><p>The function processes the text to detect and scrub any inappropriate language.</p></li>
-								<li><p>The function writes the updated text back to the database.</p></li>
+								<li><p style="font-size: 0.75em"><em>The function's database event handler listens for write events on a specific path, and retrieves event data containing the text of any chat messages.</em></p></li>
+								<li><p style="font-size: 0.75em"><em>The function processes the text to detect and scrub any inappropriate language.</em></p></li>
+								<li><p style="font-size: 0.75em"><em>The function writes the updated text back to the database.</em></p></li>
 							</ul>
 						</div>
 						<div class="column column-50">
@@ -362,11 +362,11 @@
 						<div class="column">
 							<h4 class="advantages">Execute intensive tasks in the cloud instead of in your app</h4>
 							<ul class="no-list-style">
-								<li><p>A function triggers when an image file is uploaded to Storage.</p></li>
-								<li><p>The function downloads the image and creates a thumbnail version of it.</p></li>
-								<li><p>The function writes that thumbnail location to the database, so a client app can find and use it.</p></li>
-								<li><p>The function uploads the thumbnail back to Storage in a new location.</p></li>
-								<li><p>The app downloads the thumbnail link.</p></li>
+								<li><p style="font-size: 0.75em;"><em>A function triggers when an image file is uploaded to Storage.</em></p></li>
+								<li><p style="font-size: 0.75em;"><em>The function downloads the image and creates a thumbnail version of it.</em></p></li>
+								<li><p style="font-size: 0.75em;"><em>The function writes that thumbnail location to the database, so a client app can find and use it.</em></p></li>
+								<li><p style="font-size: 0.75em;"><em>The function uploads the thumbnail back to Storage in a new location.</em></p></li>
+								<li><p style="font-size: 0.75em;"><em>The app downloads the thumbnail link.</em></p></li>
 							</ul>
 						</div>
 						<div class="column column-50">
@@ -380,9 +380,9 @@
 						<div class="column">
 							<h4 class="advantages">Integrate with third-party services and APIs</h4>
 							<ul class="no-list-style">
-								<li><p>A user pushes commits to a GitHub repo.</p></li>
-								<li><p>An HTTPS function triggers via the GitHub webhook API.</p></li>
-								<li><p>The function sends a notification of the commit to a team Slack channel.</p></li>
+								<li><p style="font-size: 0.75em;"><em>A user pushes commits to a GitHub repo.</em></p></li>
+								<li><p style="font-size: 0.75em;"><em>An HTTPS function triggers via the GitHub webhook API.</em></p></li>
+								<li><p style="font-size: 0.75em;"><em>The function sends a notification of the commit to a team Slack channel.</em></p></li>
 							</ul>
 						</div>
 						<div class="column column-50">

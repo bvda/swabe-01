@@ -528,5 +528,5 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 
 .feature {
   height: 1.5em;
-  margin-bottom: -0.5em;
+  margin-bottom: -0.5em !important;
 }

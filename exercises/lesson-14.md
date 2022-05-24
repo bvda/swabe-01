@@ -11,7 +11,7 @@ The first thing we need is to setup a local development environment. Firebase of
 The first order of business is to install the necessary development tools:
 1. Install Firebase CLI[^2], so we can work seamlessly from the terminal
 2. Create a folder on our machine and install and configure[^1] a local Firebase Emulator suite for our project.
-    - Run `firebase init` and setup a Firebase project with the following: Authentication, Firestore, Function, and Hosting (choose to create a new project)
+    - Run `firebase init` and setup a Firebase project with the following: Firestore, Function, and Hosting (choose to create a new project)
     - Run `firebase emulators:init`Add Authentication[^3], Firestore[^4], and Functions[^6] to the emulator
 3. Start the emulator with `firebase emulators:start`
 4. Check that everything is up and running @ http://localhost:4000

@@ -9,7 +9,7 @@ We do not have the time to set up self-hosted servers and services in the cloud.
 The first thing we need is to setup a local development environment. Firebase offers a fully-featured emulator that allows us to run our serverless setup locally to make sure that everything is correct, before we go all-in with our product (and our credit card) in an production environment in the cloud.
 
 The first order of business is to install the necessary development tools:
-1. Install Firebase CLI[^2], so we can work seamlessly from the terminal
+1. Install Firebase CLI[^2], so we can work seamlessly from the terminal (choose `npm`, for your own sake) 
 2. Create a folder on our machine and install and configure[^1] a local Firebase Emulator suite for our project.
     - Run `firebase init` and setup a Firebase project with the following: Firestore, Function, and Hosting (choose to create a new project)
     - Run `firebase emulators:init` (`firebase init emulators` on Windows) Add Authentication[^3], Firestore[^4], Hosting and Functions[^6] to the emulator

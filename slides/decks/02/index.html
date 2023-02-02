@@ -22,7 +22,7 @@
 					<h3>and</h3>
 					<h1>Mongoose</h1>
 					<h3>Lesson 02</h3>
-					<h4>SWABE-01</h4>
+					<h4>SWWAO-01</h4>
 				</section>
 				<section id="agenda">
 					<h2>Agenda</h2>
@@ -131,11 +131,11 @@
 						<ul>
 							<li>Mongoose is a MongoDB object data modeling (ODM) library for MongoDB
 								<ul>
-									<li>Designed to work in an asynchronous environment</li>
-									<li>Supports both promises and callbacks</li>
+									<li>Designed to work in an <mark>asynchronous</mark> environment</li>
+									<li>Supports both <mark>promises</mark> and <mark>callbacks</mark></li>
 								</ul>
 							</li>
-							<li>Mongoose it build using the native MongoDB Node.js driver</li>
+							<li>Mongoose is build using the <mark>native</mark> MongoDB Node.js driver</li>
 						</ul>
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
@@ -151,7 +151,7 @@
 							<li>Schemas—Maps to a MongoDB collection</li>
 							<li>Models—Constructors compiled from schemas</li>
 							<li>Queries—Mongo defines static helper functions for CRUD operations</li>
-							<li>Validators</li>
+							<li>Validators—Make sure data is valid before writes</li>
 						</ul>
 					</section>
 					<section>
@@ -162,8 +162,8 @@
 							
 							import { schema } from './user'
 							
-							const usersConnection = mongoose.createConnection('mongodb://localhost:27017/transactions')
-							const UserModel  = usersConnection.model('User', schema)
+							const connection = mongoose.connection('mongodb://localhost:27017/users')
+							const UserModel  = connection.model('User', schema)
 							
 							const list = async (req: Request, res: Response) => {
 								let result = await UserModel.find({}).lean().exec()
@@ -231,8 +231,8 @@
 							<li>An <mark>instance</mark> of a model is a <mark>document</mark></li>
 						</ul>
 						<pre data-id="code-animation"><code class='typescript' data-trim><script type="text/template">
-							const usersConnection = mongoose.createConnection('mongodb://localhost:27017/transactions')
-							const UserModel  = usersConnection.model('User', schema)
+							const connection = mongoose.createConnection('mongodb://localhost:27017/users')
+							const UserModel  = connection.model('User', schema)
 						</script></code></pre>	
 						<small>examples/lesson-02/hello-mongoose/src/user-controller.ts</small>
 					</section>
@@ -244,8 +244,8 @@
 							
 							import { schema } from './transaction'
 							
-							const transactionsConnection = mongoose.createConnection('mongodb://localhost:27017/transactions')
-							const TransactionModel = transactionsConnection.model('Transaction', schema)
+							const connection = mongoose.createConnection('mongodb://localhost:27017/transactions')
+							const TransactionModel = connection.model('Transaction', schema)
 							
 							const list = async (req: Request, res: Response) => {
 								const { src, dst, f, t } = req.query
@@ -320,7 +320,7 @@
 					<section>
 						<h2>Validators</h2>
 						<ul>
-							<li>Validators is defined in the<mark>SchemaType</mark></li>
+							<li>Validators is defined in the <mark>SchemaType</mark></li>
 							<li>Mongoose comes with built-in validators
 								<ul>
 									<li>All SchemaTypes and <code>required</code></li>
@@ -378,9 +378,7 @@
 						<aside class="notes" aria-label="notes">
 							<h4>References</h4>
 							<ul>
-								<li><a href="https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1">6 Rules of Thumb for MongoDB Schema Design: Part 1 | MongoDB</a></li>
-								<li><a href="https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-2">6 Rules of Thumb for MongoDB Schema Design: Part 2 | MongoDB</a></li>
-								<li><a href="https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3">6 Rules of Thumb for MongoDB Schema Design: Part 3 | MongoDB</a></li>
+								<li><a href="https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design">6 Rules of Thumb for MongoDB Schema Design: Part 1 | MongoDB</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -406,8 +404,18 @@
 				<section>
 					<h2>Wrap-up</h2>
 					<ul>
-						<li>What is a NoSQL document database</li>
-						<li>Mongoose as an ORM for MongoDB</li>
+						<li>What is a <mark>NoSQL</mark> document database</li>
+						<li>MongoDB schema design
+							<ul>
+								<li>CRUD operations</li>
+								<li>One-to-few|many|squillion relationships</li>
+							</ul>
+						</li>
+						<li>Mongoose as an <mark>ORM</mark> for MongoDB
+							<ul>
+								<li>Pros and cons</li>
+							</ul>
+						</li>
 					</ul>
 				</section>
 			</div>
